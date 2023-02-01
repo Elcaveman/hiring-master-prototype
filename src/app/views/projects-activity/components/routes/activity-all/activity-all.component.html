@@ -5,6 +5,8 @@
         <nz-table #activityTable [nzData]="activitiyStream">
             <thead>
               <tr>
+                <th>Id</th>
+                <th></th>
                 <th>Nom de l'activité</th>
                 <th>Participants</th>
                 <th>Date</th>
@@ -15,15 +17,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let data of activityTable.data">
+              <tr *ngFor="let data of activityTable.data;let index = index;">
+                <td>{{data.id}}</td>
+                <td
+                    [nzChecked]="setOfCheckedId.has(data.id)"
+                    (nzCheckedChange)="onItemChecked(data.id, $event)"
+                ></td>
                 <td>{{data.title}}</td>
                 <td>{{data.participants}</td>
-                <td>{{data.time}}</td>
                 <td>{{data.time | date:'mediumDate' }}</td>
                 <td>{{data.time | date:'shortTime' }}</td>
-                <td>
-                    {{getCandidate(data)}}
-                </td>
+                <td>{{getCandidate(data)}}</td>
+                <td>{{getJob(data)}}</td>
                 <td>
                   <a>Update</a>
                   <nz-divider nzType="vertical"></nz-divider>

@@ -8,21 +8,38 @@ import { Activity, Interview, Reminder, Reunion,Task } from 'src/app/core/models
   styleUrls: ['./activity-all.component.scss']
 })
 export class ActivityAllComponent implements OnInit {
-  
+    
   private fake_data : (Interview | Reminder | Reunion | Task )[] = [
-    new Interview("interview 1"),new Interview("interview 2"),
-    new Reunion("Reunion 1"),new Task("Task 1"),new Reminder("Reminder 1")
+    new Interview(1,"interview 1"),new Interview(3,"interview 2"),
+    new Reunion(4,"Reunion 1"),new Task(5,"Task 1"),new Reminder(6,"Reminder 1")
   ] as (Interview | Reminder | Reunion | Task )[];
 
+  loading = false;
+  setOfCheckedId = new Set<number>();
   activitiyStream$:BehaviorSubject<(Interview | Reminder | Reunion | Task )[]> = new BehaviorSubject<(Interview | Reminder | Reunion | Task )[]>(this.fake_data);
 
   ngOnInit(): void {
   }
 
   getCandidate(data : Activity){
-    return Interview.getCandidate(data)
+    return Interview.getCandidate(data);
+  }
+  getJob(data : Activity){
+    return Interview.getJob(data);
   }
   getType(data: Activity){
-    return data.getType()
+    return data.getType();
   }
+  onItemChecked(id: number, checked: boolean): void {
+    this.updateCheckedSet(id, checked);
+  }
+  updateCheckedSet(id: number, checked: boolean): void {
+    if (checked) {
+      this.setOfCheckedId.add(id);
+    } else {
+      this.setOfCheckedId.delete(id);
+    }
+  }
+
+
 }

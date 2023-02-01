@@ -18,6 +18,7 @@ interface ActivityManagement{
 }
 // TODO: add builders
 export interface Activity extends ActivityManagement{
+    id:number;
     title:string;
     time:Date;
     participants:Person[];
@@ -26,6 +27,7 @@ export interface Activity extends ActivityManagement{
 
 }
 export class Interview implements Activity{
+    id= 0;
     type:INTERVIEW_TYPES = INTERVIEW_TYPES.technical;
     medium:INTERVIEW_MEDIUM = INTERVIEW_MEDIUM.phone;
     candidate:Person = new Person();
@@ -39,20 +41,28 @@ export class Interview implements Activity{
     reminders = [];
     specialNotification = [];
     comment = "";
-    constructor(title:string){
+    constructor(id:number,title:string){
+        this.id = id;
         this.title = title;
     }
     getType(): string {
         return "Interview";
     }
+    static getJob(activity:Activity | Interview): Job | null {
+        if (activity instanceof Interview){
+            return activity.job;
+        }
+        return null;
+    }
     static getCandidate(activity:Activity | Interview) : Person | null{
         if (activity instanceof Interview){
-            return activity.candidate
+            return activity.candidate;
         }
         return null;
     }
 }
 export class Reunion implements Activity{
+    id= 0;
     medium:REUNION_MEDIUM = REUNION_MEDIUM.phone;
     adress!:Office;
     title="";
@@ -63,7 +73,8 @@ export class Reunion implements Activity{
     reminders = [];
     specialNotification = [];
     comment = "";
-    constructor(title:string){
+    constructor(id:number,title:string){
+        this.id = id;
         this.title = title;
     }
     getType(): string {
@@ -71,6 +82,7 @@ export class Reunion implements Activity{
     }
 }
 export class Task implements Activity{
+    id= 0;
     medium:TASK_MEDIUM = TASK_MEDIUM.phone;
     title="";
     time=new Date();
@@ -80,7 +92,8 @@ export class Task implements Activity{
     reminders = [];
     specialNotification = [];
     comment = "";
-    constructor(title:string){
+    constructor(id:number,title:string){
+        this.id = id;
         this.title = title;
     }
     getType(): string {
@@ -88,6 +101,7 @@ export class Task implements Activity{
     }
 }
 export class Reminder implements Activity{
+    id= 0;
     date:Date=new Date();
     type: REMINDER_TYPES = REMINDER_TYPES.notification;
     title="";
@@ -98,7 +112,8 @@ export class Reminder implements Activity{
     reminders = [];
     specialNotification = [];
     comment = "";
-    constructor(title:string){
+    constructor(id:number,title:string){
+        this.id = id;
         this.title = title;
     }
     getType(): string {
