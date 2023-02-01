@@ -1,1 +1,34 @@
-<p>activity-all works!</p>
+<div id="filters-bar"></div>
+<div id="filters-button"></div>
+<div id="activities-table">
+    <nz-table #activityTable [nzData]="activitiyStream$ | async">
+        <thead>
+          <tr>
+            <th>Nom de l'activité</th>
+            <th>Participants</th>
+            <th>Date</th>
+            <th>Heure</th>
+            <th>Candidat</th>
+            <th>Ouverture</th>
+            <th></th><!-- actions -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of activityTable.data">
+            <td>{{data.title}}</td>
+            <td>{{data.participants}</td>
+            <td>{{data.time}}</td>
+            <td>{{data.time | mediumDate }}</td>
+            <td>{{data.time | time }}</td>
+            <td *ngIf="getCandidate(data) != null">
+                {{getCandidate(data)}}
+            </td>
+            <td>
+              <a>Update</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a>Delete</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+</div>
