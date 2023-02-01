@@ -19,8 +19,8 @@
                 <td>{{data.title}}</td>
                 <td>{{data.participants}</td>
                 <td>{{data.time}}</td>
-                <td>{{data.time | mediumDate }}</td>
-                <td>{{data.time | time }}</td>
+                <td>{{data.time | date:'mediumDate' }}</td>
+                <td>{{data.time | date:'shortTime' }}</td>
                 <td *ngIf="getCandidate(data) != null">
                     {{getCandidate(data)}}
                 </td>
