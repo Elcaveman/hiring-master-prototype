@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Observable,of } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject,of } from 'rxjs';
 import { Activity, Interview, Reminder, Reunion,Task } from 'src/app/core/models/activity';
 
 @Component({
@@ -7,12 +7,18 @@ import { Activity, Interview, Reminder, Reunion,Task } from 'src/app/core/models
   templateUrl: './activity-all.component.html',
   styleUrls: ['./activity-all.component.scss']
 })
-export class ActivityAllComponent {
+export class ActivityAllComponent implements OnInit {
+  
   private fake_data : (Interview | Reminder | Reunion | Task )[] = [
     new Interview("interview 1"),new Interview("interview 2"),
     new Reunion("Reunion 1"),new Task("Task 1"),new Reminder("Reminder 1")
-  ]
-  activitiyStream$:Observable<(Interview | Reminder | Reunion | Task )[]> = of(this.fake_data);
+  ] as (Interview | Reminder | Reunion | Task )[];
+
+  activitiyStream$:BehaviorSubject<(Interview | Reminder | Reunion | Task )[]> = new BehaviorSubject<(Interview | Reminder | Reunion | Task )[]>(this.fake_data);
+
+  ngOnInit(): void {
+  }
+
   getCandidate(data : Activity){
     return Interview.getCandidate(data)
   }
