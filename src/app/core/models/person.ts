@@ -1,4 +1,4 @@
-export class People{
+export class Person{
     id=0;
     image="";
     name="";
