@@ -21,7 +21,7 @@
                 <td>{{data.time}}</td>
                 <td>{{data.time | date:'mediumDate' }}</td>
                 <td>{{data.time | date:'shortTime' }}</td>
-                <td *ngIf="getCandidate(data) != null">
+                <td>
                     {{getCandidate(data)}}
                 </td>
                 <td>
