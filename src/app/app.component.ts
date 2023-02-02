@@ -8,7 +8,6 @@ import { Component } from '@angular/core';
 export class AppComponent {
   isCollapsed : boolean = false;
   triggerCollapseEvent($event:boolean){
-    console.log($event);
     this.isCollapsed = $event;
   }
 }
