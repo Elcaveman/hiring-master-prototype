@@ -1,4 +1,4 @@
-enum STATE_ENUM { ACTIVE, INNACTIVE}
+export enum STATE_ENUM { ACTIVE, INNACTIVE}
 
 export class TopNavDisplayModel{
     title: string=""; // can change
