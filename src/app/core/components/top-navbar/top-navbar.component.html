@@ -14,11 +14,11 @@
                 <div class="state" [ngSwitch]="displayData.state">
                     <div *ngSwitchCase="displayData.state == STATE_ENUM.ACTIVE" class="flex align-items-center m-1">
                         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="#52C41A" height="12px" width="12px"><circle cx="50" cy="50" r="50"/></svg>
-                        <span>Active</span>
+                        <span>Actif</span>
                     </div>
                     <div *ngSwitchCase="displayData.state == STATE_ENUM.INNACTIVE" class="flex align-items-center m-1">
                         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="red" height="12px" width="12px"><circle cx="50" cy="50" r="50"/></svg>
-                        <span>Inactive</span>
+                        <span>Inactif</span>
                     </div>
                 </div>
             </div>
@@ -37,14 +37,14 @@
                     <span nz-icon nzType="search" style="margin-right:1rem;"></span>
                 </ng-template>
                 <nz-autocomplete [nzDataSource]="options" nzBackfill #auto></nz-autocomplete>
-                <button nz-button nzType="primary" [nzSize]="'default'" nzShape="circle" style="margin-left:1rem;"><span nz-icon nzType="plus"></span></button>
+                <button nz-button nzType="primary" [nzSize]="'default'" nzShape="circle" style="margin:0 1rem 0 1rem;"><span nz-icon nzType="plus"></span></button>
             </div>
             <div class="avatar">
                 <nz-badge [nzCount]="5">
                     <nz-avatar nzIcon="user" nzSrc="https://lh3.googleusercontent.com/ogw/AAEL6sg_GkZ_KjnUaw_vJvoINO6Wf8Wd8_hE2fAS6ep5=s32-c-mo" nzSize="default"></nz-avatar>
                 </nz-badge>
                 
-                <span nz-icon nzType="down" nzTheme="fill" style="color: #222;"></span>
+                <span nz-icon nzType="down" style="color: #222;"></span>
             </div>
       </div>
       <div class="bottom-menu">
