@@ -1,0 +1,19 @@
+@import '/src/app/core/styles/colors.scss';
+nz-table{
+    th{
+        border:1px solid #F0F1FA !important;
+        @extend .text-neutralBlue-50;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 22px;
+    }
+    td{
+        border:1px solid #F0F1FA !important;
+        @extend .text-neutralBlue-80;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 22px;
+    }
+}

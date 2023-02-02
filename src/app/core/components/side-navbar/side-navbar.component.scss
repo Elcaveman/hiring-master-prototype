@@ -1,0 +1,30 @@
+@import '/src/app/core/styles/colors.scss';
+
+:host {
+    display: flex;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+nz-sider{
+    ul{
+        height: inherit;
+        li{
+            background-color: transparent !important;//override default
+            transition: color .3s ease-in-out,all .2s ease-in-out;
+            span{
+              color: #fff;
+              font-size: 18px;
+            }
+            &:hover{
+              background-color: #ffffff50 !important;//override default
+              span{
+                color: #fff;
+                scale: 1.1;
+              }
+            }
+          }
+    }
+  
+}

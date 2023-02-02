@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TopNavDisplayModel } from './top-navbar.models';
+import { TopNavDisplayModel,STATE_ENUM } from './top-navbar.models';
 import { FakeDataService } from '../../services/fake-data.service';
 import { Observable, map } from 'rxjs';
 
@@ -12,13 +12,14 @@ export class TopNavbarComponent {
   @Input() collapsed :boolean=false;// initial state
   @Output() collapseEvent = new EventEmitter<boolean>;
   isCollapsed:boolean;
-  displayData ?: Observable<TopNavDisplayModel>;
+  displayData$ ?: Observable<TopNavDisplayModel>;
   inputValue?: string;
   options: string[] = [];
+  STATE_ENUM = STATE_ENUM;
 
   constructor(private fakeDataService_:FakeDataService){
     this.isCollapsed = this.collapsed;
-    this.displayData = fakeDataService_.titleData().pipe(
+    this.displayData$ = fakeDataService_.titleData().pipe(
       map(x => new TopNavDisplayModel(x.title,x.state))
     )
   }

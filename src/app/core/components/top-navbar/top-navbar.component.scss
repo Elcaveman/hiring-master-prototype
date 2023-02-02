@@ -1,3 +1,4 @@
+@import '/src/app/core/styles/_styles.scss';
 nz-header {
     padding: 0;
     width: 100%;
@@ -15,7 +16,6 @@ nz-header {
     color: #1890ff;
 }
 .app-header {
-    position: relative;
     flex-direction: column;
     padding: 0;
     background: #fff;
@@ -23,9 +23,39 @@ nz-header {
     padding-top: 1rem;
     .top-menu{
         display: flex;
+        align-items: center;
         gap:20px;
+        .nav-title{
+            display: flex;
+            align-items:center;
+            gap:40px;
+            flex: 1;
+        }
+        .search-bar{
+            flex:1;
+            nz-input-group{
+                border-radius: 30px;
+            }
+        }
+        .avatar{
+            flex:.3;
+            text-align: center;
+        }
         p{
             margin: 0 !important;
         }
+    }
+    .title{
+        font-family: 'Inter', sans-serif;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0em;
+        text-align: left;
+    }
+}
+
+.state{
+    span{
+        margin-left: 8px;
     }
 }
