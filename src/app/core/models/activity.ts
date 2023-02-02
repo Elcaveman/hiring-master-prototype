@@ -1,5 +1,5 @@
 import { PositiveNumber } from "../types/sign";
-import { Person } from "./person";
+import { Person,User } from "./person";
 import { Job } from "./job";
 import { Office } from "./office";
 
@@ -23,11 +23,13 @@ export interface Activity extends ActivityManagement{
     time:Date;
     participants:Person[];
     description: string;
+    owner:User;
     getType() : string;
 
 }
 export class Interview implements Activity{
     id= 0;
+    owner= new User(10,"Interview user");
     type:INTERVIEW_TYPES = INTERVIEW_TYPES.technical;
     medium:INTERVIEW_MEDIUM = INTERVIEW_MEDIUM.phone;
     candidate:Person = new Person();
@@ -45,6 +47,7 @@ export class Interview implements Activity{
         this.id = id;
         this.title = title;
     }
+    
     getType(): string {
         return "Interview";
     }
@@ -63,6 +66,7 @@ export class Interview implements Activity{
 }
 export class Reunion implements Activity{
     id= 0;
+    owner= new User();
     medium:REUNION_MEDIUM = REUNION_MEDIUM.phone;
     adress!:Office;
     title="";
@@ -83,6 +87,7 @@ export class Reunion implements Activity{
 }
 export class Task implements Activity{
     id= 0;
+    owner= new User();
     medium:TASK_MEDIUM = TASK_MEDIUM.phone;
     title="";
     time=new Date();
@@ -102,6 +107,7 @@ export class Task implements Activity{
 }
 export class Reminder implements Activity{
     id= 0;
+    owner= new User();
     date:Date=new Date();
     type: REMINDER_TYPES = REMINDER_TYPES.notification;
     title="";

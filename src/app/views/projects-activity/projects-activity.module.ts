@@ -7,6 +7,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { CoreModule } from 'src/app/core/core.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SharedModule,
     CoreModule,
     NzTableModule,
-    NzDividerModule,
+    NzDividerModule,NzMenuModule,
+    NzCollapseModule,
   ]
 })
 export class ProjectsActivityModule { }

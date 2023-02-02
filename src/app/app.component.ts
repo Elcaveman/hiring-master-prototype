@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  isCollapsed = false;
+  isCollapsed : boolean = false;
+  triggerCollapseEvent($event:boolean){
+    console.log($event);
+    this.isCollapsed = $event;
+  }
 }
