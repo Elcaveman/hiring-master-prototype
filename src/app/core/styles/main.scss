@@ -1,11 +1,12 @@
 :host {
-  display: flex;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+@import url('https://fonts.googleapis.com/css?family=Inter');
 
 .app-layout {
+  display:flex;
   flex-direction: row;
   min-height: 100vh;
 }
@@ -13,7 +14,12 @@
 nz-content {
   margin: 24px;
 }
-
+.flex{
+  display: flex;
+}
+.gap-1{
+  gap:10px;
+}
 .inner-content {
   padding: 24px;
   background: #fff;
