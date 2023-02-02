@@ -5,32 +5,39 @@
             nzBreakpoint="md"
             [(nzCollapsed)]="isCollapsed"
             [nzTrigger]="null">
-    <div class="sidebar-logo">
-      <a href="https://ng.ant.design/" target="_blank">
-        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
-        <h1>Ant Design Of Angular</h1>
-      </a>
-    </div>
-    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/welcome">Welcome</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a>Monitor</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a>Workplace</a>
-          </li>
-        </ul>
+    <!-- <div class="sidebar-logo">
+      
+      
+    </div> -->
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="true">
+      <li style="text-align: center;">
+        <a href="https://ng.ant.design/" target="_blank">
+            <svg width="75" height="75" viewBox="0 0 65 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M39.0368 25.6611C38.7082 25.8808 38.3219 25.998 37.9267 25.998C37.398 25.994 36.8921 25.7822 36.5182 25.4081C36.1443 25.0341 35.9325 24.5279 35.9286 23.999C35.9286 23.6036 36.0458 23.2171 36.2654 22.8884C36.485 22.5597 36.797 22.3035 37.1621 22.1522C37.5272 22.0009 37.9289 21.9613 38.3165 22.0384C38.7041 22.1155 39.0601 22.3059 39.3396 22.5855C39.619 22.865 39.8094 23.2213 39.8865 23.609C39.9636 23.9968 39.924 24.3987 39.7728 24.764C39.6215 25.1292 39.3654 25.4415 39.0368 25.6611ZM35.9888 29.9946H38.0019C38.5306 29.9986 39.0365 30.2105 39.4104 30.5845C39.7843 30.9585 39.9961 31.4647 40 31.9937V40.0497C40 40.5799 39.7895 41.0883 39.4148 41.4632C39.0401 41.8381 38.5318 42.0487 38.0019 42.0487H35.9888V34.0678C35.6386 34.0907 35.2873 34.0907 34.9371 34.0678C32.4093 34.0675 29.9586 33.1971 27.9963 31.6029V41.9886H25.9982C25.7352 41.9906 25.4745 41.9402 25.2312 41.8405C24.9878 41.7407 24.7668 41.5936 24.5809 41.4076C24.3949 41.2216 24.2479 41.0004 24.1481 40.757C24.0484 40.5135 23.9981 40.2527 24.0001 39.9896V25.9666C24.0001 25.4404 24.209 24.9358 24.5809 24.5637C24.9528 24.1917 25.4572 23.9826 25.9832 23.9826H27.9963C28.2155 25.6681 29.0411 27.2159 30.3187 28.3364C31.5963 29.4568 33.2382 30.0731 34.9371 30.0698C35.2892 30.0756 35.6411 30.0505 35.9888 29.9946Z" fill="white"/>
+            </svg>
+        </a>
       </li>
-      <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a>Basic Form</a>
-          </li>
-        </ul>
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/"><span nz-icon nzType="pie-chart"></span></a>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/"><span nz-icon nzType="shop"></span></a>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/"><span nz-icon nzType="user"></span></a>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/"><span nz-icon nzType="calendar"></span></a>
+      </li>
+      <nz-divider class="bg-white m-0"></nz-divider>
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/"><span nz-icon nzType="bell"></span></a>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/"><span nz-icon nzType="mail"></span></a>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/"><span nz-icon nzType="calendar"></span></a>
       </li>
     </ul>
   </nz-sider>
