@@ -1,9 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Inter');
+@import '/src/app/core/styles/_styles.scss';
 :host {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-@import url('https://fonts.googleapis.com/css?family=Inter');
 
 .app-layout {
   display:flex;
@@ -14,17 +15,4 @@
 nz-content {
   margin: 24px;
 }
-.flex{
-  display: flex;
-}
-.gap-1{
-  gap:10px;
-}
-.inner-content {
-  padding: 24px;
-  background: #fff;
-}
 
-.m-0{
-  margin: 0 !important;
-}
