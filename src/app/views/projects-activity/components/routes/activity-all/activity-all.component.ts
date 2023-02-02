@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { from,Observable,groupBy,mergeMap,of, toArray, BehaviorSubject, reduce } from 'rxjs';
 import { Activity, Interview, Reminder, Reunion,Task } from 'src/app/core/models/activity';
+import { Person } from 'src/app/core/models/person';
 
 @Component({
   selector: 'app-activity-all',
@@ -31,7 +32,7 @@ export class ActivityAllComponent implements OnInit {
   getUniqueOwners(){
 
   }
-  getCandidate(data : Activity){
+  getCandidate(data : Activity):Person | null{
     return Interview.getCandidate(data);
   }
   getJob(data : Activity){

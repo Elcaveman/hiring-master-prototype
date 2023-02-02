@@ -19,7 +19,8 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
   ],
   exports:[
     ActivityWriteModalComponent,
-    TopNavbarComponent
+    TopNavbarComponent,
+    
   ]
 })
 export class CoreModule { }

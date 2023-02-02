@@ -29,11 +29,24 @@
                                 (nzCheckedChange)="onItemChecked(data.id, $event)"
                             ></td>
                             <td>{{ data.title }}</td>
-                            <td>{{ data.participants }}</td>
+                            <td>
+                                <!-- data.participants -->
+                                <nz-avatar-group>
+                                    <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
+                                    <nz-avatar style="background-color: #f56a00" nzText="U"></nz-avatar>
+                                    <nz-avatar style="background-color: #87d068" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>
+                                    <nz-avatar style="background-color: #1890ff" nzText="NG"></nz-avatar>
+                                </nz-avatar-group>
+                            </td>
                             <td>{{data.time | date:'mediumDate' }}</td>
                             <td>{{data.time | date:'shortTime' }}</td>
-                            <td>{{ getCandidate(data) }}</td>
-                            <td>{{getJob(data)}}</td>
+                            <td>
+                                <ng-container *ngIf="getCandidate(data) != null">
+                                    <nz-avatar style="background-color: #0B00B5" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>
+                                    {{ getCandidate(data)?.name + "CANDIDATE" }}
+                                </ng-container>
+                            </td>
+                            <td>{{getJob(data)}} Lorem, ipsum dolor.</td>
                             <td>
                             <a>Update</a>
                             <nz-divider nzType="vertical"></nz-divider>
