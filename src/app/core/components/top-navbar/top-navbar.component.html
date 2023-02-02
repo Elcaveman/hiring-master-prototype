@@ -1,64 +1,72 @@
 <nz-header>
     <div class="app-header" *ngIf="(displayData$ | async) as displayData;">
         <div class="top-menu">
-            <span class="header-trigger" (click)="triggerCollapseEvent($event)">
-            <span class="trigger"
-               nz-icon
-               [nzType]="isCollapsed ? 'right' : 'left'"
-            ></span>
-        </span>
-        <div class="title">
-          <p>{{displayData.title}}</p>
-        </div>
-        <div class="state" [ngSwitch]="displayData.state">
-            <div *ngSwitchCase="displayData.state == STATE_ENUM.ACTIVE" class="flex m-1">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="#52C41A" height="12px" width="12px"><circle cx="50" cy="50" r="50"/></svg>
-                <span>Active</span>
+            <div class="nav-title">
+                <span class="header-trigger" (click)="triggerCollapseEvent($event)">
+                    <span class="trigger"
+                    nz-icon
+                    [nzType]="isCollapsed ? 'right' : 'left'"
+                    ></span>
+                </span>
+                <div class="title">
+                    <p>{{displayData.title}}</p>
+                </div>
+                <div class="state" [ngSwitch]="displayData.state">
+                    <div *ngSwitchCase="displayData.state == STATE_ENUM.ACTIVE" class="flex align-items-center m-1">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="#52C41A" height="12px" width="12px"><circle cx="50" cy="50" r="50"/></svg>
+                        <span>Active</span>
+                    </div>
+                    <div *ngSwitchCase="displayData.state == STATE_ENUM.INNACTIVE" class="flex align-items-center m-1">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="red" height="12px" width="12px"><circle cx="50" cy="50" r="50"/></svg>
+                        <span>Inactive</span>
+                    </div>
+                </div>
             </div>
-            <div *ngSwitchCase="displayData.state == STATE_ENUM.INNACTIVE" class="flex m-1">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="red" height="12px" width="12px"><circle cx="50" cy="50" r="50"/></svg>
-                <span>Inactive</span>
+        
+            <div class="search-bar flex align-items-center">
+                <nz-input-group nzSize="large" [nzPrefix]="prefixIcon">
+                    <input
+                    placeholder="input here"
+                    nz-input
+                    [(ngModel)]="inputValue"
+                    (input)="onInput($event)"
+                    [nzAutocomplete]="auto"
+                    />
+                </nz-input-group>
+                <ng-template #prefixIcon>
+                    <span nz-icon nzType="search" style="margin-right:1rem;"></span>
+                </ng-template>
+                <nz-autocomplete [nzDataSource]="options" nzBackfill #auto></nz-autocomplete>
+                <button nz-button nzType="primary" [nzSize]="'default'" nzShape="circle" style="margin-left:1rem;"><span nz-icon nzType="plus"></span></button>
             </div>
-        </div>
-        <div class="search-bar">
-            <nz-input-group nzSize="large" [nzPrefix]="prefixIcon">
-                <input
-                  placeholder="input here"
-                  nz-input
-                  [(ngModel)]="inputValue"
-                  (input)="onInput($event)"
-                  [nzAutocomplete]="auto"
-                />
-            </nz-input-group>
-            <ng-template #prefixIcon>
-                <span nz-icon nzType="search"></span>
-            </ng-template>
-            <nz-autocomplete [nzDataSource]="options" nzBackfill #auto></nz-autocomplete>
-        </div>
-        <div class="avatar">
-            <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
-        </div>
+            <div class="avatar">
+                <nz-badge [nzCount]="5">
+                    <nz-avatar nzIcon="user" nzSrc="https://lh3.googleusercontent.com/ogw/AAEL6sg_GkZ_KjnUaw_vJvoINO6Wf8Wd8_hE2fAS6ep5=s32-c-mo" nzSize="default"></nz-avatar>
+                </nz-badge>
+                
+                <span nz-icon nzType="down" nzTheme="fill" style="color: #222;"></span>
+            </div>
       </div>
       <div class="bottom-menu">
         <nz-divider style="margin:0 !important"></nz-divider>
         <ul nz-menu nzMode="horizontal">
-            <li nz-menu-item>
-                <a href="#">Dashboard</a>
+            <li nz-menu-item nzMatchRouter>
+                <a [routerLink]="['/','dashboard']">Dashboard</a>
             </li>
-            <li nz-menu-item>
-                <a href="#">Workflow</a>
+            <li nz-menu-item nzMatchRouter>
+                <a [routerLink]="['/','workflow']">Workflow</a>
             </li>
-            <li nz-menu-item>
-                <a href="#">Activité</a>
+            <li nz-menu-item nzMatchRouter>
+                <a [routerLink]="['/', 'projects', 'activity']">Activité</a>
             </li>
-            <li nz-menu-item>
-                <a href="#">Exchange wall</a>
+            <li nz-menu-item nzMatchRouter>
+                <a [routerLink]="['/','exchange']">Exchange wall</a>
             </li>
-            <li nz-menu-item>
-                <a href="#">Notes</a>
+            <li nz-menu-item nzMatchRouter>
+                <a [routerLink]="['/','notes']">Notes</a>
             </li>
-            <li nz-menu-item>
-                <a href="#">Post Settings</a>
+            <li nz-menu-item nzMatchRouter>
+                <a [routerLink]="['/','post']">Post Settings</a>
             </li>
             
         </ul>
