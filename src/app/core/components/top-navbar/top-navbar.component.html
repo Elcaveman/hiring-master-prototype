@@ -1,0 +1,62 @@
+<nz-header>
+    <div class="app-header">
+        <div class="top-menu">
+            <span class="header-trigger" (click)="triggerCollapseEvent($event)">
+            <span class="trigger"
+               nz-icon
+               [nzType]="isCollapsed ? 'right' : 'left'"
+            ></span>
+        </span>
+        <div class="title">
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+        </div>
+        <div class="state">
+          <span nz-icon nzType="up-circle"> Active</span>
+        </div>
+        <div class="search-bar">
+            <nz-input-group nzSize="large" [nzPrefix]="prefixIcon">
+                <input
+                  placeholder="input here"
+                  nz-input
+                  [(ngModel)]="inputValue"
+                  (input)="onInput($event)"
+                  [nzAutocomplete]="auto"
+                />
+            </nz-input-group>
+            <ng-template #prefixIcon>
+                <span nz-icon nzType="search"></span>
+            </ng-template>
+            <nz-autocomplete [nzDataSource]="options" nzBackfill #auto></nz-autocomplete>
+        </div>
+        <div class="avatar">
+            <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
+        </div>
+      </div>
+      <div class="bottom-menu">
+        <nz-divider style="margin:0 !important"></nz-divider>
+        <ul nz-menu nzMode="horizontal">
+            <li nz-menu-item>
+                <a href="#">Dashboard</a>
+            </li>
+            <li nz-menu-item>
+                <a href="#">Workflow</a>
+            </li>
+            <li nz-menu-item>
+                <a href="#">Activité</a>
+            </li>
+            <li nz-menu-item>
+                <a href="#">Exchange wall</a>
+            </li>
+            <li nz-menu-item>
+                <a href="#">Notes</a>
+            </li>
+            <li nz-menu-item>
+                <a href="#">Post Settings</a>
+            </li>
+            
+        </ul>
+        </div>
+    </div>
+      
+    
+ </nz-header>

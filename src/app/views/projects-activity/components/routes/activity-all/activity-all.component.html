@@ -1,1 +1,53 @@
-<p>activity-all works!</p>
+<div id="filters-buttons"></div>
+<div id="activities-table">
+    <div class="collapse-wrapper">
+        <ng-container>
+            <nz-collapse *ngFor="let activitiyGroup of groupedActivityStream$ | async">
+                <nz-collapse-panel
+                    [nzHeader]="activitiyGroup[0].owner.name"
+                    [nzActive]="true"
+                >
+                    <nz-table #activityTable [nzData]="activitiyGroup">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th></th>
+                            <th>Nom de l'activité</th>
+                            <th>Participants</th>
+                            <th>Date</th>
+                            <th>Heure</th>
+                            <th>Candidat</th>
+                            <th>Ouverture</th>
+                            <th></th><!-- actions -->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let data of activityTable.data;let index = index;">
+                            <td>{{data.id}}</td>
+                            <td
+                                [nzChecked]="setOfCheckedId.has(data.id)"
+                                (nzCheckedChange)="onItemChecked(data.id, $event)"
+                            ></td>
+                            <td>{{ data.title }}</td>
+                            <td>{{ data.participants }}</td>
+                            <td>{{data.time | date:'mediumDate' }}</td>
+                            <td>{{data.time | date:'shortTime' }}</td>
+                            <td>{{ getCandidate(data) }}</td>
+                            <td>{{getJob(data)}}</td>
+                            <td>
+                            <a>Update</a>
+                            <nz-divider nzType="vertical"></nz-divider>
+                            <a>Delete</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </nz-table>
+                </nz-collapse-panel>
+            </nz-collapse>
+        </ng-container>
+        <ng-template #loadingTemplate>
+            <nz-table [nzLoading]="true"></nz-table>
+        </ng-template>
+        
+    </div>
+</div>
