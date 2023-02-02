@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { ActivityWriteModalComponent } from './components/activity-write-modal/activity-write-modal.component';
 import { SharedModule } from '../shared/shared.module';
 import { TopNavbarComponent } from './components/top-navbar/top-navbar.component';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 
 @NgModule({
   declarations: [
@@ -9,7 +12,10 @@ import { TopNavbarComponent } from './components/top-navbar/top-navbar.component
     TopNavbarComponent
   ],
   imports: [
-    SharedModule
+    SharedModule,
+    NzAutocompleteModule,
+    NzInputModule,
+    NzAvatarModule
   ],
   exports:[
     ActivityWriteModalComponent,

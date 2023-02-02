@@ -13,6 +13,9 @@ export class TopNavbarComponent {
   @Output() collapseEvent = new EventEmitter<boolean>;
   isCollapsed:boolean;
   displayData ?: Observable<TopNavDisplayModel>;
+  inputValue?: string;
+  options: string[] = [];
+
   constructor(private fakeDataService_:FakeDataService){
     this.isCollapsed = this.collapsed;
     this.displayData = fakeDataService_.titleData().pipe(
@@ -22,6 +25,11 @@ export class TopNavbarComponent {
   triggerCollapseEvent($event:MouseEvent){
     this.isCollapsed = !this.isCollapsed
     this.collapseEvent.emit(this.isCollapsed)
+  }
+
+  onInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.options = value ? [value, value + value, value + value + value] : [];
   }
   
 }

@@ -11,7 +11,25 @@
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
         </div>
         <div class="state">
-          <span nz-icon nzType="up-circle"></span> Active
+          <span nz-icon nzType="up-circle"> Active</span>
+        </div>
+        <div class="search-bar">
+            <nz-input-group nzSize="large" [nzPrefix]="prefixIcon">
+                <input
+                  placeholder="input here"
+                  nz-input
+                  [(ngModel)]="inputValue"
+                  (input)="onInput($event)"
+                  [nzAutocomplete]="auto"
+                />
+            </nz-input-group>
+            <ng-template #prefixIcon>
+                <span nz-icon nzType="search"></span>
+            </ng-template>
+            <nz-autocomplete [nzDataSource]="options" nzBackfill #auto></nz-autocomplete>
+        </div>
+        <div class="avatar">
+            <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
         </div>
       </div>
       <div class="bottom-menu">
