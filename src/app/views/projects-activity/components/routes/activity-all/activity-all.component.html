@@ -7,7 +7,9 @@
                     [nzHeader]="activitiyGroup[0].owner.name"
                     [nzActive]="true"
                 >
-                    <nz-table #activityTable [nzData]="activitiyGroup">
+                    <nz-table #activityTable [nzData]="activitiyGroup" 
+                    [nzBordered]="true"
+                    [nzOuterBordered]="true">
                         <thead>
                         <tr>
                             <th>Id</th>
@@ -27,6 +29,8 @@
                             <td
                                 [nzChecked]="setOfCheckedId.has(data.id)"
                                 (nzCheckedChange)="onItemChecked(data.id, $event)"
+                                class="circular-nz-checkbox"
+                                
                             ></td>
                             <td>{{ data.title }}</td>
                             <td>
