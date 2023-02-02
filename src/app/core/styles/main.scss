@@ -6,26 +6,8 @@
 }
 
 .app-layout {
+  flex-direction: row;
   min-height: 100vh;
-}
-
-.menu-sidebar {
-  position: relative;
-  z-index: 10;
-  min-height: 100vh;
-  box-shadow: 2px 0 6px rgba(0,21,41,.35);
-}
-
-.sidebar-logo {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  overflow: hidden;
-  background: #001529;
-  transition: all .3s;
-  .h3{
-    color: #fff;
-  }
 }
 
 nz-content {
@@ -36,11 +18,7 @@ nz-content {
   padding: 24px;
   background: #fff;
 }
-nz-sider{
-  li{
-    background-color: transparent !important;//override default
-  }
-}
+
 .m-0{
   margin: 0 !important;
 }

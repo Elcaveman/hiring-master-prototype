@@ -8,6 +8,7 @@ import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     IconsProviderModule,
     NzLayoutModule,
     NzMenuModule,
-    NzDividerModule
+    NzDividerModule,
+    NzButtonModule
   ],
   exports:[
     CommonModule,
@@ -28,7 +30,8 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     IconsProviderModule,
     NzLayoutModule,
     NzMenuModule,
-    NzDividerModule
+    NzDividerModule,
+    NzButtonModule
   ]
 })
 export class SharedModule { }
