@@ -83,15 +83,15 @@
                         [nzOuterBordered]="true">
                             <thead>
                             <tr>
-                                <th nzWidth="25px">Id</th>
-                                <th nzWidth="25px" [nzChecked]="checked.get(groupIndex)" [nzIndeterminate]="indeterminate.get(groupIndex)" (nzCheckedChange)="onGroupAllChecked($event,groupIndex)"></th>
+                                <th nzWidth="25px" [nzChecked]="checked.get(groupIndex)" [nzIndeterminate]="indeterminate.get(groupIndex)" (nzCheckedChange)="onGroupAllChecked($event,groupIndex)" class="checkbox-checked-success"></th>
+                                <th nzWidth="25px"></th>
                                 <th>Nom de l'activité</th>
                                 <th>Participants</th>
                                 <th>Date</th>
                                 <th>Heure</th>
                                 <th>Candidat</th>
                                 <th>Ouverture</th>
-                                <th></th><!-- actions -->
+                                <th><span nz-icon nzType="setting" nzTheme="outline"></span></th><!-- actions -->
                             </tr>
                             </thead>
                             <tbody>
@@ -123,12 +123,8 @@
                                         {{ getCandidate(data)?.name + "John doe" }}
                                     </ng-container>
                                 </td>
-                                <td nzBreakWord>{{getJob(data)}} Lorem, ipsum dolor.</td>
-                                <td>
-                                <a>U</a>
-                                <nz-divider nzType="vertical"></nz-divider>
-                                <a>D</a>
-                                </td>
+                                <td nzBreakWord>{{getJob(data)}}  Developeur Fullstack java / react.</td>
+                                <td></td>
                             </tr>
                             </tbody>
                         </nz-table>
@@ -136,7 +132,6 @@
                     <ng-template #collapseTitle>
                         <h3 class="weight-600">{{activitiyGroup[0].owner.name}}&nbsp;</h3>
                         <h3 class="weight-400 text-neutralBlue-60">({{activitiyGroup.length}})</h3>
-                        
                     </ng-template>
                 </nz-collapse>
             </ng-container>
