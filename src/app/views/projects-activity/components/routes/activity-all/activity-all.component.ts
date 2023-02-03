@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { from,Observable,groupBy,mergeMap,of, toArray, BehaviorSubject, reduce, filter, elementAt, map, finalize, tap } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { from,Observable,groupBy,mergeMap,of, toArray, BehaviorSubject, reduce, filter, elementAt, map, finalize, tap, take, Subject, takeUntil } from 'rxjs';
 import { Activity, Interview, Reminder, Reunion,Task } from 'src/app/core/models/activity';
 import { Person } from 'src/app/core/models/person';
 import { PositiveNumber } from 'src/app/core/types/sign';
@@ -10,8 +10,9 @@ import { SafeMap } from 'src/app/core/utilities/safeMap';
   templateUrl: './activity-all.component.html',
   styleUrls: ['./activity-all.component.scss']
 })
-export class ActivityAllComponent implements OnInit {
-    
+export class ActivityAllComponent implements OnInit,OnDestroy {
+  private ngUnsubscribe = new Subject<void>();
+
   private fake_data : (Interview | Reminder | Reunion | Task )[] = [
     new Interview(1,"interview 1"),new Interview(3,"interview 2"),
     new Reunion(4,"Reunion 1"),new Task(5,"Task 1"),new Reminder(6,"Reminder 1")
@@ -30,14 +31,35 @@ export class ActivityAllComponent implements OnInit {
       groupBy(activity => activity.owner.id),// group by the owners id
       mergeMap(group => group.pipe(toArray())), // convert each group to an individual array
       reduce((acc:(Interview | Reminder | Reunion | Task )[][], curr:(Interview | Reminder | Reunion | Task )[]) => [...acc, curr], []), // TODO: figure out how to type acc
-      tap(arr=>{
+    )
+
+    /*
+    *      tap(arr=>{
         console.log("this is the groupedActivityStream",arr)
         for (let i=0;i<arr.length;i++){
           this.checked.set(i,false);
           this.indeterminate.set(i,false);
         }
       })
-    )
+    * This code 'tries' to initialise the checked & indeterminate maps but
+    * since we don't want to subscribe it means that all of the pipe 
+    * will be executed every time we use this.groupedActivityStream$
+    */
+
+    this.groupedActivityStream$.pipe(
+      take(1),
+      tap(arr=>{
+        for (let i=0;i<arr.length;i++){
+          this.checked.set(i,false);
+          this.indeterminate.set(i,false);
+        }
+      }),
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe()
+  }
+  ngOnDestroy(){
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
   getUniqueOwners(){
 
@@ -59,15 +81,22 @@ export class ActivityAllComponent implements OnInit {
     this.refreshIndeterminateStatus(groupIndex);
   }
   onGroupAllChecked(checked: boolean,groupIndex:PositiveNumber): void {
-    console.log("onGroupAllChecked",checked,groupIndex)
     this.groupedActivityStream$?.pipe(
+      tap(arr=>{
+        console.log("onGroupAllChecked",arr[groupIndex])
+      }),
       map(arr =>{
         for (let activity of arr[groupIndex]){
           if (checked) this.setOfCheckedId.add(activity.id);
           else this.setOfCheckedId.delete(activity.id);
         }
       }),
-      finalize(()=>{this.checked.set(groupIndex,true);this.indeterminate.set(groupIndex,false);}
+      finalize(()=>{
+        console.log("before",this.checked,this.indeterminate)
+        this.checked.set(groupIndex,true);
+        this.indeterminate.set(groupIndex,false);
+        console.log("after",this.checked,this.indeterminate)
+      }
     ))
     .subscribe();
 
