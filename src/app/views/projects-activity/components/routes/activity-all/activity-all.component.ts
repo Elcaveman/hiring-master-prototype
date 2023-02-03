@@ -53,8 +53,8 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-  getUniqueOwners(){
-
+  onExpandChange(id:number, $event:any){
+    console.log("onExpandChange",id)
   }
   getCandidate(data : Activity):Person | null{
     return Interview.getCandidate(data);

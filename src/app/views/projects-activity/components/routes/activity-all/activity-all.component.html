@@ -104,7 +104,8 @@
                                     class="circular-nz-checkbox checkbox-checked-success"
                                     
                                 ></td>
-                                <td>{{ data.title }}</td>
+                                <td [nzExpand]="false" (nzExpandChange)="onExpandChange(data.id, $event)" class="expand-icon-right">{{ data.title }}</td>
+                                <!--TODO: https://ng.ant.design/components/table/en#components-table-demo-expand -->
                                 <td>
                                     <!-- data.participants -->
                                     <ul class="flex avatar-group">
