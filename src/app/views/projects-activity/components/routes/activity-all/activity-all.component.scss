@@ -1,5 +1,19 @@
 @import '/src/app/core/styles/colors.scss';
 @import '/src/app/core/styles/_styles.scss';
+
+.filters-buttons{
+    display: flex;
+    align-items: center;
+    padding: 0px;
+    gap: 8px;
+    .button-list{
+        display: flex;
+        .list-elements{
+            display: flex;
+        }
+    }
+}
+
 nz-table{
     th{
         @extend .text-neutralBlue-50;
