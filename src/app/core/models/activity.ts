@@ -29,7 +29,7 @@ export interface Activity extends ActivityManagement{
 }
 export class Interview implements Activity{
     id= 0;
-    owner= new User(10,"Interview user");
+    owner= new User(1,"Victorine Goethiers");
     type:INTERVIEW_TYPES = INTERVIEW_TYPES.technical;
     medium:INTERVIEW_MEDIUM = INTERVIEW_MEDIUM.phone;
     candidate:Person = new Person();
@@ -66,7 +66,7 @@ export class Interview implements Activity{
 }
 export class Reunion implements Activity{
     id= 0;
-    owner= new User();
+    owner= new User(10,"John Jack Rousseau");
     medium:REUNION_MEDIUM = REUNION_MEDIUM.phone;
     adress!:Office;
     title="";
@@ -87,7 +87,7 @@ export class Reunion implements Activity{
 }
 export class Task implements Activity{
     id= 0;
-    owner= new User();
+    owner= new User(15,"Abdel kader yaboualam");
     medium:TASK_MEDIUM = TASK_MEDIUM.phone;
     title="";
     time=new Date();
@@ -107,7 +107,7 @@ export class Task implements Activity{
 }
 export class Reminder implements Activity{
     id= 0;
-    owner= new User();
+    owner= new User(1,"Victorine Goethiers");
     date:Date=new Date();
     type: REMINDER_TYPES = REMINDER_TYPES.notification;
     title="";

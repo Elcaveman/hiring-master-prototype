@@ -41,12 +41,17 @@ nz-content {
         border-color:$value;
         color:$value
       }
-      .ant-checkbox-checked::after{ // the hover color
+      .ant-checkbox-checked::after { // the hover color
         border: 2px solid $value;
         background-color: $value;
         opacity: .2;
         // color:$value;
       }
+      .ant-checkbox-indeterminate .ant-checkbox-inner::after{
+        background-color: $value;
+        border-color:$value;
+      }
+      
       // BUG: The visual bug where the checkbox highlight style doesn't change. Time: 30mins
       // ::selection{
       //   background: $value !important;

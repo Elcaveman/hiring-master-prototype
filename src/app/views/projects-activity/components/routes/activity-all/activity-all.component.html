@@ -1,76 +1,143 @@
-<div id="filters-buttons"></div>
-<div id="activities-table">
-    <div class="collapse-wrapper">
-        <ng-container>
-            <nz-collapse *ngFor="let activitiyGroup of groupedActivityStream$ | async" nzGhost>
-                <nz-collapse-panel
-                    [nzHeader]="collapseTitle"
-                    [nzActive]="true"
-                >
-                    <nz-table #activityTable [nzData]="activitiyGroup" 
-                    [nzBordered]="true"
-                    [nzOuterBordered]="true">
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th></th>
-                            <th>Nom de l'activité</th>
-                            <th>Participants</th>
-                            <th>Date</th>
-                            <th>Heure</th>
-                            <th>Candidat</th>
-                            <th>Ouverture</th>
-                            <th></th><!-- actions -->
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr *ngFor="let data of activityTable.data;let index = index;">
-                            <td>{{data.id}}</td>
-                            <td
-                                [nzChecked]="setOfCheckedId.has(data.id)"
-                                (nzCheckedChange)="onItemChecked(data.id, $event)"
-                                class="circular-nz-checkbox checkbox-checked-success"
-                                
-                            ></td>
-                            <td>{{ data.title }}</td>
-                            <td>
-                                <!-- data.participants -->
-                                <ul class="flex avatar-group">
-                                    <!-- <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" [nzSize]="'small'"></nz-avatar> -->
-                                    <nz-avatar class="bg-megenta-3" nzText="U" [nzSize]="'small'"></nz-avatar>
-                                    <!-- <nz-avatar class="bg-cyan-3" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user" [nzSize]="'small'"></nz-avatar> -->
-                                    <nz-avatar class="bg-cyan-3" nz-tooltip nzText="EO" nzTooltipTitle="el mehdi" [nzSize]="'small'"></nz-avatar>
-                                    <nz-avatar class="bg-deepPurple-3" nzText="NG" [nzSize]="'small'"></nz-avatar>
-                                </ul>
-                            </td>
-                            <td>{{data.time | date:'mediumDate' }}</td>
-                            <td>{{data.time | date:'shortTime' }}</td>
-                            <td>
-                                <ng-container *ngIf="getCandidate(data) != null">
-                                    <nz-avatar class="bg-neutralBlue-50" [nzSize]="'small'" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>
-                                    {{ getCandidate(data)?.name + "John doe" }}
-                                </ng-container>
-                            </td>
-                            <td>{{getJob(data)}} Lorem, ipsum dolor.</td>
-                            <td>
-                            <a>Update</a>
-                            <nz-divider nzType="vertical"></nz-divider>
-                            <a>Delete</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </nz-table>
-                </nz-collapse-panel>
-                <ng-template #collapseTitle>
-                    <h3 class="weight-600">{{activitiyGroup[0].owner.name}}&nbsp;</h3>
-                    <h3 class="weight-400 text-neutralBlue-60">({{activitiyGroup.length}})</h3>
-                    
-                </ng-template>
-            </nz-collapse>
-        </ng-container>
-        <ng-template #loadingTemplate>
-            <nz-table [nzLoading]="true"></nz-table>
-        </ng-template>
-        
+<div class="filters-buttons">
+    <span>Tout</span>
+    <nz-divider nzType="vertical"></nz-divider>
+    <div class="button-list">
+        <div class="list-title">
+            <button nz-button nzType="primary"><span>Entretien</span></button>
+        </div>
+        <div class="list-elements">
+            <button nz-button nzType="primary">
+                <span nz-icon nzType="phone" nzTheme="outline"></span>
+            </button>
+            <button nz-button nzType="primary" >
+                <span nz-icon nzType="swap" nzTheme="outline"></span>
+            </button>
+            <button nz-button nzType="primary" >
+                <span nz-icon nzType="video-camera" nzTheme="outline"></span>
+            </button>
+            <button nz-button nzType="primary" >
+                <span nz-icon nzType="experiment" nzTheme="outline"></span>
+            </button>
+        </div>
+    </div>
+    <div class="button-list">
+        <div class="list-title">
+            <button nz-button nzType="primary"><span>Réunion</span></button>
+        </div>
+        <div class="list-elements">
+            <button nz-button nzType="primary" >
+                <span nz-icon nzType="phone" nzTheme="outline"></span>
+            </button>
+            <button nz-button nzType="primary" >
+                <span nz-icon nzType="swap" nzTheme="outline"></span>
+            </button>
+            <button nz-button nzType="primary" >
+                <span nz-icon nzType="video-camera" nzTheme="outline"></span>
+            </button>
+        </div>
+    </div>
+    <div class="button-list">
+        <div class="list-title">
+            <button nz-button nzType="primary"><span>Tâche</span></button>
+        </div>
+        <div class="list-elements">
+            <button nz-button nzType="primary" >
+                <span nz-icon nzType="phone" nzTheme="outline"></span>
+            </button>
+            <button nz-button nzType="primary" >
+                <span nz-icon nzType="mail" nzTheme="outline"></span>
+            </button>
+            <button nz-button nzType="primary" >
+                <span nz-icon nzType="field-time" nzTheme="outline"></span>
+            </button>
+            <button nz-button nzType="primary" >
+                <span nz-icon nzType="coffee" nzTheme="outline"></span>
+            </button>
+            <button nz-button nzType="primary" >
+                <span nz-icon nzType="format-painter" nzTheme="outline"></span>
+            </button>
+            <button nz-button nzType="primary" >
+                <span nz-icon nzType="appstore" nzTheme="outline"></span>
+            </button>
+        </div>
+    </div>
+    <div class="button-list">
+        <div class="list-title">
+            <button nz-button nzType="primary"  class="rounded"><span>Rappel</span></button>
+        </div>
+        <div class="list-elements"></div>
+    </div>
+</div>
+<br />
+<div class="inner-content">
+    <div id="activities-table">
+        <div class="collapse-wrapper">
+            <ng-container>
+                <nz-collapse *ngFor="let activitiyGroup of (groupedActivityStream$ | async);let groupIndex=index;" nzGhost>
+                    <nz-collapse-panel
+                        [nzHeader]="collapseTitle"
+                        [nzActive]="true"
+                    >
+                        <nz-table #activityTable [nzData]="activitiyGroup" 
+                        [nzBordered]="true"
+                        [nzOuterBordered]="true">
+                            <thead>
+                            <tr>
+                                <th nzWidth="25px" [nzChecked]="checked.get(groupIndex)" [nzIndeterminate]="indeterminate.get(groupIndex)" (nzCheckedChange)="onGroupAllChecked($event,groupIndex)" class="checkbox-checked-success"></th>
+                                <th nzWidth="25px"></th>
+                                <th>Nom de l'activité</th>
+                                <th>Participants</th>
+                                <th>Date</th>
+                                <th>Heure</th>
+                                <th>Candidat</th>
+                                <th>Ouverture</th>
+                                <th nzWidth="25px"><span nz-icon nzType="setting" nzTheme="outline"></span></th><!-- actions -->
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let data of activityTable.data;let index = index;">
+                                <!-- <td>{{data.id}}</td> -->
+                                <td>{{index+1}}</td>
+                                <td
+                                    [nzChecked]="setOfCheckedId.has(data.id)"
+                                    (nzCheckedChange)="onItemChecked(data.id, $event,groupIndex)"
+                                    class="circular-nz-checkbox checkbox-checked-success"
+                                    
+                                ></td>
+                                <td>{{ data.title }}</td>
+                                <td>
+                                    <!-- data.participants -->
+                                    <ul class="flex avatar-group">
+                                        <!-- <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" [nzSize]="'small'"></nz-avatar> -->
+                                        <nz-avatar class="bg-megenta-3" nzText="U" [nzSize]="'small'"></nz-avatar>
+                                        <!-- <nz-avatar class="bg-cyan-3" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user" [nzSize]="'small'"></nz-avatar> -->
+                                        <nz-avatar class="bg-cyan-3" nz-tooltip nzText="EO" nzTooltipTitle="el mehdi" [nzSize]="'small'"></nz-avatar>
+                                        <nz-avatar class="bg-deepPurple-3" nzText="NG" [nzSize]="'small'"></nz-avatar>
+                                    </ul>
+                                </td>
+                                <td>{{data.time | date:'mediumDate' }}</td>
+                                <td>{{data.time | date:'shortTime' }}</td>
+                                <td>
+                                    <ng-container *ngIf="getCandidate(data) != null">
+                                        <nz-avatar class="bg-neutralBlue-50" [nzSize]="'small'" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>
+                                        {{ getCandidate(data)?.name + "John doe" }}
+                                    </ng-container>
+                                </td>
+                                <td nzBreakWord>{{getJob(data)}}  Developeur Fullstack java / react.</td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </nz-table>
+                    </nz-collapse-panel>
+                    <ng-template #collapseTitle>
+                        <h3 class="weight-600 text-neutralBlue-90">{{activitiyGroup[0].owner.name}}&nbsp;</h3>
+                        <h3 class="weight-400 text-neutralBlue-60">({{activitiyGroup.length}})</h3>
+                    </ng-template>
+                </nz-collapse>
+            </ng-container>
+            <ng-template #loadingTemplate>
+                <nz-table [nzLoading]="true"></nz-table>
+            </ng-template>
+        </div>
     </div>
 </div>

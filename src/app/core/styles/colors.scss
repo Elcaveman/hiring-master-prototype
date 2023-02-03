@@ -9,15 +9,16 @@ $colors : (
     "cyan-3":#87E8DE,
     "deepPurple-3": #9A8EFF,
     "megenta-3": #FFADD2,
-
+    "primaryBlue-60": #2F54EB,
+    "primaryBlue-10":#d6e4ff,
 );
 
 @each $color, $value in $colors {
     .bg-#{$color} {
-        background-color: $value;
+        background-color: $value !important;
     }
     .text-#{$color} {
-        color:$value
+        color:$value !important;
     }
 }
 
