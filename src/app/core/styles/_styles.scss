@@ -9,13 +9,21 @@
     background: #fff;
 }
 
-.m-0{
-    margin: 0 !important;
-}
-
 .align-items-center{
     align-items: center;
 }
 .inline{
     display: inline;
+}
+@for $i from 0 through 6 {
+    .m-#{$i}{margin: #{$i}rem !important;}
+    .mx-#{$i}{margin: 0 #{$i}rem 0 #{$i}rem !important;}
+    .my-#{$i}{margin: #{$i}rem 0 #{$i}rem 0 !important;}
+    .p-#{$i}{padding: #{$i}rem !important;}
+    .px-#{$i}{padding: 0 #{$i}rem 0 #{$i}rem !important;}
+    .py-#{$i}{padding: #{$i}rem 0 #{$i}rem 0 !important;}
+    .weight-#{$i*100}{font-weight: $i * 100;}
+}
+.bold{
+    font-weight: bold;
 }

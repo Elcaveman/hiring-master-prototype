@@ -1,19 +1,33 @@
 @import '/src/app/core/styles/colors.scss';
+@import '/src/app/core/styles/_styles.scss';
 nz-table{
     th{
-        border:1px solid #F0F1FA !important;
         @extend .text-neutralBlue-50;
+        @extend .m-0;
+        padding: 10px;
+        border:1px solid #F0F1FA !important;
+        background: transparent;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+    }
+    td{
+        @extend .text-neutralBlue-80;
+        @extend .m-0;
+        padding: 10px;
+        border:1px solid #F0F1FA !important;
         font-style: normal;
         font-weight: 400;
         font-size: 14px;
         line-height: 22px;
     }
-    td{
-        border:1px solid #F0F1FA !important;
-        @extend .text-neutralBlue-80;
-        font-style: normal;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 22px;
+}
+
+.avatar-group{
+    @extend .m-0;
+    gap:3px;
+    padding-inline-start: 0px !important;
+    nz-avatar{
+        list-style: none;
     }
 }

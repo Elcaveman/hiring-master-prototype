@@ -2,9 +2,9 @@
 <div id="activities-table">
     <div class="collapse-wrapper">
         <ng-container>
-            <nz-collapse *ngFor="let activitiyGroup of groupedActivityStream$ | async">
+            <nz-collapse *ngFor="let activitiyGroup of groupedActivityStream$ | async" nzGhost>
                 <nz-collapse-panel
-                    [nzHeader]="activitiyGroup[0].owner.name"
+                    [nzHeader]="collapseTitle"
                     [nzActive]="true"
                 >
                     <nz-table #activityTable [nzData]="activitiyGroup" 
@@ -29,25 +29,26 @@
                             <td
                                 [nzChecked]="setOfCheckedId.has(data.id)"
                                 (nzCheckedChange)="onItemChecked(data.id, $event)"
-                                class="circular-nz-checkbox"
+                                class="circular-nz-checkbox checkbox-checked-success"
                                 
                             ></td>
                             <td>{{ data.title }}</td>
                             <td>
                                 <!-- data.participants -->
-                                <nz-avatar-group>
-                                    <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
-                                    <nz-avatar style="background-color: #f56a00" nzText="U"></nz-avatar>
-                                    <nz-avatar style="background-color: #87d068" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>
-                                    <nz-avatar style="background-color: #1890ff" nzText="NG"></nz-avatar>
-                                </nz-avatar-group>
+                                <ul class="flex avatar-group">
+                                    <!-- <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" [nzSize]="'small'"></nz-avatar> -->
+                                    <nz-avatar class="bg-megenta-3" nzText="U" [nzSize]="'small'"></nz-avatar>
+                                    <!-- <nz-avatar class="bg-cyan-3" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user" [nzSize]="'small'"></nz-avatar> -->
+                                    <nz-avatar class="bg-cyan-3" nz-tooltip nzText="EO" nzTooltipTitle="el mehdi" [nzSize]="'small'"></nz-avatar>
+                                    <nz-avatar class="bg-deepPurple-3" nzText="NG" [nzSize]="'small'"></nz-avatar>
+                                </ul>
                             </td>
                             <td>{{data.time | date:'mediumDate' }}</td>
                             <td>{{data.time | date:'shortTime' }}</td>
                             <td>
                                 <ng-container *ngIf="getCandidate(data) != null">
-                                    <nz-avatar style="background-color: #0B00B5" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>
-                                    {{ getCandidate(data)?.name + "CANDIDATE" }}
+                                    <nz-avatar class="bg-neutralBlue-50" [nzSize]="'small'" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>
+                                    {{ getCandidate(data)?.name + "John doe" }}
                                 </ng-container>
                             </td>
                             <td>{{getJob(data)}} Lorem, ipsum dolor.</td>
@@ -60,6 +61,11 @@
                         </tbody>
                     </nz-table>
                 </nz-collapse-panel>
+                <ng-template #collapseTitle>
+                    <h3 class="weight-600">{{activitiyGroup[0].owner.name}}&nbsp;</h3>
+                    <h3 class="weight-400 text-neutralBlue-60">({{activitiyGroup.length}})</h3>
+                    
+                </ng-template>
             </nz-collapse>
         </ng-container>
         <ng-template #loadingTemplate>
