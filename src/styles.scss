@@ -1,6 +1,2 @@
-/* You can add global styles to this file, and also import other style files */
-.circular-nz-checkbox{
-    .ant-checkbox-inner{
-        border-radius: 50% !important;
-    }
-}
+@import '/src/app/core/styles/_styles.scss';
+@import '/src/app/core/styles/main.scss';

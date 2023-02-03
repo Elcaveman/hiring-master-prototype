@@ -3,10 +3,10 @@ nz-table{
     th{
         border:1px solid #F0F1FA !important;
         @extend .text-neutralBlue-50;
+        background: transparent;
         font-style: normal;
         font-weight: 400;
         font-size: 14px;
-        line-height: 22px;
     }
     td{
         border:1px solid #F0F1FA !important;
