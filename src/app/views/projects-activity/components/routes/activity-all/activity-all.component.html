@@ -2,7 +2,7 @@
 <div id="activities-table">
     <div class="collapse-wrapper">
         <ng-container>
-            <nz-collapse *ngFor="let activitiyGroup of groupedActivityStream$ | async" nzGhost>
+            <nz-collapse *ngFor="let activitiyGroup of (groupedActivityStream$ | async);let groupIndex=index;" nzGhost>
                 <nz-collapse-panel
                     [nzHeader]="collapseTitle"
                     [nzActive]="true"
@@ -12,8 +12,8 @@
                     [nzOuterBordered]="true">
                         <thead>
                         <tr>
-                            <th>Id</th>
-                            <th></th>
+                            <th nzWidth="25px">Id</th>
+                            <th nzWidth="25px" [nzChecked]="checked.get(groupIndex)" [nzIndeterminate]="indeterminate.get(groupIndex)" (nzCheckedChange)="onGroupAllChecked($event,groupIndex)"></th>
                             <th>Nom de l'activité</th>
                             <th>Participants</th>
                             <th>Date</th>
@@ -25,10 +25,11 @@
                         </thead>
                         <tbody>
                         <tr *ngFor="let data of activityTable.data;let index = index;">
-                            <td>{{data.id}}</td>
+                            <!-- <td>{{data.id}}</td> -->
+                            <td>{{index+1}}</td>
                             <td
                                 [nzChecked]="setOfCheckedId.has(data.id)"
-                                (nzCheckedChange)="onItemChecked(data.id, $event)"
+                                (nzCheckedChange)="onItemChecked(data.id, $event,groupIndex)"
                                 class="circular-nz-checkbox checkbox-checked-success"
                                 
                             ></td>
@@ -51,11 +52,11 @@
                                     {{ getCandidate(data)?.name + "John doe" }}
                                 </ng-container>
                             </td>
-                            <td>{{getJob(data)}} Lorem, ipsum dolor.</td>
+                            <td nzBreakWord>{{getJob(data)}} Lorem, ipsum dolor.</td>
                             <td>
-                            <a>Update</a>
+                            <a>U</a>
                             <nz-divider nzType="vertical"></nz-divider>
-                            <a>Delete</a>
+                            <a>D</a>
                             </td>
                         </tr>
                         </tbody>
