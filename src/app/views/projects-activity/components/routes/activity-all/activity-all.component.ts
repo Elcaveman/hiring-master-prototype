@@ -34,16 +34,8 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     )
 
     /*
-    *      tap(arr=>{
-        console.log("this is the groupedActivityStream",arr)
-        for (let i=0;i<arr.length;i++){
-          this.checked.set(i,false);
-          this.indeterminate.set(i,false);
-        }
-      })
-    * This code 'tries' to initialise the checked & indeterminate maps but
-    * since we don't want to subscribe it means that all of the pipe 
-    * will be executed every time we use this.groupedActivityStream$
+    * This code initialises the checked & indeterminate maps but
+    * this is a one time execution meaning we need to subscribe
     */
 
     this.groupedActivityStream$.pipe(
@@ -82,9 +74,6 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   }
   onGroupAllChecked(checked: boolean,groupIndex:PositiveNumber): void {
     this.groupedActivityStream$?.pipe(
-      tap(arr=>{
-        console.log("onGroupAllChecked",arr[groupIndex])
-      }),
       map(arr =>{
         for (let activity of arr[groupIndex]){
           if (checked) this.setOfCheckedId.add(activity.id);
@@ -92,10 +81,8 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
         }
       }),
       finalize(()=>{
-        console.log("before",this.checked,this.indeterminate)
         this.checked.set(groupIndex,true);
         this.indeterminate.set(groupIndex,false);
-        console.log("after",this.checked,this.indeterminate)
       }
     ))
     .subscribe();
