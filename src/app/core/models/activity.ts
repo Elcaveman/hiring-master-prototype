@@ -67,7 +67,7 @@ export interface Activity extends ActivityManagement{
 export class Interview implements Activity{
     id= 0;
     owner= new User(1,"Victorine Goethiers");
-    type:INTERVIEW_TYPES = 'technical';
+    type:INTERVIEW_TYPES = INTERVIEW_TYPES.technical;
     medium:INTERVIEW_MEDIUM_TYPE = 'technical';
     candidate:Person = new Person();
     job!:Job;
