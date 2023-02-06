@@ -9,7 +9,7 @@ import { Office } from "./office";
 
 export const INTERVIEW_MEDIUM = ['phone','face2face','technical','viseo'] as const;
 export const REUNION_MEDIUM = ['phone','technical','viseo'] as const;
-export const TASK_MEDIUM = ['phone','email','deadline','coffe','paint','menu'] as const;
+export const TASK_MEDIUM = ['phone','email','deadline','coffee','paint','menu'] as const;
 type INTERVIEW_MEDIUM_TYPE = typeof INTERVIEW_MEDIUM[number];
 type REUNION_MEDIUM_TYPE = typeof REUNION_MEDIUM[number];
 type TASK_MEDIUM_TYPE = typeof TASK_MEDIUM[number];
@@ -18,29 +18,27 @@ enum VISIBILITIES {public,participants,private};
 enum INTERVIEW_TYPES {new,screening,technical,hr,validation};
 enum REMINDER_TYPES {notification,mail};
 
-export enum ACTIVITY_MEDIUM {
-    phone,face2face,technical,viseo,email,deadline,coffe,paint,menu,
-}
+export type ACTIVITY_MEDIUM = INTERVIEW_MEDIUM_TYPE | REUNION_MEDIUM_TYPE | TASK_MEDIUM_TYPE
 export namespace ACTIVITY_MEDIUM{
-    export function getIcon(medium:string){
+    export function getIcon(medium:ACTIVITY_MEDIUM){    
         switch (medium) {
-            case ACTIVITY_MEDIUM.phone.toString():
+            case "phone":
                 return 'phone';
-            case ACTIVITY_MEDIUM.face2face.toString():
+            case "face2face":
                 return 'swap';
-            case ACTIVITY_MEDIUM.technical.toString():
+            case "technical":
                 return 'experiment';
-            case ACTIVITY_MEDIUM.viseo.toString():
+            case "viseo":
                 return 'video-camera';
-            case ACTIVITY_MEDIUM.email.toString():
+            case "email":
                 return 'mail';
-            case ACTIVITY_MEDIUM.deadline.toString():
+            case "deadline":
                 return 'field-time';
-            case ACTIVITY_MEDIUM.coffe.toString():
-                return 'coffe';
-            case ACTIVITY_MEDIUM.paint.toString():
+            case "coffee":
+                return 'coffee';
+            case "paint":
                 return 'format-painter';
-            case ACTIVITY_MEDIUM.menu.toString():
+            case "menu":
                 return 'appstore';  
             default:
                 return null;
@@ -124,7 +122,7 @@ export class Reunion implements Activity{
 export class Task implements Activity{
     id= 0;
     owner= new User(15,"Abdelali senhadji");
-    medium:TASK_MEDIUM_TYPE = 'coffe';
+    medium:TASK_MEDIUM_TYPE = 'coffee';
     title="";
     time=new Date();
     participants= [];

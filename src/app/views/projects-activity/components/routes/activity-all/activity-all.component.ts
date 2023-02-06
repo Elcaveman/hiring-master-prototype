@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { from,Observable,groupBy,mergeMap,of, toArray, BehaviorSubject, reduce, filter, elementAt, map, finalize, tap, take, Subject, takeUntil } from 'rxjs';
-import { Activity, Interview, Reminder, Reunion,Task, ACTIVITY_MEDIUM } from 'src/app/core/models/activity';
+import { Activity, Interview, Reminder, Reunion,Task, ACTIVITY_MEDIUM,INTERVIEW_MEDIUM,REUNION_MEDIUM,TASK_MEDIUM } from 'src/app/core/models/activity';
 import { Person } from 'src/app/core/models/person';
 import { PositiveNumber } from 'src/app/core/types/sign';
 import { SafeMap } from 'src/app/core/utilities/safeMap';
@@ -18,14 +18,55 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     new Interview(1,"interview 1"),new Interview(3,"interview 2"),
     new Reunion(4,"Reunion 1"),new Task(5,"Task 1"),new Reminder(6,"Reminder 1")
   ] as (Interview | Reminder | Reunion | Task )[];
+
+
   checked = new SafeMap<number,boolean>(false);
   indeterminate = new SafeMap<number,boolean>(false);
   loading = false;
   setOfCheckedId = new Set<number>();
+
+  activatedFilters = {
+      // TODO: generate this in the filters object in the constructor
+     'Entretien':{
+        activated:false,
+        mediums:{
+          'phone':false,
+          'face2face':false,
+          'technical':false,
+          'viseo':false
+        }
+     },
+    'Reunion':{
+      activated:false,
+      mediums:{
+        'phone':false,
+        'technical':false,
+        'viseo':false
+      }
+    },
+    'Task':{
+      activated:false,
+      mediums:{
+        'phone':false,
+        'email':false,
+        'deadline':false,
+        'coffee':false,
+        'paint':false,
+        'menu':false,
+      }
+    }
+  }
+
   activitiyStream$:Observable<(Interview | Reminder | Reunion | Task )[]> = of(this.fake_data);
   groupedActivityStream$?:Observable<(Interview | Reminder | Reunion | Task )[][]>;
+
   now = new Date(); // this is saved and won't update it's value untill the user refreshes the page
   ACTIVITY_MEDIUM = ACTIVITY_MEDIUM;
+  INTERVIEW_MEDIUM = INTERVIEW_MEDIUM;
+  REUNION_MEDIUM = REUNION_MEDIUM;
+  TASK_MEDIUM = TASK_MEDIUM;
+
+
   ngOnInit(): void {
     
     this.groupedActivityStream$ = this.activitiyStream$.pipe(

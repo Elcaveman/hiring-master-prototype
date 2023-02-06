@@ -3,67 +3,44 @@
     <nz-divider nzType="vertical"></nz-divider>
     <div class="button-list">
         <div class="list-title">
-            <button nz-button nzType="primary"><span>Entretien</span></button>
+            <button class="btn" 
+            [ngClass]="{'activated':activatedFilters.Entretien.activated}"
+            >
+                <span>Entretien</span>
+            </button>
         </div>
-        <div class="list-elements">
-            <button nz-button nzType="primary">
-                <span nz-icon nzType="phone" nzTheme="outline"></span>
-            </button>
-            <button nz-button nzType="primary" >
-                <span nz-icon nzType="swap" nzTheme="outline"></span>
-            </button>
-            <button nz-button nzType="primary" >
-                <span nz-icon nzType="video-camera" nzTheme="outline"></span>
-            </button>
-            <button nz-button nzType="primary" >
-                <span nz-icon nzType="experiment" nzTheme="outline"></span>
+        <div class="list-elements" *ngFor="let medium of INTERVIEW_MEDIUM ;let last = last;" [ngClass]="{'last-item': last}">
+            <button 
+                *ngIf="ACTIVITY_MEDIUM.getIcon(medium)!=null"
+                class="btn" [ngClass]="{'activated':activatedFilters.Entretien.activated || activatedFilters.Entretien.mediums[medium]}"
+            >
+                <span nz-icon [nzType]="ACTIVITY_MEDIUM.getIcon(medium)!" nzTheme="outline"></span>
             </button>
         </div>
     </div>
     <div class="button-list">
         <div class="list-title">
-            <button nz-button nzType="primary"><span>Réunion</span></button>
+            <button class="btn"><span>Réunion</span></button>
         </div>
-        <div class="list-elements">
-            <button nz-button nzType="primary" >
-                <span nz-icon nzType="phone" nzTheme="outline"></span>
-            </button>
-            <button nz-button nzType="primary" >
-                <span nz-icon nzType="swap" nzTheme="outline"></span>
-            </button>
-            <button nz-button nzType="primary" >
-                <span nz-icon nzType="video-camera" nzTheme="outline"></span>
+        <div class="list-elements" *ngFor="let medium of REUNION_MEDIUM;let last = last;" [ngClass]="{'last-item': last}">
+            <button *ngIf="ACTIVITY_MEDIUM.getIcon(medium)!=null" class="btn">
+                <span nz-icon [nzType]="ACTIVITY_MEDIUM.getIcon(medium)!" nzTheme="outline"></span>
             </button>
         </div>
     </div>
     <div class="button-list">
         <div class="list-title">
-            <button nz-button nzType="primary"><span>Tâche</span></button>
+            <button class="btn"><span>Tâche</span></button>
         </div>
-        <div class="list-elements">
-            <button nz-button nzType="primary" >
-                <span nz-icon nzType="phone" nzTheme="outline"></span>
-            </button>
-            <button nz-button nzType="primary" >
-                <span nz-icon nzType="mail" nzTheme="outline"></span>
-            </button>
-            <button nz-button nzType="primary" >
-                <span nz-icon nzType="field-time" nzTheme="outline"></span>
-            </button>
-            <button nz-button nzType="primary" >
-                <span nz-icon nzType="coffee" nzTheme="outline"></span>
-            </button>
-            <button nz-button nzType="primary" >
-                <span nz-icon nzType="format-painter" nzTheme="outline"></span>
-            </button>
-            <button nz-button nzType="primary" >
-                <span nz-icon nzType="appstore" nzTheme="outline"></span>
+        <div class="list-elements" *ngFor="let medium of TASK_MEDIUM;let last = last;" [ngClass]="{'last-item': last}">
+            <button *ngIf="ACTIVITY_MEDIUM.getIcon(medium)!=null" class="btn">
+                <span nz-icon [nzType]="ACTIVITY_MEDIUM.getIcon(medium)!" nzTheme="outline"></span>
             </button>
         </div>
     </div>
     <div class="button-list">
         <div class="list-title">
-            <button nz-button nzType="primary"  class="rounded"><span>Rappel</span></button>
+            <button class="btn rounded"><span>Rappel</span></button>
         </div>
         <div class="list-elements"></div>
     </div>
