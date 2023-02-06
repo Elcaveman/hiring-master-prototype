@@ -55,7 +55,9 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
         'menu':false,
       }
     },
-    'Reminder':{activated:true,mediums:{}}
+    'Reminder':{activated:false,mediums:{
+      //only here to avoid field access issues
+    }}
   }
 
   activitiyStream$:Observable<(Interview | Reminder | Reunion | Task )[]> = of(this.fake_data);
@@ -119,16 +121,20 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     return data.getType();
   }
   onActivateFilter($event:MouseEvent,activity_type:'Interview' | 'Task' | 'Reunion' | 'Reminder',medium?: ACTIVITY_MEDIUM){
-    console.log("onActivateFilter",$event,activity_type,medium);
+    console.log("onActivateFilter",activity_type,medium);
     if (medium!=undefined && (this.activatedFilters[activity_type].mediums as any)[medium]!=undefined){
       // No need for type check here since we check if medium is part of our base object
       (this.activatedFilters[activity_type].mediums as any)[medium] = !(this.activatedFilters[activity_type].mediums as any)[medium];
+      if ((this.activatedFilters[activity_type].mediums as any)[medium] == false){
+        // turning off a single filter means the parent is not active ( either totaly active or not)
+        this.activatedFilters[activity_type].activated = false;
+      }
     }
     else{
       this.activatedFilters[activity_type].activated= !this.activatedFilters[activity_type].activated;
       // activate every thing inside the tree
       for (let key of Object.keys(this.activatedFilters[activity_type].mediums as any)){
-        (this.activatedFilters[activity_type].mediums as any)[key] = !(this.activatedFilters[activity_type].mediums as any)[key] 
+        (this.activatedFilters[activity_type].mediums as any)[key] = this.activatedFilters[activity_type].activated;
       }
     }
   }
