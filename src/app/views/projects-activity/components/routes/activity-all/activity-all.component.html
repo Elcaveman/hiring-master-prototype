@@ -86,66 +86,130 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr *ngFor="let data of activityTable.data;let index = index;" [ngClass]="{'selected':setOfCheckedId.has(data.id)}"> 
-                                <!-- <td>{{data.id}}</td> -->
-                                <td>{{index+1}}</td>
-                                <td
-                                    [nzChecked]="setOfCheckedId.has(data.id)"
-                                    (nzCheckedChange)="onItemChecked(data.id, $event,groupIndex)"
-                                    class="circular-nz-checkbox checkbox-checked-success"
-                                    
-                                ></td>
-                                <td nzEllipsis>
-                                    <div class="activity-icon flex">
-                                        <div [ngSwitch]="data.getType()" class="activity-mainIcon">
-                                            <nz-avatar nzIcon="comment" [nzSize]="'small'" *ngSwitchCase="'Interview'"></nz-avatar> 
-                                            <nz-avatar nzIcon="notification" [nzSize]="'small'" *ngSwitchCase="'Reminder'"></nz-avatar> 
-                                            <nz-avatar nzIcon="team" [nzSize]="'small'" *ngSwitchCase="'Reunion'"></nz-avatar> 
-                                            <nz-avatar nzIcon="check" [nzSize]="'small'" *ngSwitchCase="'Task'"></nz-avatar> 
+                            <ng-container *ngFor="let data of activityTable.data;let index = index;"> 
+                                <tr [ngClass]="{'selected':setOfCheckedId.has(data.id)}">
+                                    <!-- <td>{{data.id}}</td> -->
+                                    <td>{{index+1}}</td>
+                                    <td
+                                        [nzChecked]="setOfCheckedId.has(data.id)"
+                                        (nzCheckedChange)="onItemChecked(data.id, $event,groupIndex)"
+                                        class="circular-nz-checkbox checkbox-checked-success"
+                                        
+                                    ></td>
+                                    <td nzEllipsis>
+                                        <div class="activity-icon flex">
+                                            <div [ngSwitch]="data.getType()" class="activity-mainIcon">
+                                                <nz-avatar nzIcon="comment" [nzSize]="'small'" *ngSwitchCase="'Interview'"></nz-avatar> 
+                                                <nz-avatar nzIcon="notification" [nzSize]="'small'" *ngSwitchCase="'Reminder'"></nz-avatar> 
+                                                <nz-avatar nzIcon="team" [nzSize]="'small'" *ngSwitchCase="'Reunion'"></nz-avatar> 
+                                                <nz-avatar nzIcon="check" [nzSize]="'small'" *ngSwitchCase="'Task'"></nz-avatar> 
+                                            </div>
+                                            <div *ngIf="ACTIVITY_MEDIUM.getIcon(getMedium(data)) !=null" class="activity-subIcon">
+                                                <nz-avatar [nzSize]="18" [nzIcon]="ACTIVITY_MEDIUM.getIcon(getMedium(data))!"></nz-avatar> 
+                                            </div>
+                                            <span class="ml-1 flex-1">{{ data.title }}</span>
+                                            <div class="expand-icon" (click)="onExpandChange($event,data.id)">
+                                                <span class="expand-counter">3</span>
+                                                <span nz-icon>
+                                                    <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"  class="tree-icon">
+                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M1.85938 2.1875C1.58755 2.1875 1.36719 2.40786 1.36719 2.67969C1.36719 2.95152 1.58755 3.17188 1.85938 3.17188H3.43164V9.31055C3.43164 10.126 4.09272 10.7871 4.9082 10.7871H9.65584C9.86476 11.3842 10.4331 11.8125 11.1016 11.8125C11.9472 11.8125 12.6328 11.1269 12.6328 10.2812C12.6328 9.43556 11.9472 8.75 11.1016 8.75C10.423 8.75 9.8475 9.1914 9.64656 9.80273H4.9082C4.63638 9.80273 4.41602 9.58237 4.41602 9.31055V6.98632L9.68161 6.98632C9.90877 7.54749 10.4589 7.94336 11.1016 7.94336C11.9472 7.94336 12.6328 7.2578 12.6328 6.41211C12.6328 5.56642 11.9472 4.88086 11.1016 4.88086C10.398 4.88086 9.80518 5.35543 9.62587 6.00194L4.41602 6.00194V3.17188H12.6191C12.891 3.17188 13.1113 2.95152 13.1113 2.67969C13.1113 2.40786 12.891 2.1875 12.6191 2.1875H1.85938ZM11.1016 10.9375C11.464 10.9375 11.7578 10.6437 11.7578 10.2812C11.7578 9.91881 11.464 9.625 11.1016 9.625C10.7391 9.625 10.4453 9.91881 10.4453 10.2812C10.4453 10.6437 10.7391 10.9375 11.1016 10.9375ZM11.7578 6.41211C11.7578 6.77455 11.464 7.06836 11.1016 7.06836C10.7391 7.06836 10.4453 6.77455 10.4453 6.41211C10.4453 6.04967 10.7391 5.75586 11.1016 5.75586C11.464 5.75586 11.7578 6.04967 11.7578 6.41211Z"/>
+                                                    </svg>
+                                                        
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div *ngIf="ACTIVITY_MEDIUM.getIcon(getMedium(data)) !=null" class="activity-subIcon">
-                                            <nz-avatar [nzSize]="18" [nzIcon]="ACTIVITY_MEDIUM.getIcon(getMedium(data))!"></nz-avatar> 
-                                        </div>
-                                        <span class="ml-1 flex-1">{{ data.title }}</span>
-                                        <div class="expand-icon">
-                                            <span class="expand-counter">3</span>
-                                            <span nz-icon>
-                                                <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"  class="tree-icon">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M1.85938 2.1875C1.58755 2.1875 1.36719 2.40786 1.36719 2.67969C1.36719 2.95152 1.58755 3.17188 1.85938 3.17188H3.43164V9.31055C3.43164 10.126 4.09272 10.7871 4.9082 10.7871H9.65584C9.86476 11.3842 10.4331 11.8125 11.1016 11.8125C11.9472 11.8125 12.6328 11.1269 12.6328 10.2812C12.6328 9.43556 11.9472 8.75 11.1016 8.75C10.423 8.75 9.8475 9.1914 9.64656 9.80273H4.9082C4.63638 9.80273 4.41602 9.58237 4.41602 9.31055V6.98632L9.68161 6.98632C9.90877 7.54749 10.4589 7.94336 11.1016 7.94336C11.9472 7.94336 12.6328 7.2578 12.6328 6.41211C12.6328 5.56642 11.9472 4.88086 11.1016 4.88086C10.398 4.88086 9.80518 5.35543 9.62587 6.00194L4.41602 6.00194V3.17188H12.6191C12.891 3.17188 13.1113 2.95152 13.1113 2.67969C13.1113 2.40786 12.891 2.1875 12.6191 2.1875H1.85938ZM11.1016 10.9375C11.464 10.9375 11.7578 10.6437 11.7578 10.2812C11.7578 9.91881 11.464 9.625 11.1016 9.625C10.7391 9.625 10.4453 9.91881 10.4453 10.2812C10.4453 10.6437 10.7391 10.9375 11.1016 10.9375ZM11.7578 6.41211C11.7578 6.77455 11.464 7.06836 11.1016 7.06836C10.7391 7.06836 10.4453 6.77455 10.4453 6.41211C10.4453 6.04967 10.7391 5.75586 11.1016 5.75586C11.464 5.75586 11.7578 6.04967 11.7578 6.41211Z"/>
-                                                </svg>
-                                                    
-                                            </span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <!--TODO: https://ng.ant.design/components/table/en#components-table-demo-expand -->
-                                <td>
-                                    <!-- data.participants -->
-                                    <ul class="flex avatar-group">
-                                        <!-- <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" [nzSize]="'small'"></nz-avatar> -->
-                                        <nz-avatar class="bg-megenta-3" nzText="U" [nzSize]="'small'"></nz-avatar>
-                                        <!-- <nz-avatar class="bg-cyan-3" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user" [nzSize]="'small'"></nz-avatar> -->
-                                        <nz-avatar class="bg-cyan-3" nz-tooltip nzText="EO" nzTooltipTitle="el mehdi" [nzSize]="'small'"></nz-avatar>
-                                        <nz-avatar class="bg-deepPurple-3" nzText="NG" [nzSize]="'small'"></nz-avatar>
-                                    </ul>
-                                </td>
-                                <ng-container *ngIf="data.time <= now;else futureDates;">
-                                    <td class="text-dustredRed-4-important">{{data.time | date:'mediumDate' }}</td>
-                                    <td class="text-dustredRed-4-important">{{data.time | date:'shortTime' }}</td>
-                                </ng-container>
-                                <ng-template #futureDates>
-                                    <td>{{data.time | date:'mediumDate' }}</td>
-                                    <td>{{data.time | date:'shortTime' }}</td>
-                                </ng-template>
-                                <td>
-                                    <ng-container *ngIf="getCandidate(data) != null">
-                                        <nz-avatar class="bg-neutralBlue-50" [nzSize]="'small'" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>
-                                        {{ getCandidate(data)?.name + "John doe" }}
+                                    </td>
+                                    <!--TODO: https://ng.ant.design/components/table/en#components-table-demo-expand -->
+                                    <td>
+                                        <!-- data.participants -->
+                                        <ul class="flex avatar-group">
+                                            <!-- <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" [nzSize]="'small'"></nz-avatar> -->
+                                            <nz-avatar class="bg-megenta-3" nzText="U" [nzSize]="'small'"></nz-avatar>
+                                            <!-- <nz-avatar class="bg-cyan-3" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user" [nzSize]="'small'"></nz-avatar> -->
+                                            <nz-avatar class="bg-cyan-3" nz-tooltip nzText="EO" nzTooltipTitle="el mehdi" [nzSize]="'small'"></nz-avatar>
+                                            <nz-avatar class="bg-deepPurple-3" nzText="NG" [nzSize]="'small'"></nz-avatar>
+                                        </ul>
+                                    </td>
+                                    <ng-container *ngIf="data.time <= now;else futureDates;">
+                                        <td class="text-dustredRed-4-important">{{data.time | date:'mediumDate' }}</td>
+                                        <td class="text-dustredRed-4-important">{{data.time | date:'shortTime' }}</td>
                                     </ng-container>
-                                </td>
-                                <td nzEllipsis>{{getJob(data)}}  Developeur Fullstack java / react.</td>
-                                <td></td>
-                            </tr>
+                                    <ng-template #futureDates>
+                                        <td>{{data.time | date:'mediumDate' }}</td>
+                                        <td>{{data.time | date:'shortTime' }}</td>
+                                    </ng-template>
+                                    <td>
+                                        <ng-container *ngIf="getCandidate(data) != null">
+                                            <nz-avatar class="bg-neutralBlue-50" [nzSize]="'small'" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>
+                                            {{ getCandidate(data)?.name + "John doe" }}
+                                        </ng-container>
+                                    </td>
+                                    <td nzEllipsis>{{getJob(data)}}  Developeur Fullstack java / react.</td>
+                                    <td></td>
+                                </tr>
+                                <ng-container *ngIf="setOfExpandedId.has(data.id)">
+                                    <tr *ngFor="let activity of data.subActivities;let subindex=index;">
+                                        <!-- <td>{{data.id}}</td> -->
+                                    <td>{{index+1}}.{{subindex+1}}</td>
+                                    <td
+                                        [nzChecked]="setOfCheckedId.has(activity.id)"
+                                        (nzCheckedChange)="onItemChecked(activity.id, $event,groupIndex)"
+                                        class="circular-nz-checkbox checkbox-checked-success"
+                                        
+                                    ></td>
+                                    <td nzEllipsis>
+                                        <div class="activity-icon flex">
+                                            <div [ngSwitch]="activity.getType()" class="activity-mainIcon">
+                                                <nz-avatar nzIcon="comment" [nzSize]="'small'" *ngSwitchCase="'Interview'"></nz-avatar> 
+                                                <nz-avatar nzIcon="notification" [nzSize]="'small'" *ngSwitchCase="'Reminder'"></nz-avatar> 
+                                                <nz-avatar nzIcon="team" [nzSize]="'small'" *ngSwitchCase="'Reunion'"></nz-avatar> 
+                                                <nz-avatar nzIcon="check" [nzSize]="'small'" *ngSwitchCase="'Task'"></nz-avatar> 
+                                            </div>
+                                            <div *ngIf="ACTIVITY_MEDIUM.getIcon(getMedium(activity)) !=null" class="activity-subIcon">
+                                                <nz-avatar [nzSize]="18" [nzIcon]="ACTIVITY_MEDIUM.getIcon(getMedium(activity))!"></nz-avatar> 
+                                            </div>
+                                            <span class="ml-1 flex-1">{{ activity.title }}</span>
+                                            <div class="expand-icon" (click)="onExpandChange($event,activity.id)">
+                                                <span class="expand-counter">3</span>
+                                                <span nz-icon>
+                                                    <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"  class="tree-icon">
+                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M1.85938 2.1875C1.58755 2.1875 1.36719 2.40786 1.36719 2.67969C1.36719 2.95152 1.58755 3.17188 1.85938 3.17188H3.43164V9.31055C3.43164 10.126 4.09272 10.7871 4.9082 10.7871H9.65584C9.86476 11.3842 10.4331 11.8125 11.1016 11.8125C11.9472 11.8125 12.6328 11.1269 12.6328 10.2812C12.6328 9.43556 11.9472 8.75 11.1016 8.75C10.423 8.75 9.8475 9.1914 9.64656 9.80273H4.9082C4.63638 9.80273 4.41602 9.58237 4.41602 9.31055V6.98632L9.68161 6.98632C9.90877 7.54749 10.4589 7.94336 11.1016 7.94336C11.9472 7.94336 12.6328 7.2578 12.6328 6.41211C12.6328 5.56642 11.9472 4.88086 11.1016 4.88086C10.398 4.88086 9.80518 5.35543 9.62587 6.00194L4.41602 6.00194V3.17188H12.6191C12.891 3.17188 13.1113 2.95152 13.1113 2.67969C13.1113 2.40786 12.891 2.1875 12.6191 2.1875H1.85938ZM11.1016 10.9375C11.464 10.9375 11.7578 10.6437 11.7578 10.2812C11.7578 9.91881 11.464 9.625 11.1016 9.625C10.7391 9.625 10.4453 9.91881 10.4453 10.2812C10.4453 10.6437 10.7391 10.9375 11.1016 10.9375ZM11.7578 6.41211C11.7578 6.77455 11.464 7.06836 11.1016 7.06836C10.7391 7.06836 10.4453 6.77455 10.4453 6.41211C10.4453 6.04967 10.7391 5.75586 11.1016 5.75586C11.464 5.75586 11.7578 6.04967 11.7578 6.41211Z"/>
+                                                    </svg>
+                                                        
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <!--TODO: https://ng.ant.design/components/table/en#components-table-demo-expand -->
+                                    <td>
+                                        <!-- activity.participants -->
+                                        <ul class="flex avatar-group">
+                                            <!-- <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" [nzSize]="'small'"></nz-avatar> -->
+                                            <nz-avatar class="bg-megenta-3" nzText="U" [nzSize]="'small'"></nz-avatar>
+                                            <!-- <nz-avatar class="bg-cyan-3" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user" [nzSize]="'small'"></nz-avatar> -->
+                                            <nz-avatar class="bg-cyan-3" nz-tooltip nzText="EO" nzTooltipTitle="el mehdi" [nzSize]="'small'"></nz-avatar>
+                                            <nz-avatar class="bg-deepPurple-3" nzText="NG" [nzSize]="'small'"></nz-avatar>
+                                        </ul>
+                                    </td>
+                                    <ng-container *ngIf="activity.time <= now;else futureDates;">
+                                        <td class="text-dustredRed-4-important">{{activity.time | date:'mediumDate' }}</td>
+                                        <td class="text-dustredRed-4-important">{{activity.time | date:'shortTime' }}</td>
+                                    </ng-container>
+                                    <ng-template #futureDates>
+                                        <td>{{activity.time | date:'mediumDate' }}</td>
+                                        <td>{{activity.time | date:'shortTime' }}</td>
+                                    </ng-template>
+                                    <td>
+                                        <ng-container *ngIf="getCandidate(activity) != null">
+                                            <nz-avatar class="bg-neutralBlue-50" [nzSize]="'small'" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>
+                                            {{ getCandidate(activity)?.name + "John doe" }}
+                                        </ng-container>
+                                    </td>
+                                    <td nzEllipsis>{{getJob(activity)}}  Developeur Fullstack java / react.</td>
+                                    <td></td>
+                                    </tr>
+                                </ng-container >
+                            </ng-container>
                             </tbody>
                         </nz-table>
                     </nz-collapse-panel>

@@ -27,6 +27,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   indeterminate = new SafeMap<number,boolean>(false);
   loading = false;
   setOfCheckedId = new Set<number>();
+  setOfExpandedId = new Set<number>();
 
   activatedFilters = {
       // TODO: generate this in the filters object in the constructor
@@ -102,8 +103,14 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-  onExpandChange(id:number, $event:any){
-    console.log("onExpandChange",id)
+  onExpandChange( $event:any,id:number){
+    if (this.setOfExpandedId.has(id)){
+      this.setOfCheckedId.delete(id);
+    }
+    else{
+      this.setOfExpandedId.add(id);
+      
+    }
   }
   getCandidate(data : Activity):Person | null{
     return Interview.getCandidate(data);

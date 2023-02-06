@@ -60,6 +60,7 @@ export interface Activity extends ActivityManagement{
     participants:Person[];
     description: string;
     owner:User;
+    subActivities: Activity[];
     getType() : string;
 }
 export class Interview implements Activity{
@@ -78,9 +79,11 @@ export class Interview implements Activity{
     reminders = [];
     specialNotification = [];
     comment = "";
+    subActivities : Activity[]=[];
     constructor(id:number,title:string){
         this.id = id;
         this.title = title;
+        this.subActivities.push(...[new Reunion(69,"Reunion sous interview n1"),new Task(70,"Task sous interview n1")]);
     }
     getType() {
         return "Interview";
@@ -111,6 +114,7 @@ export class Reunion implements Activity{
     reminders = [];
     specialNotification = [];
     comment = "";
+    subActivities:Activity[]=[];
     constructor(id:number,title:string){
         this.id = id;
         this.title = title;
@@ -131,6 +135,7 @@ export class Task implements Activity{
     reminders = [];
     specialNotification = [];
     comment = "";
+    subActivities:Activity[]=[];
     constructor(id:number,title:string){
         this.id = id;
         this.title = title;
@@ -152,6 +157,7 @@ export class Reminder implements Activity{
     reminders = [];
     specialNotification = [];
     comment = "";
+    subActivities:Activity[]=[];
     constructor(id:number,title:string){
         this.id = id;
         this.title = title;
