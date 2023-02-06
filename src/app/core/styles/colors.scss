@@ -11,13 +11,20 @@ $colors : (
     "megenta-3": #FFADD2,
     "primaryBlue-60": #2F54EB,
     "primaryBlue-10":#d6e4ff,
+    "dustredRed-4": #FF7875,
 );
 
 @each $color, $value in $colors {
     .bg-#{$color} {
+        background-color: $value;
+    }
+    .bg-#{$color}-important{
         background-color: $value !important;
     }
     .text-#{$color} {
+        color:$value;
+    }
+    .text-#{$color}-important {
         color:$value !important;
     }
 }

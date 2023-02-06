@@ -116,8 +116,14 @@
                                         <nz-avatar class="bg-deepPurple-3" nzText="NG" [nzSize]="'small'"></nz-avatar>
                                     </ul>
                                 </td>
-                                <td>{{data.time | date:'mediumDate' }}</td>
-                                <td>{{data.time | date:'shortTime' }}</td>
+                                <ng-container *ngIf="data.time <= now;else futureDates;">
+                                    <td class="text-dustredRed-4-important">{{data.time | date:'mediumDate' }}</td>
+                                    <td class="text-dustredRed-4-important">{{data.time | date:'shortTime' }}</td>
+                                </ng-container>
+                                <ng-template #futureDates>
+                                    <td>{{data.time | date:'mediumDate' }}</td>
+                                    <td>{{data.time | date:'shortTime' }}</td>
+                                </ng-template>
                                 <td>
                                     <ng-container *ngIf="getCandidate(data) != null">
                                         <nz-avatar class="bg-neutralBlue-50" [nzSize]="'small'" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>

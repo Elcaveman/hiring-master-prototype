@@ -36,7 +36,7 @@ export class Interview implements Activity{
     job!:Job;
     adress!:Office;
     title="";
-    time=new Date();
+    time=new Date("01/01/2024");
     participants= [];
     description = "";
     visibility: VISIBILITIES = VISIBILITIES.public;

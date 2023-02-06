@@ -24,6 +24,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   setOfCheckedId = new Set<number>();
   activitiyStream$:Observable<(Interview | Reminder | Reunion | Task )[]> = of(this.fake_data);
   groupedActivityStream$?:Observable<(Interview | Reminder | Reunion | Task )[][]>;
+  now = new Date(); // this is saved and won't update it's value untill the user refreshes the page
   ngOnInit(): void {
     
     this.groupedActivityStream$ = this.activitiyStream$.pipe(
