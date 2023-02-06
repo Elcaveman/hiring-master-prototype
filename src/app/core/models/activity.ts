@@ -62,7 +62,7 @@ export class Interview implements Activity{
     id= 0;
     owner= new User(1,"Victorine Goethiers");
     type:INTERVIEW_TYPES = INTERVIEW_TYPES.technical;
-    medium:INTERVIEW_MEDIUM = INTERVIEW_MEDIUM.phone;
+    medium:INTERVIEW_MEDIUM = INTERVIEW_MEDIUM.technical;
     candidate:Person = new Person();
     job!:Job;
     adress!:Office;

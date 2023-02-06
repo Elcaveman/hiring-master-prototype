@@ -64,6 +64,23 @@ nz-table{
         }
         
     }
+    .activity-icon{
+        .activity-mainIcon{
+            position: relative;
+            & > * {
+                @extend .bg-grey-4;
+            }
+        }
+        .activity-subIcon{
+            position: absolute;
+            bottom: 0;
+            transform: translate(14px, -4px);
+            & > * {
+                background: #fff;
+                @extend .text-grey-4;
+            }
+        }
+    }
 }
 
 .avatar-group{
