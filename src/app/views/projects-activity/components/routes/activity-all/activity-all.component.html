@@ -4,7 +4,8 @@
     <div class="button-list">
         <div class="list-title">
             <button class="btn" 
-            [ngClass]="{'activated':activatedFilters.Entretien.activated}"
+            [ngClass]="{'btn-active':activatedFilters.Interview.activated}"
+            (click)="onActivateFilter($event,'Interview')"
             >
                 <span>Entretien</span>
             </button>
@@ -12,7 +13,8 @@
         <div class="list-elements" *ngFor="let medium of INTERVIEW_MEDIUM ;let last = last;" [ngClass]="{'last-item': last}">
             <button 
                 *ngIf="ACTIVITY_MEDIUM.getIcon(medium)!=null"
-                class="btn" [ngClass]="{'activated':activatedFilters.Entretien.activated || activatedFilters.Entretien.mediums[medium]}"
+                class="btn" [ngClass]="{'btn-active':activatedFilters.Interview.activated || activatedFilters.Interview.mediums[medium]}"
+                (click)="onActivateFilter($event,'Interview',medium)"
             >
                 <span nz-icon [nzType]="ACTIVITY_MEDIUM.getIcon(medium)!" nzTheme="outline"></span>
             </button>
@@ -20,27 +22,39 @@
     </div>
     <div class="button-list">
         <div class="list-title">
-            <button class="btn"><span>Réunion</span></button>
+            <button 
+            class="btn" [ngClass]="{'btn-active':activatedFilters.Reunion.activated}"
+            (click)="onActivateFilter($event,'Reunion')">
+                <span>Réunion</span>
+            </button>
         </div>
         <div class="list-elements" *ngFor="let medium of REUNION_MEDIUM;let last = last;" [ngClass]="{'last-item': last}">
-            <button *ngIf="ACTIVITY_MEDIUM.getIcon(medium)!=null" class="btn">
+            <button *ngIf="ACTIVITY_MEDIUM.getIcon(medium)!=null" 
+            class="btn" [ngClass]="{'btn-active':activatedFilters.Reunion.activated || activatedFilters.Reunion.mediums[medium]}"
+            (click)="onActivateFilter($event,'Reunion',medium)">
                 <span nz-icon [nzType]="ACTIVITY_MEDIUM.getIcon(medium)!" nzTheme="outline"></span>
             </button>
         </div>
     </div>
     <div class="button-list">
         <div class="list-title">
-            <button class="btn"><span>Tâche</span></button>
+            <button class="btn" (click)="onActivateFilter($event,'Task')" [ngClass]="{'btn-active':activatedFilters.Task.activated}">
+                <span>Tâche</span>
+            </button>
         </div>
         <div class="list-elements" *ngFor="let medium of TASK_MEDIUM;let last = last;" [ngClass]="{'last-item': last}">
-            <button *ngIf="ACTIVITY_MEDIUM.getIcon(medium)!=null" class="btn">
+            <button *ngIf="ACTIVITY_MEDIUM.getIcon(medium)!=null" class="btn" (click)="onActivateFilter($event,'Task',medium)"
+            [ngClass]="{'btn-active':activatedFilters.Task.activated || activatedFilters.Task.mediums[medium]}"
+            >
                 <span nz-icon [nzType]="ACTIVITY_MEDIUM.getIcon(medium)!" nzTheme="outline"></span>
             </button>
         </div>
     </div>
     <div class="button-list">
         <div class="list-title">
-            <button class="btn rounded"><span>Rappel</span></button>
+            <button class="btn rounded" (click)="onActivateFilter($event,'Reminder')" [ngClass]="{'btn-active':activatedFilters.Reminder.activated}"> 
+                <span>Rappel</span>
+            </button>
         </div>
         <div class="list-elements"></div>
     </div>

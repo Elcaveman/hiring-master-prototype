@@ -27,7 +27,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
 
   activatedFilters = {
       // TODO: generate this in the filters object in the constructor
-     'Entretien':{
+     'Interview':{
         activated:false,
         mediums:{
           'phone':false,
@@ -54,7 +54,8 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
         'paint':false,
         'menu':false,
       }
-    }
+    },
+    'Reminder':{activated:true,mediums:{}}
   }
 
   activitiyStream$:Observable<(Interview | Reminder | Reunion | Task )[]> = of(this.fake_data);
@@ -116,6 +117,20 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   }
   getType(data: Activity){
     return data.getType();
+  }
+  onActivateFilter($event:MouseEvent,activity_type:'Interview' | 'Task' | 'Reunion' | 'Reminder',medium?: ACTIVITY_MEDIUM){
+    console.log("onActivateFilter",$event,activity_type,medium);
+    if (medium!=undefined && (this.activatedFilters[activity_type].mediums as any)[medium]!=undefined){
+      // No need for type check here since we check if medium is part of our base object
+      (this.activatedFilters[activity_type].mediums as any)[medium] = !(this.activatedFilters[activity_type].mediums as any)[medium];
+    }
+    else{
+      this.activatedFilters[activity_type].activated= !this.activatedFilters[activity_type].activated;
+      // activate every thing inside the tree
+      for (let key of Object.keys(this.activatedFilters[activity_type].mediums as any)){
+        (this.activatedFilters[activity_type].mediums as any)[key] = !(this.activatedFilters[activity_type].mediums as any)[key] 
+      }
+    }
   }
   refreshIndeterminateStatus(groupIndex:PositiveNumber): void {
     this.indeterminate.set(groupIndex,this.setOfCheckedId.size>0);
