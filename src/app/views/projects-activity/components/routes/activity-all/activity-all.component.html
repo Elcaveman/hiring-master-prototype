@@ -95,7 +95,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr *ngFor="let data of activityTable.data;let index = index;">
+                            <tr *ngFor="let data of activityTable.data;let index = index;" [ngClass]="{'selected':setOfCheckedId.has(data.id)}"> 
                                 <!-- <td>{{data.id}}</td> -->
                                 <td>{{index+1}}</td>
                                 <td
@@ -104,7 +104,7 @@
                                     class="circular-nz-checkbox checkbox-checked-success"
                                     
                                 ></td>
-                                <td [nzExpand]="false" (nzExpandChange)="onExpandChange(data.id, $event)" class="expand-icon-right">{{ data.title }}</td>
+                                <td nzEllipsis [nzExpand]="false" (nzExpandChange)="onExpandChange(data.id, $event)" class="expand-icon-right">{{ data.title }}</td>
                                 <!--TODO: https://ng.ant.design/components/table/en#components-table-demo-expand -->
                                 <td>
                                     <!-- data.participants -->
@@ -124,7 +124,7 @@
                                         {{ getCandidate(data)?.name + "John doe" }}
                                     </ng-container>
                                 </td>
-                                <td nzBreakWord>{{getJob(data)}}  Developeur Fullstack java / react.</td>
+                                <td nzEllipsis>{{getJob(data)}}  Developeur Fullstack java / react.</td>
                                 <td></td>
                             </tr>
                             </tbody>

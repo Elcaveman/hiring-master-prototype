@@ -57,6 +57,13 @@ nz-table{
         font-size: 14px;
         line-height: 22px;
     }
+    .selected{
+        & > *{
+            color: #444444 !important;
+            opacity: .5;
+        }
+        
+    }
 }
 
 .avatar-group{
