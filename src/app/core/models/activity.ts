@@ -3,9 +3,16 @@ import { Person,User } from "./person";
 import { Job } from "./job";
 import { Office } from "./office";
 
-enum INTERVIEW_MEDIUM {phone,face2face,technical,viseo};
-enum REUNION_MEDIUM {phone,technical,viseo};
-enum TASK_MEDIUM {phone,email,deadline,coffe,paint,menu};
+// export enum INTERVIEW_MEDIUM {phone,face2face,technical,viseo};
+// export enum REUNION_MEDIUM {phone,technical,viseo};
+// export enum TASK_MEDIUM {phone,email,deadline,coffe,paint,menu};
+
+export const INTERVIEW_MEDIUM = ['phone','face2face','technical','viseo'] as const;
+export const REUNION_MEDIUM = ['phone','technical','viseo'] as const;
+export const TASK_MEDIUM = ['phone','email','deadline','coffe','paint','menu'] as const;
+type INTERVIEW_MEDIUM_TYPE = typeof INTERVIEW_MEDIUM[number];
+type REUNION_MEDIUM_TYPE = typeof REUNION_MEDIUM[number];
+type TASK_MEDIUM_TYPE = typeof TASK_MEDIUM[number];
 
 enum VISIBILITIES {public,participants,private};
 enum INTERVIEW_TYPES {new,screening,technical,hr,validation};
@@ -16,7 +23,6 @@ export enum ACTIVITY_MEDIUM {
 }
 export namespace ACTIVITY_MEDIUM{
     export function getIcon(medium:string){
-        console.log("medium",medium);
         switch (medium) {
             case ACTIVITY_MEDIUM.phone.toString():
                 return 'phone';
@@ -61,8 +67,8 @@ export interface Activity extends ActivityManagement{
 export class Interview implements Activity{
     id= 0;
     owner= new User(1,"Victorine Goethiers");
-    type:INTERVIEW_TYPES = INTERVIEW_TYPES.technical;
-    medium:INTERVIEW_MEDIUM = INTERVIEW_MEDIUM.technical;
+    type:INTERVIEW_TYPES = 'technical';
+    medium:INTERVIEW_MEDIUM_TYPE = 'technical';
     candidate:Person = new Person();
     job!:Job;
     adress!:Office;
@@ -97,7 +103,7 @@ export class Interview implements Activity{
 export class Reunion implements Activity{
     id= 0;
     owner= new User(10,"John Jack Rousseau");
-    medium:REUNION_MEDIUM = REUNION_MEDIUM.phone;
+    medium:REUNION_MEDIUM_TYPE = 'phone';
     adress!:Office;
     title="";
     time=new Date();
@@ -117,8 +123,8 @@ export class Reunion implements Activity{
 }
 export class Task implements Activity{
     id= 0;
-    owner= new User(15,"Abdel kader yaboualam");
-    medium:TASK_MEDIUM = TASK_MEDIUM.phone;
+    owner= new User(15,"Abdelali senhadji");
+    medium:TASK_MEDIUM_TYPE = 'coffe';
     title="";
     time=new Date();
     participants= [];
