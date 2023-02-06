@@ -99,3 +99,16 @@ nz-table{
         list-style: none;
     }
 }
+.expand-icon{
+    transition: all .1s ease-in;
+    padding: 0 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    &:hover{
+        transform: translate(2px,0);
+        background-color: #f0f0f0;
+        .expand-counter, .tree-icon{
+            @extend .text-primaryBlue-60;
+        }
+    }
+}

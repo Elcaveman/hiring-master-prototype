@@ -15,8 +15,11 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   private ngUnsubscribe = new Subject<void>();
 
   private fake_data : (Interview | Reminder | Reunion | Task )[] = [
-    new Interview(1,"interview 1"),new Interview(3,"interview 2"),
-    new Reunion(4,"Reunion 1"),new Task(5,"Task 1"),new Reminder(6,"Reminder 1")
+    new Interview(1,"interview 1"),new Interview(2,"interview 2"),
+    new Interview(3,"interview 1"),new Reunion(4,"Reunion 2"),
+    new Reunion(5,"Reunion 1"),new Interview(6,"interview 2"),
+    new Interview(7,"interview 1"),new Interview(8,"interview 2"),
+    new Reunion(9,"Reunion 1"),new Task(10,"Task 1"),new Reminder(11,"Reminder 1")
   ] as (Interview | Reminder | Reunion | Task )[];
 
 
@@ -28,7 +31,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   activatedFilters = {
       // TODO: generate this in the filters object in the constructor
      'Interview':{
-        activated:false,
+        activated:true,
         mediums:{
           'phone':false,
           'face2face':false,
