@@ -8,8 +8,14 @@
     gap: 10px;
     .button-list{
         display: flex;
+        .btn-active{
+            @extend .bg-primaryBlue-10;
+            span{
+                @extend .text-primaryBlue-60;
+            }
+        }
         .list-title{
-            .ant-btn-primary{
+            button{
                 border-radius: 6px 0 0 6px;
                 margin-right: 3px;
             }
@@ -17,21 +23,26 @@
                 border-radius: 6px !important;
             }
         }
-        .list-elements{
-            .ant-btn-primary:last-child{
+        .last-item{
+            /* cannot use :last bacause angular would apply style each time a child is rendered*/
+            button{
                 border-radius: 0 6px 6px 0;
             }
         }
-        .ant-btn-primary{
-            @extend .bg-primaryBlue-10;
+        button{
+            @extend .bg-neutralBlue-30;
             border: transparent;
             box-shadow: 0 0 0 0 map-get($colors,primaryBlue-10);
-        }
-        nz-button{
-            @extend .text-primaryBlue-60;
-        }
-        span{
-            @extend .text-primaryBlue-60;
+            transition: all .2s;
+            span{
+                @extend .text-neutralBlue-60;
+            }
+            &:hover{
+                @extend .bg-primaryBlue-10;
+                span{
+                    @extend .text-primaryBlue-60;
+                }
+            }
         }
     }
 }
@@ -56,6 +67,29 @@ nz-table{
         font-weight: 400;
         font-size: 14px;
         line-height: 22px;
+    }
+    .selected{
+        & > *{
+            color: #444444 !important;
+            opacity: .5;
+        }
+        
+    }
+    .activity-icon{
+        .activity-mainIcon{
+            position: relative;
+            & > * {
+                @extend .bg-grey-4;
+            }
+        }
+        .activity-subIcon{
+            position: absolute;
+            transform: translate(15px, 9px);
+            & > * {
+                background: #fff;
+                @extend .text-grey-4;
+            }
+        }
     }
 }
 

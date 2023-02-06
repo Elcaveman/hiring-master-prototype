@@ -30,6 +30,11 @@ nz-content {
     border-radius: 50% !important;
   }
 }
+.expand-icon-right{
+  .ant-table-row-expand-icon{
+    float:right !important;
+  }
+}
 
 @each $color, $value in $colors {
   .checkbox-checked-#{$color}{
@@ -58,4 +63,7 @@ nz-content {
       //   color: $value;
       // }
   }
+}
+.btn{
+  cursor: pointer;
 }

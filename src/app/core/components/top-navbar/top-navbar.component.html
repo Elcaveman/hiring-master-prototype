@@ -1,7 +1,7 @@
 <nz-header>
     <div class="app-header" *ngIf="(displayData$ | async) as displayData;">
         <div class="top-menu">
-            <div class="nav-title">
+            <div class="nav-title mx-1">
                 <span class="header-trigger" (click)="triggerCollapseEvent($event)">
                     <span class="trigger"
                     nz-icon
@@ -12,11 +12,11 @@
                     <p>{{displayData.title}}</p>
                 </div>
                 <div class="state" [ngSwitch]="displayData.state">
-                    <div *ngSwitchCase="displayData.state == STATE_ENUM.ACTIVE" class="flex align-items-center m-1">
+                    <div *ngSwitchCase="displayData.state == STATE_ENUM.ACTIVE" class="flex align-items-center mx-1">
                         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="#52C41A" height="12px" width="12px"><circle cx="50" cy="50" r="50"/></svg>
                         <span>Actif</span>
                     </div>
-                    <div *ngSwitchCase="displayData.state == STATE_ENUM.INNACTIVE" class="flex align-items-center m-1">
+                    <div *ngSwitchCase="displayData.state == STATE_ENUM.INNACTIVE" class="flex align-items-center mx-1">
                         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="red" height="12px" width="12px"><circle cx="50" cy="50" r="50"/></svg>
                         <span>Inactif</span>
                     </div>

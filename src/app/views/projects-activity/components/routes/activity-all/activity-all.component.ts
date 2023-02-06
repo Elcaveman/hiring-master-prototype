@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { from,Observable,groupBy,mergeMap,of, toArray, BehaviorSubject, reduce, filter, elementAt, map, finalize, tap, take, Subject, takeUntil } from 'rxjs';
-import { Activity, Interview, Reminder, Reunion,Task } from 'src/app/core/models/activity';
+import { Activity, Interview, Reminder, Reunion,Task, ACTIVITY_MEDIUM,INTERVIEW_MEDIUM,REUNION_MEDIUM,TASK_MEDIUM } from 'src/app/core/models/activity';
 import { Person } from 'src/app/core/models/person';
 import { PositiveNumber } from 'src/app/core/types/sign';
 import { SafeMap } from 'src/app/core/utilities/safeMap';
+
 
 @Component({
   selector: 'app-activity-all',
@@ -18,12 +19,57 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     new Reunion(4,"Reunion 1"),new Task(5,"Task 1"),new Reminder(6,"Reminder 1")
   ] as (Interview | Reminder | Reunion | Task )[];
 
+
   checked = new SafeMap<number,boolean>(false);
   indeterminate = new SafeMap<number,boolean>(false);
   loading = false;
   setOfCheckedId = new Set<number>();
+
+  activatedFilters = {
+      // TODO: generate this in the filters object in the constructor
+     'Interview':{
+        activated:false,
+        mediums:{
+          'phone':false,
+          'face2face':false,
+          'technical':false,
+          'viseo':false
+        }
+     },
+    'Reunion':{
+      activated:false,
+      mediums:{
+        'phone':false,
+        'technical':false,
+        'viseo':false
+      }
+    },
+    'Task':{
+      activated:false,
+      mediums:{
+        'phone':false,
+        'email':false,
+        'deadline':false,
+        'coffee':false,
+        'paint':false,
+        'menu':false,
+      }
+    },
+    'Reminder':{activated:false,mediums:{
+      //only here to avoid field access issues
+    }}
+  }
+
   activitiyStream$:Observable<(Interview | Reminder | Reunion | Task )[]> = of(this.fake_data);
   groupedActivityStream$?:Observable<(Interview | Reminder | Reunion | Task )[][]>;
+
+  now = new Date(); // this is saved and won't update it's value untill the user refreshes the page
+  ACTIVITY_MEDIUM = ACTIVITY_MEDIUM;
+  INTERVIEW_MEDIUM = INTERVIEW_MEDIUM;
+  REUNION_MEDIUM = REUNION_MEDIUM;
+  TASK_MEDIUM = TASK_MEDIUM;
+
+
   ngOnInit(): void {
     
     this.groupedActivityStream$ = this.activitiyStream$.pipe(
@@ -53,8 +99,8 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-  getUniqueOwners(){
-
+  onExpandChange(id:number, $event:any){
+    console.log("onExpandChange",id)
   }
   getCandidate(data : Activity):Person | null{
     return Interview.getCandidate(data);
@@ -62,8 +108,35 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   getJob(data : Activity){
     return Interview.getJob(data);
   }
+  getMedium(data:Activity){
+    const medium = (data as any).medium
+    if (medium!=undefined){
+      return medium.toString();
+    }
+    else{
+      return null;
+    }
+  }
   getType(data: Activity){
     return data.getType();
+  }
+  onActivateFilter($event:MouseEvent,activity_type:'Interview' | 'Task' | 'Reunion' | 'Reminder',medium?: ACTIVITY_MEDIUM){
+    console.log("onActivateFilter",activity_type,medium);
+    if (medium!=undefined && (this.activatedFilters[activity_type].mediums as any)[medium]!=undefined){
+      // No need for type check here since we check if medium is part of our base object
+      (this.activatedFilters[activity_type].mediums as any)[medium] = !(this.activatedFilters[activity_type].mediums as any)[medium];
+      if ((this.activatedFilters[activity_type].mediums as any)[medium] == false){
+        // turning off a single filter means the parent is not active ( either totaly active or not)
+        this.activatedFilters[activity_type].activated = false;
+      }
+    }
+    else{
+      this.activatedFilters[activity_type].activated= !this.activatedFilters[activity_type].activated;
+      // activate every thing inside the tree
+      for (let key of Object.keys(this.activatedFilters[activity_type].mediums as any)){
+        (this.activatedFilters[activity_type].mediums as any)[key] = this.activatedFilters[activity_type].activated;
+      }
+    }
   }
   refreshIndeterminateStatus(groupIndex:PositiveNumber): void {
     this.indeterminate.set(groupIndex,this.setOfCheckedId.size>0);
