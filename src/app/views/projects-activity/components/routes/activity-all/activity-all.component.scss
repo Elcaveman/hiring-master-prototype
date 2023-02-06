@@ -84,8 +84,7 @@ nz-table{
         }
         .activity-subIcon{
             position: absolute;
-            bottom: 0;
-            transform: translate(14px, -4px);
+            transform: translate(15px, 9px);
             & > * {
                 background: #fff;
                 @extend .text-grey-4;
