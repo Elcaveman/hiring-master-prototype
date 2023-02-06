@@ -104,7 +104,21 @@
                                     class="circular-nz-checkbox checkbox-checked-success"
                                     
                                 ></td>
-                                <td nzEllipsis [nzExpand]="false" (nzExpandChange)="onExpandChange(data.id, $event)" class="expand-icon-right">{{ data.title }}</td>
+                                <td nzEllipsis [nzExpand]="false" (nzExpandChange)="onExpandChange(data.id, $event)" class="expand-icon-right">
+                                    <div>
+                                        <div [ngSwitch]="data.getType()">
+                                            <span class="activity-icon"nz-icon nzType="team" nzTheme="outline" *ngSwitchCase="'Interview'"></span>
+                                            <span class="activity-icon"nz-icon nzType="team" nzTheme="outline" *ngSwitchCase="'Reminder'"></span>
+                                            <span class="activity-icon"nz-icon nzType="team" nzTheme="outline" *ngSwitchCase="'Reunion'"></span>
+                                            <span class="activity-icon"nz-icon nzType="team" nzTheme="outline" *ngSwitchCase="'Task'"></span>
+                                        </div>
+                                        <div [ngSwitch]="ACTIVITY_MEDIUM.getIcon(getMedium(data)) !=null">
+                                            <span class="activity-subIcon"nz-icon [nzType]="ACTIVITY_MEDIUM.getIcon(getMedium(data))!" nzTheme="outline"></span>   
+                                        </div>
+                                    </div>
+                                    <span>{{ data.title }}</span>
+                                
+                                </td>
                                 <!--TODO: https://ng.ant.design/components/table/en#components-table-demo-expand -->
                                 <td>
                                     <!-- data.participants -->

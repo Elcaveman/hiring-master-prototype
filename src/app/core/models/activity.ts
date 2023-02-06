@@ -4,11 +4,43 @@ import { Job } from "./job";
 import { Office } from "./office";
 
 enum INTERVIEW_MEDIUM {phone,face2face,technical,viseo};
-enum INTERVIEW_TYPES {new,screening,technical,hr,validation};
 enum REUNION_MEDIUM {phone,technical,viseo};
 enum TASK_MEDIUM {phone,email,deadline,coffe,paint,menu};
+
 enum VISIBILITIES {public,participants,private};
+enum INTERVIEW_TYPES {new,screening,technical,hr,validation};
 enum REMINDER_TYPES {notification,mail};
+
+export enum ACTIVITY_MEDIUM {
+    phone,face2face,technical,viseo,email,deadline,coffe,paint,menu,
+}
+export namespace ACTIVITY_MEDIUM{
+    export function getIcon(medium:string){
+        console.log("medium",medium);
+        switch (medium) {
+            case ACTIVITY_MEDIUM.phone.toString():
+                return 'phone';
+            case ACTIVITY_MEDIUM.face2face.toString():
+                return 'swap';
+            case ACTIVITY_MEDIUM.technical.toString():
+                return 'experiment';
+            case ACTIVITY_MEDIUM.viseo.toString():
+                return 'video-camera';
+            case ACTIVITY_MEDIUM.email.toString():
+                return 'mail';
+            case ACTIVITY_MEDIUM.deadline.toString():
+                return 'field-time';
+            case ACTIVITY_MEDIUM.coffe.toString():
+                return 'coffe';
+            case ACTIVITY_MEDIUM.paint.toString():
+                return 'format-painter';
+            case ACTIVITY_MEDIUM.menu.toString():
+                return 'appstore';  
+            default:
+                return null;
+        }
+    }
+}
 
 interface ActivityManagement{
     visibility: VISIBILITIES;
@@ -25,7 +57,6 @@ export interface Activity extends ActivityManagement{
     description: string;
     owner:User;
     getType() : string;
-
 }
 export class Interview implements Activity{
     id= 0;
@@ -47,8 +78,7 @@ export class Interview implements Activity{
         this.id = id;
         this.title = title;
     }
-    
-    getType(): string {
+    getType() {
         return "Interview";
     }
     static getJob(activity:Activity | Interview): Job | null {

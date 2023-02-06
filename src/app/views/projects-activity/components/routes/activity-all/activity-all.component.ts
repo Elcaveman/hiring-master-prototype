@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { from,Observable,groupBy,mergeMap,of, toArray, BehaviorSubject, reduce, filter, elementAt, map, finalize, tap, take, Subject, takeUntil } from 'rxjs';
-import { Activity, Interview, Reminder, Reunion,Task } from 'src/app/core/models/activity';
+import { Activity, Interview, Reminder, Reunion,Task, ACTIVITY_MEDIUM } from 'src/app/core/models/activity';
 import { Person } from 'src/app/core/models/person';
 import { PositiveNumber } from 'src/app/core/types/sign';
 import { SafeMap } from 'src/app/core/utilities/safeMap';
+
 
 @Component({
   selector: 'app-activity-all',
@@ -17,7 +18,6 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     new Interview(1,"interview 1"),new Interview(3,"interview 2"),
     new Reunion(4,"Reunion 1"),new Task(5,"Task 1"),new Reminder(6,"Reminder 1")
   ] as (Interview | Reminder | Reunion | Task )[];
-
   checked = new SafeMap<number,boolean>(false);
   indeterminate = new SafeMap<number,boolean>(false);
   loading = false;
@@ -25,6 +25,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   activitiyStream$:Observable<(Interview | Reminder | Reunion | Task )[]> = of(this.fake_data);
   groupedActivityStream$?:Observable<(Interview | Reminder | Reunion | Task )[][]>;
   now = new Date(); // this is saved and won't update it's value untill the user refreshes the page
+  ACTIVITY_MEDIUM = ACTIVITY_MEDIUM;
   ngOnInit(): void {
     
     this.groupedActivityStream$ = this.activitiyStream$.pipe(
@@ -62,6 +63,15 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   }
   getJob(data : Activity){
     return Interview.getJob(data);
+  }
+  getMedium(data:Activity){
+    const medium = (data as any).medium
+    if (medium!=undefined){
+      return medium.toString();
+    }
+    else{
+      return null;
+    }
   }
   getType(data: Activity){
     return data.getType();
