@@ -1,6 +1,7 @@
 @import '/src/app/core/styles/colors.scss';
 @import '/src/app/core/styles/_styles.scss';
 
+
 .filters-buttons{
     display: flex;
     align-items: center;
@@ -18,8 +19,7 @@
             button{
                 border-radius: 6px 0 0 6px;
                 margin-right: 3px;
-            }
-            .rounded{
+            }.rounded{
                 border-radius: 6px !important;
             }
         }
@@ -52,7 +52,6 @@ nz-table{
         @extend .text-neutralBlue-50;
         @extend .m-0;
         padding: 10px;
-        border:1px solid #F0F1FA !important;
         background: transparent;
         font-style: normal;
         font-weight: 400;
@@ -61,8 +60,7 @@ nz-table{
     td{
         @extend .text-neutralBlue-80;
         @extend .m-0;
-        padding: 10px;
-        border:1px solid #F0F1FA !important;
+        padding: 8px;
         font-style: normal;
         font-weight: 400;
         font-size: 14px;

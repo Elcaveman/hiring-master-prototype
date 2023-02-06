@@ -35,7 +35,20 @@ nz-content {
     float:right !important;
   }
 }
-
+.btn-primary-outline{
+  color: map-get($colors,primaryBlue-50);
+  border: 1px solid map-get($colors,primaryBlue-50);// #85A5FF
+  background: transparent;
+  line-height: 1.5715;
+  position: relative;
+  font-weight: 400;
+  white-space: nowrap;
+  text-align: center;
+  padding: 5px 16px;
+}
+.rounded-32{
+  border-radius: 32px !important;
+}
 @each $color, $value in $colors {
   .checkbox-checked-#{$color}{
       .ant-checkbox-wrapper:hover .ant-checkbox-inner{
