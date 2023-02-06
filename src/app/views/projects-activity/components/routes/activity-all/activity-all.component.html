@@ -108,9 +108,9 @@
                                     <div class="activity-icon mr-1">
                                         <div [ngSwitch]="data.getType()" class="activity-mainIcon">
                                             <nz-avatar nzIcon="comment" [nzSize]="'small'" *ngSwitchCase="'Interview'"></nz-avatar> 
-                                            <nz-avatar nzIcon="check" [nzSize]="'small'" *ngSwitchCase="'Reminder'"></nz-avatar> 
+                                            <nz-avatar nzIcon="notification" [nzSize]="'small'" *ngSwitchCase="'Reminder'"></nz-avatar> 
                                             <nz-avatar nzIcon="team" [nzSize]="'small'" *ngSwitchCase="'Reunion'"></nz-avatar> 
-                                            <nz-avatar nzIcon="notification" [nzSize]="'small'" *ngSwitchCase="'Task'"></nz-avatar> 
+                                            <nz-avatar nzIcon="check" [nzSize]="'small'" *ngSwitchCase="'Task'"></nz-avatar> 
                                         </div>
                                         <div *ngIf="ACTIVITY_MEDIUM.getIcon(getMedium(data)) !=null" class="activity-subIcon">
                                             <nz-avatar [nzSize]="18" [nzIcon]="ACTIVITY_MEDIUM.getIcon(getMedium(data))!"></nz-avatar> 
