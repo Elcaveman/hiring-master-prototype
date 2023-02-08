@@ -11,7 +11,7 @@ import { Activity } from '../models/activity';
 })
 export class FakeDataService {
   requestHeaders= {headers:new HttpHeaders({ 
-    'Access-Control-Allow-Origin':'*',
+    // 'Access-Control-Allow-Origin':'*',
   })};
   
   constructor(private http: HttpClient) {
