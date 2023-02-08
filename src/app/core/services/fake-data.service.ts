@@ -11,7 +11,7 @@ import { RawActivity } from '../models/activity';
 })
 export class FakeDataService {
   requestHeaders= {headers:new HttpHeaders({ 
-    // 'Access-Control-Allow-Origin':'*',
+    'content-type':"application/text"
   })};
   
   constructor(private http: HttpClient) {
@@ -44,19 +44,19 @@ export class FakeDataService {
     .subscribe();
   }
   getProfileAll(): Observable<Person[]>{
-    return this.http.get<Person[]>(`${environement.apiURL}/profiles`,this.requestHeaders);
+    return this.http.get<Person[]>(`${environement.apiURL}/profiles`);
   }
   getProfileById(id:number):Observable<Person>{
-    return this.http.get<Person>(`${environement.apiURL}/profiles/${id}`,this.requestHeaders);
+    return this.http.get<Person>(`${environement.apiURL}/profiles/${id}`);
   }
   getActivityAll():Observable<RawActivity[]>{
-    return this.http.get<RawActivity[]>(`${environement.apiURL}/activities`,this.requestHeaders);
+    return this.http.get<RawActivity[]>(`${environement.apiURL}/activities`);
   }
   getActivityById(id:number):Observable<RawActivity>{
-    return this.http.get<RawActivity>(`${environement.apiURL}/activities/${id}`,this.requestHeaders);
+    return this.http.get<RawActivity>(`${environement.apiURL}/activities/${id}`);
   }
-  deleteActivityById(id:number):Observable<String>{
-    return this.http.delete<String>(`${environement.apiURL}/activities/${id}`,this.requestHeaders);
+  deleteActivityById(id:number):Observable<any>{
+    return this.http.delete(`${environement.apiURL}/activities/${id}`,this.requestHeaders);
   }
   titleData() : Observable<any>{
     return of({id:0,title:"Software Developer - Fullstack Java",state:"active",someotherdata:"lorem"})

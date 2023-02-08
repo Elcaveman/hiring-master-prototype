@@ -145,7 +145,11 @@
                                         </ng-container>
                                     </td>
                                     <td nzEllipsis>{{getJob(data)}}  Developeur Fullstack java / react.</td>
-                                    <td></td>
+                                    <td>
+                                        <button nz-button nzType="text" (click)="onDeleteActivity(data.id)">
+                                            <span nz-icon nzType="delete" nzTheme="outline" class="text-dustredRed-4-important"></span>
+                                        </button>
+                                    </td>
                                 </tr>
                                 <ng-container *ngIf="setOfExpandedId.has(data.id)">
                                     <tr *ngFor="let activity of data.subActivities;let subindex=index;">

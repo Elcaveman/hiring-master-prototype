@@ -195,6 +195,16 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     //   .forEach(({ id }) => this.updateCheckedSet(id, checked));
     // this.refreshCheckedStatus();
   }
+  onDeleteActivity(id:number){
+    this.fakeDataService.deleteActivityById(id).subscribe(
+      {
+        next:(res)=>{console.log("next",res)},
+        complete:()=>{console.log("delete done")},
+        error:(err)=>{console.warn(err)
+      }
+      }
+    );
+  }
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
