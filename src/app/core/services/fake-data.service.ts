@@ -10,9 +10,6 @@ import { RawActivity } from '../models/activity';
   providedIn: 'root'
 })
 export class FakeDataService {
-  requestHeaders= {headers:new HttpHeaders({ 
-    'content-type':"application/text"
-  })};
   
   constructor(private http: HttpClient) {
     this.test();
@@ -56,7 +53,7 @@ export class FakeDataService {
     return this.http.get<RawActivity>(`${environement.apiURL}/activities/${id}`);
   }
   deleteActivityById(id:number):Observable<any>{
-    return this.http.delete(`${environement.apiURL}/activities/${id}`,this.requestHeaders);
+    return this.http.delete(`${environement.apiURL}/activities/${id}`);
   }
   titleData() : Observable<any>{
     return of({id:0,title:"Software Developer - Fullstack Java",state:"active",someotherdata:"lorem"})
