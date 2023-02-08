@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { from,Observable,groupBy,mergeMap,of, toArray, BehaviorSubject, reduce, filter, elementAt, map, finalize, tap, take, Subject, takeUntil } from 'rxjs';
-import { Activity, Interview, Reminder, Reunion,Task, ACTIVITY_MEDIUM,INTERVIEW_MEDIUM,REUNION_MEDIUM,TASK_MEDIUM } from 'src/app/core/models/activity';
+import { from,Observable,groupBy,mergeMap,of, toArray, BehaviorSubject, reduce, filter, elementAt, map, finalize, tap, take, Subject, takeUntil, throwError } from 'rxjs';
+import { RawActivity,Activity, Interview, Reminder, Reunion,Task, ACTIVITY_MEDIUM,INTERVIEW_MEDIUM,REUNION_MEDIUM,TASK_MEDIUM } from 'src/app/core/models/activity';
 import { Person } from 'src/app/core/models/person';
+import { FakeDataService } from 'src/app/core/services/fake-data.service';
 import { PositiveNumber } from 'src/app/core/types/sign';
 import { SafeMap } from 'src/app/core/utilities/safeMap';
 
@@ -14,13 +15,13 @@ import { SafeMap } from 'src/app/core/utilities/safeMap';
 export class ActivityAllComponent implements OnInit,OnDestroy {
   private ngUnsubscribe = new Subject<void>();
 
-  private fake_data : (Interview | Reminder | Reunion | Task )[] = [
-    new Interview(1,"interview 1"),new Interview(2,"interview 2"),
-    new Interview(3,"interview 1"),new Reunion(4,"Reunion 2"),
-    new Reunion(5,"Reunion 1"),new Interview(6,"interview 2"),
-    new Interview(7,"interview 1"),new Interview(8,"interview 2"),
-    new Reunion(9,"Reunion 1"),new Task(10,"Task 1"),new Reminder(11,"Reminder 1")
-  ] as (Interview | Reminder | Reunion | Task )[];
+  // private fake_data : (Interview | Reminder | Reunion | Task )[] = [
+  //   new Interview(1,"interview 1"),new Interview(2,"interview 2"),
+  //   new Interview(3,"interview 1"),new Reunion(4,"Reunion 2"),
+  //   new Reunion(5,"Reunion 1"),new Interview(6,"interview 2"),
+  //   new Interview(7,"interview 1"),new Interview(8,"interview 2"),
+  //   new Reunion(9,"Reunion 1"),new Task(10,"Task 1"),new Reminder(11,"Reminder 1")
+  // ] as (Interview | Reminder | Reunion | Task )[];
 
 
   checked = new SafeMap<number,boolean>(false);
@@ -37,7 +38,8 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
           'phone':false,
           'face2face':false,
           'technical':false,
-          'viseo':false
+          'viseo':false,
+          'other':false
         }
      },
     'Reunion':{
@@ -45,7 +47,8 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       mediums:{
         'phone':false,
         'technical':false,
-        'viseo':false
+        'viseo':false,
+        'other':false
       }
     },
     'Task':{
@@ -57,6 +60,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
         'coffee':false,
         'paint':false,
         'menu':false,
+        'other':false
       }
     },
     'Reminder':{activated:false,mediums:{
@@ -64,7 +68,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     }}
   }
 
-  activitiyStream$:Observable<(Interview | Reminder | Reunion | Task )[]> = of(this.fake_data);
+  activitiyStream$?:Observable<(Interview | Reminder | Reunion | Task )[]>;
   groupedActivityStream$?:Observable<(Interview | Reminder | Reunion | Task )[][]>;
 
   now = new Date(); // this is saved and won't update it's value untill the user refreshes the page
@@ -72,15 +76,28 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   INTERVIEW_MEDIUM = INTERVIEW_MEDIUM;
   REUNION_MEDIUM = REUNION_MEDIUM;
   TASK_MEDIUM = TASK_MEDIUM;
-
+  constructor(private fakeDataService:FakeDataService){}
 
   ngOnInit(): void {
-    
+    this.activitiyStream$ = this.fakeDataService.getActivityAll().pipe(
+      map(activitylist => from(activitylist)),
+      mergeMap((activitylist)=>{
+        return activitylist.pipe(
+          map((rawActivity : RawActivity)=>{
+            // TODO: fix the casting operation
+            return RawActivity.generateActivity(rawActivity);
+          })
+        )
+      }), 
+      reduce((acc:(Interview | Reminder | Reunion | Task )[], curr:(Interview | Reminder | Reunion | Task )) => [...acc, curr], []),
+      tap(res=>console.log(res)),
+    )
+    // this.activitiyStream$ = of(this.fake_data);
     this.groupedActivityStream$ = this.activitiyStream$.pipe(
       mergeMap(activity=> from(activity)),// flatten activity array! [1,2,3] => 1,2,3
       groupBy(activity => activity.owner.id),// group by the owners id
       mergeMap(group => group.pipe(toArray())), // convert each group to an individual array
-      reduce((acc:(Interview | Reminder | Reunion | Task )[][], curr:(Interview | Reminder | Reunion | Task )[]) => [...acc, curr], []), // TODO: figure out how to type acc
+      reduce((acc:(Interview | Reminder | Reunion | Task )[][], curr:(Interview | Reminder | Reunion | Task )[]) => [...acc, curr], []), 
     )
 
     /*

@@ -5,7 +5,7 @@ import { TopNavDisplayModel } from '../components/top-navbar/top-navbar.models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environement } from 'src/environments/environement';
 import { Person } from '../models/person';
-import { Activity } from '../models/activity';
+import { RawActivity } from '../models/activity';
 @Injectable({
   providedIn: 'root'
 })
@@ -46,17 +46,17 @@ export class FakeDataService {
   getProfileAll(): Observable<Person[]>{
     return this.http.get<Person[]>(`${environement.apiURL}/profiles`,this.requestHeaders);
   }
-  getProfileById(id:number){
+  getProfileById(id:number):Observable<Person>{
     return this.http.get<Person>(`${environement.apiURL}/profiles/${id}`,this.requestHeaders);
   }
-  getActivityAll(){
-    return this.http.get<Activity[]>(`${environement.apiURL}/activities`,this.requestHeaders);
+  getActivityAll():Observable<RawActivity[]>{
+    return this.http.get<RawActivity[]>(`${environement.apiURL}/activities`,this.requestHeaders);
   }
-  getActivityById(id:number){
-    return this.http.get<Activity>(`${environement.apiURL}/activities/${id}`,this.requestHeaders);
+  getActivityById(id:number):Observable<RawActivity>{
+    return this.http.get<RawActivity>(`${environement.apiURL}/activities/${id}`,this.requestHeaders);
   }
-  deleteActivityById(id:number){
-    return this.http.delete(`${environement.apiURL}/activities/${id}`,this.requestHeaders);
+  deleteActivityById(id:number):Observable<String>{
+    return this.http.delete<String>(`${environement.apiURL}/activities/${id}`,this.requestHeaders);
   }
   titleData() : Observable<any>{
     return of({id:0,title:"Software Developer - Fullstack Java",state:"active",someotherdata:"lorem"})

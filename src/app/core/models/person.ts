@@ -1,12 +1,25 @@
 
 interface Person_{
     id:number;
-    image:string;//regex validation URL
     name:string;
+    image:string;//regex validation URL
     email:string;//regex validation X@Y.Z
     phone:string;//regex validation +33 XX
 }
 export class Person implements Person_{
+    static fromArray(participants: any[] ): Person[] {
+        const res :Person[] = [];
+        for (let participant of participants){
+            let person = new Person();
+            person.id=participant.id;
+            person.name=participant.name;
+            person.name=participant.image;
+            person.email=participant.email;
+            person.phone=participant.phone;
+            res.push(person);
+        }
+        return res;
+    }
     id=0;
     image="";
     name="";
