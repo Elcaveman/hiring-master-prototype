@@ -123,11 +123,10 @@
                                     <td>
                                         <!-- data.participants -->
                                         <ul class="flex avatar-group">
-                                            <!-- <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" [nzSize]="'small'"></nz-avatar> -->
-                                            <nz-avatar class="bg-megenta-3" nzText="U" [nzSize]="'small'"></nz-avatar>
-                                            <!-- <nz-avatar class="bg-cyan-3" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user" [nzSize]="'small'"></nz-avatar> -->
-                                            <nz-avatar class="bg-cyan-3" nz-tooltip nzText="EO" nzTooltipTitle="el mehdi" [nzSize]="'small'"></nz-avatar>
-                                            <nz-avatar class="bg-deepPurple-3" nzText="NG" [nzSize]="'small'"></nz-avatar>
+                                            <ng-container *ngFor="let participant of data.participants;let index=index;">
+                                                <nz-avatar *ngIf="getInitials(participant.name)"
+                                                [class]="bgColorClasses[index%3]" [nzText]="getInitials(participant.name)!" [nzSize]="'small'"></nz-avatar>
+                                            </ng-container>
                                         </ul>
                                     </td>
                                     <ng-container *ngIf="data.time <= now;else futureDates;">
@@ -144,7 +143,7 @@
                                             {{ getCandidate(data)?.name + "John doe" }}
                                         </ng-container>
                                     </td>
-                                    <td nzEllipsis>{{getJob(data)}}  Developeur Fullstack java / react.</td>
+                                    <td nzEllipsis>{{ getJob(data)?.title }}</td>
                                     <td>
                                         <button nz-button nzType="text" (click)="onDeleteActivity(data.id)">
                                             <span nz-icon nzType="delete" nzTheme="outline" class="text-dustredRed-4-important"></span>
