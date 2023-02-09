@@ -49,28 +49,53 @@
       </div>
       <div class="bottom-menu">
         <nz-divider style="margin:0 !important"></nz-divider>
-        <ul nz-menu nzMode="horizontal">
-            <li nz-menu-item nzMatchRouter>
-                <a [routerLink]="['/','dashboard']">Dashboard</a>
-            </li>
-            <li nz-menu-item nzMatchRouter>
-                <a [routerLink]="['/','workflow']">Workflow</a>
-            </li>
-            <li nz-menu-item nzMatchRouter>
-                <a [routerLink]="['/', 'projects', 'activity']">Activité</a>
-            </li>
-            <li nz-menu-item nzMatchRouter>
-                <a [routerLink]="['/','exchange']">Exchange wall</a>
-            </li>
-            <li nz-menu-item nzMatchRouter>
-                <a [routerLink]="['/','notes']">Notes</a>
-            </li>
-            <li nz-menu-item nzMatchRouter>
-                <a [routerLink]="['/','post']">Post Settings</a>
-            </li>
-            
-        </ul>
+        <div class="flex" style="justify-content: space-between;">
+            <ul nz-menu nzMode="horizontal">
+                <li nz-menu-item nzMatchRouter>
+                    <a [routerLink]="['/','dashboard']">Dashboard</a>
+                </li>
+                <li nz-menu-item nzMatchRouter>
+                    <a [routerLink]="['/','workflow']">Workflow</a>
+                </li>
+                <li nz-menu-item nzMatchRouter>
+                    <a [routerLink]="['/', 'projects', 'activity']">Activité</a>
+                </li>
+                <li nz-menu-item nzMatchRouter>
+                    <a [routerLink]="['/','exchange']">Exchange wall</a>
+                </li>
+                <li nz-menu-item nzMatchRouter>
+                    <a [routerLink]="['/','notes']">Notes</a>
+                </li>
+                <li nz-menu-item nzMatchRouter>
+                    <a [routerLink]="['/','post']">Post Settings</a>
+                </li>
+            </ul>
+            <div class="right-items mr-2">
+                <button class="btn btn-primary-outline rounded-32">
+                    <span nz-icon nzType="plus" nzTheme="outline"></span>Activité
+                </button>
+                <button nz-button nzType="text"><span nz-icon nzType="user" nzTheme="outline"></span>Tous</button>
+                <button nz-button nzType="text"><span nz-icon nzType="filter" nzTheme="outline"></span>Filtres</button>
+                <button nz-button nzType="text"><span nz-icon nzType="layout" nzTheme="outline"></span>Par défault</button>
+                <nz-divider style="margin:0 !important" nzType="vertical"></nz-divider>
+                <button nz-button nzType="text">
+                    <span nz-icon nzType="unordered-list" nzTheme="outline"></span>
+                </button>
+                <button nz-button nzType="text">
+                    <span nz-icon nzType="calendar" nzTheme="outline"></span>
+                </button>
+                <button nz-button nzType="text">
+                    <span nz-icon>
+                        <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14.3906 2.8125C13.9635 2.8125 13.6172 3.15878 13.6172 3.58594C13.6172 4.0131 13.9635 4.35938 14.3906 4.35938H16.3594C16.7865 4.35938 17.1328 4.0131 17.1328 3.58594C17.1328 3.15878 16.7865 2.8125 16.3594 2.8125H14.3906ZM2.15625 2.8125C1.72909 2.8125 1.38281 3.15878 1.38281 3.58594C1.38281 4.0131 1.72909 4.35938 2.15625 4.35938L10.8047 4.35938C11.2318 4.35938 11.5781 4.0131 11.5781 3.58594C11.5781 3.15878 11.2318 2.8125 10.8047 2.8125L2.15625 2.8125ZM8.41406 8.3672C7.9869 8.3672 7.64062 8.71348 7.64062 9.14064C7.64062 9.56779 7.9869 9.91407 8.41406 9.91407L16.3594 9.91407C16.7865 9.91407 17.1328 9.56779 17.1328 9.14064C17.1328 8.71348 16.7865 8.3672 16.3594 8.3672L8.41406 8.3672ZM1.38281 14.4141C1.38281 13.9869 1.72909 13.6406 2.15625 13.6406L12.9141 13.6406C13.3412 13.6406 13.6875 13.9869 13.6875 14.4141C13.6875 14.8412 13.3412 15.1875 12.9141 15.1875L2.15625 15.1875C1.72909 15.1875 1.38281 14.8412 1.38281 14.4141ZM1.38281 9.14062C1.38281 8.71347 1.72909 8.36719 2.15625 8.36719H4.82812C5.25528 8.36719 5.60156 8.71347 5.60156 9.14062C5.60156 9.56778 5.25528 9.91406 4.82812 9.91406H2.15625C1.72909 9.91406 1.38281 9.56778 1.38281 9.14062ZM15.9727 13.6406C15.5455 13.6406 15.1992 13.9869 15.1992 14.4141C15.1992 14.8412 15.5455 15.1875 15.9726 15.1875H16.3594C16.7865 15.1875 17.1328 14.8412 17.1328 14.4141C17.1328 13.9869 16.7865 13.6406 16.3594 13.6406H15.9727Z" fill="#9FA6CC"/>
+                            </svg>
+                            
+                    </span>
+                </button>
+            </div>
         </div>
+        
+      </div>
     </div>
       
     

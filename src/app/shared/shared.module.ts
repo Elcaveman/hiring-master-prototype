@@ -9,6 +9,8 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzInputModule } from 'ng-zorro-antd/input';
+
 
 
 @NgModule({
@@ -21,7 +23,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzLayoutModule,
     NzMenuModule,
     NzDividerModule,
-    NzButtonModule
+    NzButtonModule,NzInputModule
   ],
   exports:[
     CommonModule,
@@ -31,7 +33,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzLayoutModule,
     NzMenuModule,
     NzDividerModule,
-    NzButtonModule
+    NzButtonModule,NzInputModule
   ]
 })
 export class SharedModule { }

@@ -52,6 +52,13 @@ nz-header {
         letter-spacing: 0em;
         text-align: left;
     }
+    .bottom-menu{
+        .right-items{
+            & > *:not(:last-child){
+                margin-right: 16px;
+            }
+        }
+    }
 }
 
 .state{

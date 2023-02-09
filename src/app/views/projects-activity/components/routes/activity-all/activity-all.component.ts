@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { from,Observable,groupBy,mergeMap,of, toArray, BehaviorSubject, reduce, filter, elementAt, map, finalize, tap, take, Subject, takeUntil } from 'rxjs';
-import { Activity, Interview, Reminder, Reunion,Task, ACTIVITY_MEDIUM,INTERVIEW_MEDIUM,REUNION_MEDIUM,TASK_MEDIUM } from 'src/app/core/models/activity';
+import { from,Observable,groupBy,mergeMap,of, toArray, BehaviorSubject, reduce, filter, elementAt, map, finalize, tap, take, Subject, takeUntil, throwError, switchMap } from 'rxjs';
+import { RawActivity,Activity, Interview, Reminder, Reunion,Task, ACTIVITY_MEDIUM,INTERVIEW_MEDIUM,REUNION_MEDIUM,TASK_MEDIUM } from 'src/app/core/models/activity';
 import { Person } from 'src/app/core/models/person';
+import { FakeDataService } from 'src/app/core/services/fake-data.service';
 import { PositiveNumber } from 'src/app/core/types/sign';
 import { SafeMap } from 'src/app/core/utilities/safeMap';
 
@@ -14,26 +15,31 @@ import { SafeMap } from 'src/app/core/utilities/safeMap';
 export class ActivityAllComponent implements OnInit,OnDestroy {
   private ngUnsubscribe = new Subject<void>();
 
-  private fake_data : (Interview | Reminder | Reunion | Task )[] = [
-    new Interview(1,"interview 1"),new Interview(3,"interview 2"),
-    new Reunion(4,"Reunion 1"),new Task(5,"Task 1"),new Reminder(6,"Reminder 1")
-  ] as (Interview | Reminder | Reunion | Task )[];
+  // private fake_data : (Interview | Reminder | Reunion | Task )[] = [
+  //   new Interview(1,"interview 1"),new Interview(2,"interview 2"),
+  //   new Interview(3,"interview 1"),new Reunion(4,"Reunion 2"),
+  //   new Reunion(5,"Reunion 1"),new Interview(6,"interview 2"),
+  //   new Interview(7,"interview 1"),new Interview(8,"interview 2"),
+  //   new Reunion(9,"Reunion 1"),new Task(10,"Task 1"),new Reminder(11,"Reminder 1")
+  // ] as (Interview | Reminder | Reunion | Task )[];
 
-
+  bgColorClasses = ["bg-megenta-3","bg-cyan-3","bg-deepPurple-3"];// TODO: add default color for user to customise
   checked = new SafeMap<number,boolean>(false);
   indeterminate = new SafeMap<number,boolean>(false);
   loading = false;
   setOfCheckedId = new Set<number>();
+  setOfExpandedId = new Set<number>();
 
   activatedFilters = {
       // TODO: generate this in the filters object in the constructor
      'Interview':{
-        activated:false,
+        activated:true,
         mediums:{
           'phone':false,
           'face2face':false,
           'technical':false,
-          'viseo':false
+          'viseo':false,
+          'other':false
         }
      },
     'Reunion':{
@@ -41,7 +47,8 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       mediums:{
         'phone':false,
         'technical':false,
-        'viseo':false
+        'viseo':false,
+        'other':false
       }
     },
     'Task':{
@@ -53,6 +60,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
         'coffee':false,
         'paint':false,
         'menu':false,
+        'other':false
       }
     },
     'Reminder':{activated:false,mediums:{
@@ -60,47 +68,91 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     }}
   }
 
-  activitiyStream$:Observable<(Interview | Reminder | Reunion | Task )[]> = of(this.fake_data);
+  activitiyStream$?:Observable<(Interview | Reminder | Reunion | Task )[]>;
+  groupedActivityStream_$?:Observable<(Interview | Reminder | Reunion | Task )[][]>;
   groupedActivityStream$?:Observable<(Interview | Reminder | Reunion | Task )[][]>;
+  private readonly refreshToken$ = new BehaviorSubject(undefined);
+
 
   now = new Date(); // this is saved and won't update it's value untill the user refreshes the page
   ACTIVITY_MEDIUM = ACTIVITY_MEDIUM;
   INTERVIEW_MEDIUM = INTERVIEW_MEDIUM;
   REUNION_MEDIUM = REUNION_MEDIUM;
   TASK_MEDIUM = TASK_MEDIUM;
-
-
-  ngOnInit(): void {
-    
-    this.groupedActivityStream$ = this.activitiyStream$.pipe(
+  constructor(private fakeDataService:FakeDataService){}
+  getActivites(){
+    this.activitiyStream$ = this.fakeDataService.getActivityAll().pipe(
+      map(activitylist => from(activitylist)),
+      mergeMap((activitylist)=>{
+        return activitylist.pipe(
+          map((rawActivity : RawActivity)=>{
+            // TODO: fix the casting operation
+            return RawActivity.generateActivity(rawActivity);
+          })
+        )
+      }), 
+      reduce((acc:(Interview | Reminder | Reunion | Task )[], curr:(Interview | Reminder | Reunion | Task )) => [...acc, curr], [])
+    )
+    this.groupedActivityStream_$ = this.activitiyStream$.pipe(
       mergeMap(activity=> from(activity)),// flatten activity array! [1,2,3] => 1,2,3
       groupBy(activity => activity.owner.id),// group by the owners id
       mergeMap(group => group.pipe(toArray())), // convert each group to an individual array
-      reduce((acc:(Interview | Reminder | Reunion | Task )[][], curr:(Interview | Reminder | Reunion | Task )[]) => [...acc, curr], []), // TODO: figure out how to type acc
+      reduce((acc:(Interview | Reminder | Reunion | Task )[][], curr:(Interview | Reminder | Reunion | Task )[]) => [...acc, curr], []), 
     )
-
+  }
+  reloadActivities(){
+    this.refreshToken$.next(undefined);
+  }
+  ngOnInit(): void {
+    this.getActivites();
     /*
     * This code initialises the checked & indeterminate maps but
     * this is a one time execution meaning we need to subscribe
     */
 
-    this.groupedActivityStream$.pipe(
+    this.groupedActivityStream_$?.pipe(
       take(1),
       tap(arr=>{
         for (let i=0;i<arr.length;i++){
-          this.checked.set(i,false);
-          this.indeterminate.set(i,false);
+          const filter = arr[i].filter((activity)=>activity.finished == true);
+          if (filter.length == arr[i].length){
+            this.checked.set(i,true);
+            this.indeterminate.set(i,false);
+          }
+          else{
+            this.indeterminate.set(i,filter.length!=0);
+          }
+          
         }
       }),
       takeUntil(this.ngUnsubscribe)
     ).subscribe()
+
+    this.groupedActivityStream$ = this.refreshToken$.pipe(
+      switchMap(()=> {
+        this.getActivites();
+        return this.groupedActivityStream_$!;
+      })
+    )
   }
   ngOnDestroy(){
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-  onExpandChange(id:number, $event:any){
-    console.log("onExpandChange",id)
+  getInitials(name:string):string|null{
+    if(name){
+      return name.split(" ").map((t=>t[0]?t[0]:"")).join("");
+    }
+    else return null;
+  }
+  onExpandChange( $event:any,id:number){
+    if (this.setOfExpandedId.has(id)){
+      this.setOfCheckedId.delete(id);
+    }
+    else{
+      this.setOfExpandedId.add(id);
+      
+    }
   }
   getCandidate(data : Activity):Person | null{
     return Interview.getCandidate(data);
@@ -138,14 +190,22 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       }
     }
   }
-  refreshIndeterminateStatus(groupIndex:PositiveNumber): void {
-    this.indeterminate.set(groupIndex,this.setOfCheckedId.size>0);
+  refreshStatus(groupIndex:PositiveNumber,count:PositiveNumber): void {
+    if (this.setOfCheckedId.size == count && count !=0){
+      this.checked.set(groupIndex,this.setOfCheckedId.size == count);
+      this.indeterminate.set(groupIndex,false);
+    }
+    else{
+      this.indeterminate.set(groupIndex,this.setOfCheckedId.size!=0);
+    }
   }
-  onItemChecked(id: number, checked: boolean, groupIndex:PositiveNumber): void {
-    this.updateCheckedSet(id, checked);
-    this.refreshIndeterminateStatus(groupIndex);
+  onItemChecked(data: any, groupIndex:PositiveNumber,count:PositiveNumber): void {
+    data.finished = !data.finished; // TODO: make an endpoint to select data as finished & send request
+    this.updateCheckedSet(data.id, data.finished);//only used for underterminate & check logic to avoid looping through data
+    this.refreshStatus(groupIndex,count);
   }
   onGroupAllChecked(checked: boolean,groupIndex:PositiveNumber): void {
+    // TODO: fix issue
     this.groupedActivityStream$?.pipe(
       map(arr =>{
         for (let activity of arr[groupIndex]){
@@ -168,6 +228,19 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     //   .forEach(({ id }) => this.updateCheckedSet(id, checked));
     // this.refreshCheckedStatus();
   }
+  onDeleteActivity(id:number){
+    this.fakeDataService.deleteActivityById(id).subscribe(
+      {
+        next:(res)=>{console.log("next",res)},
+        complete:()=>{
+          console.log("delete done");
+          this.reloadActivities();
+        },
+        error:(err)=>{console.warn(err)
+      }
+      }
+    );
+  }
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
@@ -175,6 +248,5 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       this.setOfCheckedId.delete(id);
     }
   }
-
 
 }

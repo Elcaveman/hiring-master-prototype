@@ -1,5 +1,5 @@
 export class Office{
     id=0;
-    adress="";
+    address="";
     officeGroup?:{id:number,city:string};
 }

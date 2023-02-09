@@ -7,15 +7,33 @@ import { Office } from "./office";
 // export enum REUNION_MEDIUM {phone,technical,viseo};
 // export enum TASK_MEDIUM {phone,email,deadline,coffe,paint,menu};
 
-export const INTERVIEW_MEDIUM = ['phone','face2face','technical','viseo'] as const;
-export const REUNION_MEDIUM = ['phone','technical','viseo'] as const;
-export const TASK_MEDIUM = ['phone','email','deadline','coffee','paint','menu'] as const;
+export const INTERVIEW_MEDIUM = ['phone','face2face','technical','viseo','other'] as const;
+export const REUNION_MEDIUM = ['phone','technical','viseo','other'] as const;
+export const TASK_MEDIUM = ['phone','email','deadline','coffee','paint','menu','other'] as const;
 type INTERVIEW_MEDIUM_TYPE = typeof INTERVIEW_MEDIUM[number];
 type REUNION_MEDIUM_TYPE = typeof REUNION_MEDIUM[number];
 type TASK_MEDIUM_TYPE = typeof TASK_MEDIUM[number];
 
 enum VISIBILITIES {public,participants,private};
 enum INTERVIEW_TYPES {new,screening,technical,hr,validation};
+namespace INTERVIEW_TYPES{
+    export function fromString(option:string):INTERVIEW_TYPES{
+        switch(option){
+            case "new":
+                return INTERVIEW_TYPES.new;
+            case "screening":
+                return INTERVIEW_TYPES.screening;
+            case "technical":
+                return INTERVIEW_TYPES.technical;
+            case "hr":
+                return INTERVIEW_TYPES.hr;
+            case "validation":
+                return INTERVIEW_TYPES.validation;
+            default:
+                return INTERVIEW_TYPES.hr;
+        }
+    }
+}
 enum REMINDER_TYPES {notification,mail};
 
 export type ACTIVITY_MEDIUM = INTERVIEW_MEDIUM_TYPE | REUNION_MEDIUM_TYPE | TASK_MEDIUM_TYPE
@@ -41,11 +59,11 @@ export namespace ACTIVITY_MEDIUM{
             case "menu":
                 return 'appstore';  
             default:
-                return null;
+                return "question";
         }
     }
 }
-
+export const RAW_ACTIVITY_TYPES=["INTERVIEW","REUNION","TASK","REMINDER"] as const;
 interface ActivityManagement{
     visibility: VISIBILITIES;
     reminders:PositiveNumber[];// remind X minutes of the meeting if ==[] it means no reminder
@@ -57,10 +75,49 @@ export interface Activity extends ActivityManagement{
     id:number;
     title:string;
     time:Date;
+    deadline:Date;
     participants:Person[];
     description: string;
     owner:User;
+    finished:boolean;
+    subActivities: Activity[];
     getType() : string;
+    // fromRawActivity(rawActivity:RawActivity):(Interview | Reminder | Reunion | Task); static factory
+}
+export class RawActivity{
+    id:number = 0;
+    visibility:string = "public";
+    comment:string = "";
+    title:string = "";
+    time:string="";
+    deadline:string="";
+    participants:Person[] = [];
+    description:string = "";
+    owner:Person=new Person();
+    candidate?:Person= new Person();
+    subActivities = [];
+    job:string="";
+    address:string="";
+    medium:ACTIVITY_MEDIUM="phone";
+    type:string="";
+    activityType:typeof RAW_ACTIVITY_TYPES[number]="REMINDER";
+    finished:boolean=true;
+
+    static generateActivity(rawActivity:any):(Interview | Reminder | Reunion | Task){
+        if (rawActivity.activityType=="INTERVIEW"){
+            return Interview.fromRawActivity(rawActivity);
+        }
+        if (rawActivity.activityType=="REUNION"){
+            return Reunion.fromRawActivity(rawActivity);
+        }
+        if (rawActivity.activityType=="TASK"){
+            return Task.fromRawActivity(rawActivity);
+        }
+        if (rawActivity.activityType=="REMINDER"){
+            return Reminder.fromRawActivity(rawActivity);
+        }
+        throw Error("BAD DATA")
+    }
 }
 export class Interview implements Activity{
     id= 0;
@@ -69,18 +126,47 @@ export class Interview implements Activity{
     medium:INTERVIEW_MEDIUM_TYPE = 'technical';
     candidate:Person = new Person();
     job!:Job;
-    adress!:Office;
+    address!:Office;
     title="";
-    time=new Date("01/01/2024");
-    participants= [];
+    finished=false;
+    time=new Date();
+    deadline=new Date();
+    participants:Person[]= [];
     description = "";
     visibility: VISIBILITIES = VISIBILITIES.public;
     reminders = [];
     specialNotification = [];
     comment = "";
-    constructor(id:number,title:string){
-        this.id = id;
-        this.title = title;
+    subActivities : Activity[]=[];
+    constructor(){
+    }
+    static fromRawActivity(rawActivity: RawActivity): Interview{
+        const interview = new Interview();
+        interview.id = rawActivity.id
+        interview.owner = rawActivity.owner
+        interview.type = INTERVIEW_TYPES.fromString(rawActivity.type);
+        interview.medium = "phone";// TODO: fetch and garenty return the correct string
+        console.log("rawActivity.candidate",rawActivity)
+        interview.candidate = (rawActivity.candidate)?rawActivity.candidate:new Person();
+
+        interview.job = new Job();
+        interview.job.title = rawActivity.job;
+
+        interview.address = new Office();
+        interview.address.address= rawActivity.address;
+
+        interview.title = rawActivity.title
+        interview.finished = rawActivity.finished
+        interview.time = new Date(Date.parse(rawActivity.time));
+        interview.deadline = new Date(Date.parse(rawActivity.deadline));
+        interview.participants = [...Person.fromArray(rawActivity.participants)];
+        interview.description = rawActivity.description
+        interview.visibility = VISIBILITIES.public;// TODO: fetch and garenty return the correct string
+        // interview.reminders = rawActivity.reminders
+        // interview.specialNotification = rawActivity.specialNotification
+        interview.comment = rawActivity.comment;
+        interview.finished = rawActivity.finished;
+        return interview;
     }
     getType() {
         return "Interview";
@@ -102,18 +188,42 @@ export class Reunion implements Activity{
     id= 0;
     owner= new User(10,"John Jack Rousseau");
     medium:REUNION_MEDIUM_TYPE = 'phone';
-    adress!:Office;
+    address!:Office;
     title="";
     time=new Date();
-    participants= [];
+    deadline=new Date();
+    participants:Person[]= [];
     description = "";
     visibility: VISIBILITIES = VISIBILITIES.public;
     reminders = [];
     specialNotification = [];
     comment = "";
-    constructor(id:number,title:string){
-        this.id = id;
-        this.title = title;
+    subActivities:Activity[]=[];
+    finished=false;
+    constructor(){
+    }
+    static fromRawActivity(rawActivity: RawActivity): Reunion{
+        const reunion = new Reunion();
+        reunion.id = rawActivity.id
+        reunion.owner = rawActivity.owner
+        reunion.medium = "phone";// TODO: fetch and garenty return the correct string
+
+        reunion.address = new Office();
+        reunion.address.address= rawActivity.address;
+
+        reunion.title = rawActivity.title
+        reunion.finished = rawActivity.finished
+        reunion.time = new Date(Date.parse(rawActivity.time));
+        reunion.deadline = new Date(Date.parse(rawActivity.deadline));
+        reunion.participants = [...Person.fromArray(rawActivity.participants)];
+
+        reunion.description = rawActivity.description
+        reunion.visibility = VISIBILITIES.public;// TODO: fetch and garenty return the correct string
+        // interview.reminders = rawActivity.reminders
+        // interview.specialNotification = rawActivity.specialNotification
+        reunion.comment = rawActivity.comment;
+        reunion.finished = rawActivity.finished;
+        return reunion;
     }
     getType(): string {
         return "Reunion";
@@ -125,15 +235,35 @@ export class Task implements Activity{
     medium:TASK_MEDIUM_TYPE = 'coffee';
     title="";
     time=new Date();
-    participants= [];
+    deadline=new Date();
+    participants:Person[]= [];
     description = "";
     visibility: VISIBILITIES = VISIBILITIES.public;
     reminders = [];
     specialNotification = [];
     comment = "";
-    constructor(id:number,title:string){
-        this.id = id;
-        this.title = title;
+    finished=false;
+    subActivities:Activity[]=[];
+    constructor(){
+    }
+    static fromRawActivity(rawActivity: RawActivity): Task{
+        const task = new Task();
+        task.id = rawActivity.id
+        task.owner = rawActivity.owner
+        task.medium = "phone";// TODO: fetch and garenty return the correct string
+
+        task.title = rawActivity.title
+        task.finished = rawActivity.finished
+        task.time = new Date(Date.parse(rawActivity.time));
+        task.deadline = new Date(Date.parse(rawActivity.deadline));
+        task.participants = [...Person.fromArray(rawActivity.participants)];
+        task.description = rawActivity.description
+        task.visibility = VISIBILITIES.public;// TODO: fetch and garenty return the correct string
+        // interview.reminders = rawActivity.reminders
+        // interview.specialNotification = rawActivity.specialNotification
+        task.comment = rawActivity.comment
+        task.finished = rawActivity.finished;
+        return task;
     }
     getType(): string {
         return "Task";
@@ -146,15 +276,33 @@ export class Reminder implements Activity{
     type: REMINDER_TYPES = REMINDER_TYPES.notification;
     title="";
     time=new Date();
+    deadline=new Date();
     participants= [];
     description = "";
     visibility: VISIBILITIES = VISIBILITIES.public;
     reminders = [];
     specialNotification = [];
     comment = "";
-    constructor(id:number,title:string){
-        this.id = id;
-        this.title = title;
+    finished=false;
+    subActivities:Activity[]=[];
+    constructor(){
+    }
+    static fromRawActivity(rawActivity: RawActivity): Reminder{
+        const reminder = new Reminder();
+        reminder.id = rawActivity.id
+        reminder.owner = rawActivity.owner
+
+        reminder.title = rawActivity.title
+        reminder.finished = rawActivity.finished
+        reminder.time = new Date(Date.parse(rawActivity.time));
+        reminder.deadline = new Date(Date.parse(rawActivity.deadline));
+        reminder.description = rawActivity.description
+        reminder.visibility = VISIBILITIES.public;// TODO: fetch and garenty return the correct string
+        // interview.reminders = rawActivity.reminders
+        // interview.specialNotification = rawActivity.specialNotification
+        reminder.comment = rawActivity.comment
+        reminder.finished = rawActivity.finished;
+        return reminder;
     }
     getType(): string {
         return "Reminder";
