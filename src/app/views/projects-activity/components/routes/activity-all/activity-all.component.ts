@@ -114,8 +114,15 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       take(1),
       tap(arr=>{
         for (let i=0;i<arr.length;i++){
-          this.checked.set(i,false);
-          this.indeterminate.set(i,false);
+          const filter = arr[i].filter((activity)=>activity.finished == true);
+          if (filter.length == arr[i].length){
+            this.checked.set(i,true);
+            this.indeterminate.set(i,false);
+          }
+          else{
+            this.indeterminate.set(i,filter.length!=0);
+          }
+          
         }
       }),
       takeUntil(this.ngUnsubscribe)
@@ -183,12 +190,19 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       }
     }
   }
-  refreshIndeterminateStatus(groupIndex:PositiveNumber): void {
-    this.indeterminate.set(groupIndex,this.setOfCheckedId.size>0);
+  refreshStatus(groupIndex:PositiveNumber,count:PositiveNumber): void {
+    if (this.setOfCheckedId.size == count && count !=0){
+      this.checked.set(groupIndex,this.setOfCheckedId.size == count);
+      this.indeterminate.set(groupIndex,false);
+    }
+    else{
+      this.indeterminate.set(groupIndex,this.setOfCheckedId.size!=0);
+    }
   }
-  onItemChecked(id: number, checked: boolean, groupIndex:PositiveNumber): void {
-    this.updateCheckedSet(id, checked);
-    this.refreshIndeterminateStatus(groupIndex);
+  onItemChecked(data: any, groupIndex:PositiveNumber,count:PositiveNumber): void {
+    data.finished = !data.finished; // TODO: make an endpoint to select data as finished & send request
+    this.updateCheckedSet(data.id, data.finished);//only used for underterminate & check logic to avoid looping through data
+    this.refreshStatus(groupIndex,count);
   }
   onGroupAllChecked(checked: boolean,groupIndex:PositiveNumber): void {
     this.groupedActivityStream$?.pipe(
@@ -233,6 +247,5 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       this.setOfCheckedId.delete(id);
     }
   }
-
 
 }
