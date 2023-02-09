@@ -89,8 +89,8 @@ export class RawActivity{
     visibility:string = "public";
     comment:string = "";
     title:string = "";
-    time:Date = new Date();
-    deadline:Date = new Date();
+    time:string="";
+    deadline:string="";
     participants:Person[] = [];
     description:string = "";
     owner:Person=new Person();
@@ -157,8 +157,8 @@ export class Interview implements Activity{
 
         interview.title = rawActivity.title
         interview.finished = rawActivity.finished
-        interview.time = new Date(rawActivity.time);
-        interview.deadline = new Date(rawActivity.deadline);
+        interview.time = new Date(Date.parse(rawActivity.time));
+        interview.deadline = new Date(Date.parse(rawActivity.deadline));
         interview.participants = [...Person.fromArray(rawActivity.participants)];
         interview.description = rawActivity.description
         interview.visibility = VISIBILITIES.public;// TODO: fetch and garenty return the correct string
@@ -213,8 +213,8 @@ export class Reunion implements Activity{
 
         reunion.title = rawActivity.title
         reunion.finished = rawActivity.finished
-        reunion.time = new Date(rawActivity.time);
-        reunion.deadline = new Date(rawActivity.deadline);
+        reunion.time = new Date(Date.parse(rawActivity.time));
+        reunion.deadline = new Date(Date.parse(rawActivity.deadline));
         reunion.participants = [...Person.fromArray(rawActivity.participants)];
 
         reunion.description = rawActivity.description
@@ -254,8 +254,8 @@ export class Task implements Activity{
 
         task.title = rawActivity.title
         task.finished = rawActivity.finished
-        task.time = new Date(rawActivity.time);
-        task.deadline = new Date(rawActivity.deadline);
+        task.time = new Date(Date.parse(rawActivity.time));
+        task.deadline = new Date(Date.parse(rawActivity.deadline));
         task.participants = [...Person.fromArray(rawActivity.participants)];
         task.description = rawActivity.description
         task.visibility = VISIBILITIES.public;// TODO: fetch and garenty return the correct string
@@ -294,8 +294,8 @@ export class Reminder implements Activity{
 
         reminder.title = rawActivity.title
         reminder.finished = rawActivity.finished
-        reminder.time = new Date(rawActivity.time);
-        reminder.deadline = new Date(rawActivity.deadline);
+        reminder.time = new Date(Date.parse(rawActivity.time));
+        reminder.deadline = new Date(Date.parse(rawActivity.deadline));
         reminder.description = rawActivity.description
         reminder.visibility = VISIBILITIES.public;// TODO: fetch and garenty return the correct string
         // interview.reminders = rawActivity.reminders

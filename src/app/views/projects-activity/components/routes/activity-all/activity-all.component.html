@@ -140,7 +140,7 @@
                                     </ng-template>
                                     <ng-container *ngIf="(data.deadline | date:'shortDate') === (data.time | date:'shortDate');else differentDays">
                                         <td *ngIf="data.time.getTime() > data.deadline.getTime()" class="text-warning">Today at: {{ data.deadline | date:'shortTime' }}</td>
-                                        <td *ngIf="data.time.getTime() <= data.deadline.getTime()">{{ data.deadline | date:'shortTime' }}</td>
+                                        <td *ngIf="data.time.getTime() <= data.deadline.getTime()">Today: {{ data.deadline | date:'shortTime' }}</td>
                                     </ng-container>
                                     <ng-template #differentDays>
                                         <td *ngIf="data.time.getTime() <= data.deadline.getTime()">{{ data.deadline | date:'mediumDate' }}</td>
