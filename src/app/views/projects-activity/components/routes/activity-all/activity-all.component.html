@@ -80,6 +80,7 @@
                                 <th>Participants</th>
                                 <th>Date</th>
                                 <th>Heure</th>
+                                <th>Deadline</th>
                                 <th>Candidat</th>
                                 <th>Ouverture</th>
                                 <th nzWidth="25px"><span nz-icon nzType="setting" nzTheme="outline"></span></th><!-- actions -->
@@ -129,7 +130,7 @@
                                             </ng-container>
                                         </ul>
                                     </td>
-                                    <ng-container *ngIf="data.time <= now;else futureDates;">
+                                    <ng-container *ngIf="data.time.getTime() >= data.deadline.getTime();else futureDates;">
                                         <td class="text-dustredRed-4-important">{{data.time | date:'mediumDate' }}</td>
                                         <td class="text-dustredRed-4-important">{{data.time | date:'shortTime' }}</td>
                                     </ng-container>
@@ -137,10 +138,18 @@
                                         <td>{{data.time | date:'mediumDate' }}</td>
                                         <td>{{data.time | date:'shortTime' }}</td>
                                     </ng-template>
+                                    <ng-container *ngIf="(data.deadline | date:'shortDate') === (data.time | date:'shortDate');else differentDays">
+                                        <td *ngIf="data.time.getTime() > data.deadline.getTime()" class="text-warning">Today at: {{ data.deadline | date:'shortTime' }}</td>
+                                        <td *ngIf="data.time.getTime() <= data.deadline.getTime()">{{ data.deadline | date:'shortTime' }}</td>
+                                    </ng-container>
+                                    <ng-template #differentDays>
+                                        <td *ngIf="data.time.getTime() <= data.deadline.getTime()">{{ data.deadline | date:'mediumDate' }}</td>
+                                        <td *ngIf="data.time.getTime() > data.deadline.getTime()">{{ data.deadline | date:'mediumDate' }}</td>
+                                    </ng-template>
                                     <td>
                                         <ng-container *ngIf="getCandidate(data) != null">
                                             <nz-avatar class="bg-neutralBlue-50" [nzSize]="'small'" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>
-                                            {{ getCandidate(data)?.name + "John doe" }}
+                                            {{ getCandidate(data)?.name }}
                                         </ng-container>
                                     </td>
                                     <td nzEllipsis>{{ getJob(data)?.title }}</td>
@@ -187,11 +196,10 @@
                                     <td>
                                         <!-- activity.participants -->
                                         <ul class="flex avatar-group">
-                                            <!-- <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" [nzSize]="'small'"></nz-avatar> -->
-                                            <nz-avatar class="bg-megenta-3" nzText="U" [nzSize]="'small'"></nz-avatar>
-                                            <!-- <nz-avatar class="bg-cyan-3" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user" [nzSize]="'small'"></nz-avatar> -->
-                                            <nz-avatar class="bg-cyan-3" nz-tooltip nzText="EO" nzTooltipTitle="el mehdi" [nzSize]="'small'"></nz-avatar>
-                                            <nz-avatar class="bg-deepPurple-3" nzText="NG" [nzSize]="'small'"></nz-avatar>
+                                            <ng-container *ngFor="let participant of activity.participants;let index=index;">
+                                                <nz-avatar *ngIf="getInitials(participant.name)"
+                                                [class]="bgColorClasses[index%3]" [nzText]="getInitials(participant.name)!" [nzSize]="'small'"></nz-avatar>
+                                            </ng-container>
                                         </ul>
                                     </td>
                                     <ng-container *ngIf="activity.time <= now;else futureDates;">
@@ -205,7 +213,7 @@
                                     <td>
                                         <ng-container *ngIf="getCandidate(activity) != null">
                                             <nz-avatar class="bg-neutralBlue-50" [nzSize]="'small'" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>
-                                            {{ getCandidate(activity)?.name + "John doe" }}
+                                            {{ getCandidate(activity)?.name }}
                                         </ng-container>
                                     </td>
                                     <td nzEllipsis>{{getJob(activity)}}  Developeur Fullstack java / react.</td>

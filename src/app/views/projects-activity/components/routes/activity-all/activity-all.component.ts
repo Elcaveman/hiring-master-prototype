@@ -205,6 +205,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     this.refreshStatus(groupIndex,count);
   }
   onGroupAllChecked(checked: boolean,groupIndex:PositiveNumber): void {
+    // TODO: fix issue
     this.groupedActivityStream$?.pipe(
       map(arr =>{
         for (let activity of arr[groupIndex]){

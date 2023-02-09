@@ -75,6 +75,7 @@ export interface Activity extends ActivityManagement{
     id:number;
     title:string;
     time:Date;
+    deadline:Date;
     participants:Person[];
     description: string;
     owner:User;
@@ -89,6 +90,7 @@ export class RawActivity{
     comment:string = "";
     title:string = "";
     time:Date = new Date();
+    deadline:Date = new Date();
     participants:Person[] = [];
     description:string = "";
     owner:Person=new Person();
@@ -127,7 +129,8 @@ export class Interview implements Activity{
     address!:Office;
     title="";
     finished=false;
-    time=new Date("01/01/2024");
+    time=new Date();
+    deadline=new Date();
     participants:Person[]= [];
     description = "";
     visibility: VISIBILITIES = VISIBILITIES.public;
@@ -143,6 +146,7 @@ export class Interview implements Activity{
         interview.owner = rawActivity.owner
         interview.type = INTERVIEW_TYPES.fromString(rawActivity.type);
         interview.medium = "phone";// TODO: fetch and garenty return the correct string
+        console.log("rawActivity.candidate",rawActivity)
         interview.candidate = (rawActivity.candidate)?rawActivity.candidate:new Person();
 
         interview.job = new Job();
@@ -153,7 +157,8 @@ export class Interview implements Activity{
 
         interview.title = rawActivity.title
         interview.finished = rawActivity.finished
-        interview.time = rawActivity.time
+        interview.time = new Date(rawActivity.time);
+        interview.deadline = new Date(rawActivity.deadline);
         interview.participants = [...Person.fromArray(rawActivity.participants)];
         interview.description = rawActivity.description
         interview.visibility = VISIBILITIES.public;// TODO: fetch and garenty return the correct string
@@ -186,6 +191,7 @@ export class Reunion implements Activity{
     address!:Office;
     title="";
     time=new Date();
+    deadline=new Date();
     participants:Person[]= [];
     description = "";
     visibility: VISIBILITIES = VISIBILITIES.public;
@@ -207,8 +213,10 @@ export class Reunion implements Activity{
 
         reunion.title = rawActivity.title
         reunion.finished = rawActivity.finished
-        reunion.time = rawActivity.time
+        reunion.time = new Date(rawActivity.time);
+        reunion.deadline = new Date(rawActivity.deadline);
         reunion.participants = [...Person.fromArray(rawActivity.participants)];
+
         reunion.description = rawActivity.description
         reunion.visibility = VISIBILITIES.public;// TODO: fetch and garenty return the correct string
         // interview.reminders = rawActivity.reminders
@@ -227,6 +235,7 @@ export class Task implements Activity{
     medium:TASK_MEDIUM_TYPE = 'coffee';
     title="";
     time=new Date();
+    deadline=new Date();
     participants:Person[]= [];
     description = "";
     visibility: VISIBILITIES = VISIBILITIES.public;
@@ -245,7 +254,8 @@ export class Task implements Activity{
 
         task.title = rawActivity.title
         task.finished = rawActivity.finished
-        task.time = rawActivity.time
+        task.time = new Date(rawActivity.time);
+        task.deadline = new Date(rawActivity.deadline);
         task.participants = [...Person.fromArray(rawActivity.participants)];
         task.description = rawActivity.description
         task.visibility = VISIBILITIES.public;// TODO: fetch and garenty return the correct string
@@ -266,6 +276,7 @@ export class Reminder implements Activity{
     type: REMINDER_TYPES = REMINDER_TYPES.notification;
     title="";
     time=new Date();
+    deadline=new Date();
     participants= [];
     description = "";
     visibility: VISIBILITIES = VISIBILITIES.public;
@@ -283,7 +294,8 @@ export class Reminder implements Activity{
 
         reminder.title = rawActivity.title
         reminder.finished = rawActivity.finished
-        reminder.time = rawActivity.time
+        reminder.time = new Date(rawActivity.time);
+        reminder.deadline = new Date(rawActivity.deadline);
         reminder.description = rawActivity.description
         reminder.visibility = VISIBILITIES.public;// TODO: fetch and garenty return the correct string
         // interview.reminders = rawActivity.reminders
