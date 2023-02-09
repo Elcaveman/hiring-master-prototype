@@ -12,7 +12,7 @@ import { RawActivity } from '../models/activity';
 export class FakeDataService {
   
   constructor(private http: HttpClient) {
-    this.test();
+    // this.test();
   }
   test(){
     

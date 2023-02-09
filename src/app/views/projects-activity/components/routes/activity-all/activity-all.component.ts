@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { from,Observable,groupBy,mergeMap,of, toArray, BehaviorSubject, reduce, filter, elementAt, map, finalize, tap, take, Subject, takeUntil, throwError } from 'rxjs';
+import { from,Observable,groupBy,mergeMap,of, toArray, BehaviorSubject, reduce, filter, elementAt, map, finalize, tap, take, Subject, takeUntil, throwError, switchMap } from 'rxjs';
 import { RawActivity,Activity, Interview, Reminder, Reunion,Task, ACTIVITY_MEDIUM,INTERVIEW_MEDIUM,REUNION_MEDIUM,TASK_MEDIUM } from 'src/app/core/models/activity';
 import { Person } from 'src/app/core/models/person';
 import { FakeDataService } from 'src/app/core/services/fake-data.service';
@@ -69,7 +69,10 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   }
 
   activitiyStream$?:Observable<(Interview | Reminder | Reunion | Task )[]>;
+  groupedActivityStream_$?:Observable<(Interview | Reminder | Reunion | Task )[][]>;
   groupedActivityStream$?:Observable<(Interview | Reminder | Reunion | Task )[][]>;
+  private readonly refreshToken$ = new BehaviorSubject(undefined);
+
 
   now = new Date(); // this is saved and won't update it's value untill the user refreshes the page
   ACTIVITY_MEDIUM = ACTIVITY_MEDIUM;
@@ -77,8 +80,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   REUNION_MEDIUM = REUNION_MEDIUM;
   TASK_MEDIUM = TASK_MEDIUM;
   constructor(private fakeDataService:FakeDataService){}
-
-  ngOnInit(): void {
+  getActivites(){
     this.activitiyStream$ = this.fakeDataService.getActivityAll().pipe(
       map(activitylist => from(activitylist)),
       mergeMap((activitylist)=>{
@@ -89,23 +91,26 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
           })
         )
       }), 
-      reduce((acc:(Interview | Reminder | Reunion | Task )[], curr:(Interview | Reminder | Reunion | Task )) => [...acc, curr], []),
-      tap(res=>console.log(res)),
+      reduce((acc:(Interview | Reminder | Reunion | Task )[], curr:(Interview | Reminder | Reunion | Task )) => [...acc, curr], [])
     )
-    // this.activitiyStream$ = of(this.fake_data);
-    this.groupedActivityStream$ = this.activitiyStream$.pipe(
+    this.groupedActivityStream_$ = this.activitiyStream$.pipe(
       mergeMap(activity=> from(activity)),// flatten activity array! [1,2,3] => 1,2,3
       groupBy(activity => activity.owner.id),// group by the owners id
       mergeMap(group => group.pipe(toArray())), // convert each group to an individual array
       reduce((acc:(Interview | Reminder | Reunion | Task )[][], curr:(Interview | Reminder | Reunion | Task )[]) => [...acc, curr], []), 
     )
-
+  }
+  reloadActivities(){
+    this.refreshToken$.next(undefined);
+  }
+  ngOnInit(): void {
+    this.getActivites();
     /*
     * This code initialises the checked & indeterminate maps but
     * this is a one time execution meaning we need to subscribe
     */
 
-    this.groupedActivityStream$.pipe(
+    this.groupedActivityStream_$?.pipe(
       take(1),
       tap(arr=>{
         for (let i=0;i<arr.length;i++){
@@ -115,6 +120,13 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       }),
       takeUntil(this.ngUnsubscribe)
     ).subscribe()
+
+    this.groupedActivityStream$ = this.refreshToken$.pipe(
+      switchMap(()=> {
+        this.getActivites();
+        return this.groupedActivityStream_$!;
+      })
+    )
   }
   ngOnDestroy(){
     this.ngUnsubscribe.next();
@@ -199,7 +211,10 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     this.fakeDataService.deleteActivityById(id).subscribe(
       {
         next:(res)=>{console.log("next",res)},
-        complete:()=>{console.log("delete done")},
+        complete:()=>{
+          console.log("delete done");
+          this.reloadActivities();
+        },
         error:(err)=>{console.warn(err)
       }
       }
