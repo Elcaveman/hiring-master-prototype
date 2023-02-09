@@ -11,9 +11,10 @@ export class Person implements Person_{
         const res :Person[] = [];
         for (let participant of participants){
             let person = new Person();
+            console.log("fromArray",participant)
             person.id=participant.id;
             person.name=participant.name;
-            person.name=participant.image;
+            person.image=participant.image;
             person.email=participant.email;
             person.phone=participant.phone;
             res.push(person);
