@@ -22,7 +22,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   //   new Interview(7,"interview 1"),new Interview(8,"interview 2"),
   //   new Reunion(9,"Reunion 1"),new Task(10,"Task 1"),new Reminder(11,"Reminder 1")
   // ] as (Interview | Reminder | Reunion | Task )[];
-
+  
   bgColorClasses = ["bg-megenta-3","bg-cyan-3","bg-deepPurple-3"];// TODO: add default color for user to customise
   checked = new SafeMap<number,boolean>(false);
   indeterminate = new SafeMap<number,boolean>(false);
@@ -138,6 +138,9 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   ngOnDestroy(){
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+  onChange(result: Date): void {
+    console.log('onChange: ', result);
   }
   getInitials(name:string):string|null{
     if(name){

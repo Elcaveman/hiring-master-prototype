@@ -124,3 +124,20 @@ nz-table{
         }
     }
 }
+.hover-avatar{
+    opacity: 0.1;
+    transition: opacity .2s ease-out;
+    background-color: white;
+    @extend .text-primaryBlue-50;
+    cursor: pointer;
+    &:hover{
+        opacity: 1;
+        border: 1px dotted map-get($colors,primaryBlue-50 );
+        
+    }
+}
+.overdue{
+    input{
+        color: red !important;
+    }
+}

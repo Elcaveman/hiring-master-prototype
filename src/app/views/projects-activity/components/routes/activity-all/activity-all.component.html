@@ -78,7 +78,7 @@
                                 <th nzWidth="25px"></th>
                                 <th>Nom de l'activité</th>
                                 <th>Participants</th>
-                                <th>Date</th>
+                                <th nzWidth="155px">Date</th>
                                 <th>Heure</th>
                                 <th>Deadline</th>
                                 <th>Candidat</th>
@@ -129,14 +129,26 @@
                                                 <nz-avatar *ngIf="getInitials(participant.name)"
                                                 [class]="bgColorClasses[index%3]" [nzText]="getInitials(participant.name)!" [nzSize]="'small'"></nz-avatar>
                                             </ng-container>
+                                            <nz-avatar class="hover-avatar" nzIcon="user" [nzSize]="'small'"></nz-avatar> <!--TODO: check if the activity-->
                                         </ul>
                                     </td>
                                     <ng-container *ngIf="data.time.getTime() >= data.deadline.getTime();else futureDates;">
-                                        <td class="text-dustredRed-4-important">{{data.time | date:'mediumDate' }}</td>
+                                        
+                                        <td>
+                                            <nz-date-picker [(ngModel)]="data.time"
+                                                (ngModelChange)="onChange($event)" nzFormat="MMM dd, yyyy" 
+                                                nzBorderless nzSuffixIcon="sync" class="p-0 m-0 overdue">
+                                            </nz-date-picker>
+                                        </td>
                                         <td class="text-dustredRed-4-important">{{data.time | date:'shortTime' }}</td>
                                     </ng-container>
                                     <ng-template #futureDates>
-                                        <td>{{data.time | date:'mediumDate' }}</td>
+                                        <td>
+                                            <nz-date-picker [(ngModel)]="data.time"
+                                            (ngModelChange)="onChange($event)" nzFormat="MMM dd, yyyy" 
+                                            nzBorderless nzSuffixIcon="sync" class="p-0 m-0">
+                                            </nz-date-picker>
+                                        </td>
                                         <td>{{data.time | date:'shortTime' }}</td>
                                     </ng-template>
                                     <ng-container *ngIf="(data.deadline | date:'shortDate') === (data.time | date:'shortDate');else differentDays">

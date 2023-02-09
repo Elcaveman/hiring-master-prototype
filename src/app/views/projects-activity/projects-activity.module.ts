@@ -10,6 +10,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
     NzTableModule,
     NzDividerModule,NzMenuModule,
     NzCollapseModule,
-    NzAvatarModule
+    NzAvatarModule,
+    NzDatePickerModule
   ]
 })
 export class ProjectsActivityModule { }
