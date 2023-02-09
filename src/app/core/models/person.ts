@@ -11,7 +11,6 @@ export class Person implements Person_{
         const res :Person[] = [];
         for (let participant of participants){
             let person = new Person();
-            console.log("fromArray",participant)
             person.id=participant.id;
             person.name=participant.name;
             person.image=participant.image;
