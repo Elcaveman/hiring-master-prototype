@@ -79,7 +79,7 @@
                                 <th>Nom de l'activité</th>
                                 <th>Participants</th>
                                 <th nzWidth="155px">Date</th>
-                                <th>Heure</th>
+                                <th nzWidth="100px">Heure</th>
                                 <th>Deadline</th>
                                 <th>Candidat</th>
                                 <th>Ouverture</th>
@@ -132,27 +132,27 @@
                                             <nz-avatar class="hover-avatar" nzIcon="user" [nzSize]="'small'"></nz-avatar> <!--TODO: check if the activity-->
                                         </ul>
                                     </td>
-                                    <ng-container *ngIf="data.time.getTime() >= data.deadline.getTime();else futureDates;">
-                                        
-                                        <td>
-                                            <nz-date-picker [(ngModel)]="data.time"
-                                                (ngModelChange)="onChange($event)" nzFormat="MMM dd, yyyy" 
-                                                nzBorderless nzSuffixIcon="sync" class="p-0 m-0 overdue"
-                                                >
-                                            </nz-date-picker>
-                                        </td>
-                                        <td class="text-dustredRed-4-important">{{data.time | date:'shortTime' }}</td>
-                                    </ng-container>
-                                    <ng-template #futureDates>
-                                        <td>
-                                            <nz-date-picker [(ngModel)]="data.time"
+                                    <td>
+                                        <nz-date-picker [(ngModel)]="data.time"
                                             (ngModelChange)="onChange($event)" nzFormat="MMM dd, yyyy" 
                                             nzBorderless nzSuffixIcon="sync" class="p-0 m-0"
+                                            [ngClass]="{'overdue':data.time.getTime() >= data.deadline.getTime()}"
                                             >
-                                            </nz-date-picker>
-                                        </td>
-                                        <td>{{data.time | date:'shortTime' }}</td>
-                                    </ng-template>
+                                        </nz-date-picker>
+                                    </td>
+                                    <td>
+                                        <!-- <nz-time-picker [(ngModel)]="data.time" nzFormat="HH:mm" class="p-0 m-0 no-suffix-icon"
+                                        (ngModelChange)="onChange($event)" nzBorderless
+                                        [ngClass]="{'overdue':data.time.getTime() >= data.deadline.getTime()}"
+                                        ></nz-time-picker> -->
+                                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Selectionnez un temps"
+                                        [ngModel]="selectedTime.get(data.id)"
+                                        (ngModelChange)="onTimeChange($event,data.id)">
+                                            <ng-container *ngFor="let option of timeOptions;">
+                                                <nz-option  [nzLabel]="option.display" [nzValue]="option.hours"></nz-option>
+                                            </ng-container>
+                                          </nz-select>
+                                    </td>
                                     <ng-container *ngIf="(data.deadline | date:'shortDate') === (data.time | date:'shortDate');else differentDays">
                                         <td *ngIf="data.time.getTime() > data.deadline.getTime()" class="text-warning">Today at: {{ data.deadline | date:'shortTime' }}</td>
                                         <td *ngIf="data.time.getTime() <= data.deadline.getTime()">Today: {{ data.deadline | date:'shortTime' }}</td>
@@ -175,6 +175,7 @@
                                     </td>
                                 </tr>
                                 <ng-container *ngIf="setOfExpandedId.has(data.id)">
+                                    <!-- TODO : update inner template -->
                                     <tr *ngFor="let activity of data.subActivities;let subindex=index;">
                                         <!-- <td>{{data.id}}</td> -->
                                     <td>{{index+1}}.{{subindex+1}}</td>

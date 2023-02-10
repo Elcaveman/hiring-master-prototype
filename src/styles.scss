@@ -5,10 +5,16 @@
 
 
 .overdue{
+    /* you can't override the changes of ng-date-picker if you don't define the style here*/
     input{
         @extend .text-dustredRed-4-important;
     }
     svg{
         fill:map-get($colors, dustredRed-4);
+    }
+}
+.no-suffix-icon{
+    .ant-picker-suffix{
+        display: none !important;
     }
 }
