@@ -97,7 +97,7 @@
                                         class="circular-nz-checkbox checkbox-checked-success"
                                         
                                     ></td>
-                                    <td nzEllipsis>
+                                    <td nzEllipsis (contextmenu)="contextMenu($event, menu)">
                                         <div class="activity-icon flex">
                                             <div [ngSwitch]="data.getType()" class="activity-mainIcon">
                                                 <nz-avatar nzIcon="comment" [nzSize]="'small'" *ngSwitchCase="'Interview'"></nz-avatar> 
@@ -115,12 +115,42 @@
                                                 <span nz-icon>
                                                     <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"  class="tree-icon">
                                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M1.85938 2.1875C1.58755 2.1875 1.36719 2.40786 1.36719 2.67969C1.36719 2.95152 1.58755 3.17188 1.85938 3.17188H3.43164V9.31055C3.43164 10.126 4.09272 10.7871 4.9082 10.7871H9.65584C9.86476 11.3842 10.4331 11.8125 11.1016 11.8125C11.9472 11.8125 12.6328 11.1269 12.6328 10.2812C12.6328 9.43556 11.9472 8.75 11.1016 8.75C10.423 8.75 9.8475 9.1914 9.64656 9.80273H4.9082C4.63638 9.80273 4.41602 9.58237 4.41602 9.31055V6.98632L9.68161 6.98632C9.90877 7.54749 10.4589 7.94336 11.1016 7.94336C11.9472 7.94336 12.6328 7.2578 12.6328 6.41211C12.6328 5.56642 11.9472 4.88086 11.1016 4.88086C10.398 4.88086 9.80518 5.35543 9.62587 6.00194L4.41602 6.00194V3.17188H12.6191C12.891 3.17188 13.1113 2.95152 13.1113 2.67969C13.1113 2.40786 12.891 2.1875 12.6191 2.1875H1.85938ZM11.1016 10.9375C11.464 10.9375 11.7578 10.6437 11.7578 10.2812C11.7578 9.91881 11.464 9.625 11.1016 9.625C10.7391 9.625 10.4453 9.91881 10.4453 10.2812C10.4453 10.6437 10.7391 10.9375 11.1016 10.9375ZM11.7578 6.41211C11.7578 6.77455 11.464 7.06836 11.1016 7.06836C10.7391 7.06836 10.4453 6.77455 10.4453 6.41211C10.4453 6.04967 10.7391 5.75586 11.1016 5.75586C11.464 5.75586 11.7578 6.04967 11.7578 6.41211Z"/>
-                                                    </svg>
-                                                        
+                                                    </svg>  
                                                 </span>
                                             </div>
                                         </div>
                                     </td>
+                                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                                        <ul nz-menu>
+                                          <li nz-menu-item><span nz-icon nzType="edit" nzTheme="outline"></span>&nbsp;Renommer</li>
+                                          <li nz-menu-item><span nz-icon nzType="copy" nzTheme="outline"></span>&nbsp;Copie</li>
+                                          <li nz-menu-item>
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="rgba(0,0,0,.85)" height="15px" width="15px" version="1.1" id="Layer_1" viewBox="0 0 502 502" xml:space="preserve">
+                                                <g>
+                                                    <g>
+                                                        <g>
+                                                            <path d="M467.35,190.176l-70.468-70.468c-1.876-1.875-4.419-2.929-7.071-2.929h-23.089V49c0-5.523-4.478-10-10-10h-115v-2.41     c0-20.176-16.414-36.59-36.59-36.59h-11.819c-20.176,0-36.591,16.415-36.591,36.59V39h-115c-5.522,0-10,4.477-10,10v386     c0,5.523,4.478,10,10,10h146.386v47c0,5.523,4.478,10,10,10h262.171c5.522,0,10-4.477,10-10V197.247     C470.279,194.595,469.225,192.051,467.35,190.176z M399.811,150.921l36.326,36.326h-36.326V150.921z M144.721,59h47     c5.522,0,10-4.477,10-10s-4.478-10-10-10h-15v-2.41c0-9.148,7.442-16.59,16.591-16.59h11.819c9.147,0,16.59,7.442,16.59,16.59V49     c0,5.523,4.478,10,10,10h22v20h-109V59z M198.107,116.779c-5.522,0-10,4.477-10,10V425H51.721V59h73v30c0,5.523,4.478,10,10,10     h129c5.522,0,10-4.477,10-10V59h73v57.779H198.107z M450.278,482H208.107V136.779H379.81v60.468c0,5.523,4.478,10,10,10h60.468     V482z"/>
+                                                            <path d="M243.949,253.468h125.402c5.522,0,10-4.477,10-10c0-5.523-4.478-10-10-10H243.949c-5.522,0-10,4.477-10,10     C233.949,248.991,238.427,253.468,243.949,253.468z"/>
+                                                            <path d="M414.437,283.478H243.949c-5.522,0-10,4.477-10,10s4.478,10,10,10h170.487c5.522,0,10-4.477,10-10     S419.959,283.478,414.437,283.478z"/>
+                                                            <path d="M414.437,333.487H243.949c-5.522,0-10,4.477-10,10s4.478,10,10,10h170.487c5.522,0,10-4.477,10-10     S419.959,333.487,414.437,333.487z"/>
+                                                            <path d="M414.437,383.497H243.949c-5.522,0-10,4.477-10,10s4.478,10,10,10h170.487c5.522,0,10-4.477,10-10     S419.959,383.497,414.437,383.497z"/>
+                                                            <path d="M397.767,253.468h16.67c5.522,0,10-4.477,10-10c0-5.523-4.478-10-10-10h-16.67c-5.522,0-10,4.477-10,10     C387.767,248.991,392.245,253.468,397.767,253.468z"/>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                            &nbsp;Coller
+                                          </li>
+                                          <nz-divider class="m-0"></nz-divider>
+                                          <li nz-menu-item><span nz-icon nzType="node-expand" nzTheme="outline"></span>&nbsp;Ajouter sous activité</li>
+                                          <li nz-menu-item><span nz-icon nzType="check-circle" nzTheme="outline"></span>&nbsp;Marque comme terminée</li>
+                                          <nz-divider class="m-0"></nz-divider>
+                                          <li nz-menu-item><span nz-icon nzType="copy" nzTheme="outline"></span>&nbsp;Dupliquer activité</li>
+                                          <li nz-menu-item><span nz-icon nzType="expand-alt" nzTheme="outline"></span>&nbsp;Ovrir activité</li>
+                                          <nz-divider class="m-0"></nz-divider>
+                                          <li nz-menu-item><span nz-icon nzType="delete" nzTheme="outline"></span>&nbsp;Supprimer</li>
+                                        </ul>
+                                    </nz-dropdown-menu>
                                     <!--TODO: https://ng.ant.design/components/table/en#components-table-demo-expand -->
                                     <td>
                                         <!-- data.participants -->

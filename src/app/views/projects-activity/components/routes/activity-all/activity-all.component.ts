@@ -5,6 +5,7 @@ import { Person } from 'src/app/core/models/person';
 import { FakeDataService } from 'src/app/core/services/fake-data.service';
 import { PositiveNumber } from 'src/app/core/types/sign';
 import { SafeMap } from 'src/app/core/utilities/safeMap';
+import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 
 
 @Component({
@@ -104,7 +105,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     console.log("timeRange",range);
     return range
   }
-  constructor(private fakeDataService:FakeDataService){}
+  constructor(private fakeDataService:FakeDataService,private nzContextMenuService:NzContextMenuService){}
   getActivites(){
     this.activitiyStream$ = this.fakeDataService.getActivityAll().pipe(
       map(activitylist => from(activitylist)),
@@ -306,6 +307,13 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     } else {
       this.setOfCheckedId.delete(id);
     }
+  }
+  contextMenu($event: MouseEvent, menu: NzDropdownMenuComponent): void {
+    this.nzContextMenuService.create($event, menu);
+  }
+
+  closeMenu(): void {
+    this.nzContextMenuService.close();
   }
 
 }
