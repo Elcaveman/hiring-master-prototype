@@ -210,6 +210,9 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   onTimeChange($event:any,id:number){
     console.log("onTimeChange",$event,id)
   }
+  onTimeInput($event:any,id:number){
+    console.log("onTimeInput",$event,id)
+  }
   getCandidate(data : Activity):Person | null{
     return Interview.getCandidate(data);
   }

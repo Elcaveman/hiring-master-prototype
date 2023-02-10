@@ -6,6 +6,9 @@
 
 .overdue{
     /* you can't override the changes of ng-date-picker if you don't define the style here*/
+    nz-select-item{
+        @extend .text-dustredRed-4-important;
+    }
     input{
         @extend .text-dustredRed-4-important;
     }

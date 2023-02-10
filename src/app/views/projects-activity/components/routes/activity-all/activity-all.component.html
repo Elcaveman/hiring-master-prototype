@@ -145,10 +145,15 @@
                                         (ngModelChange)="onChange($event)" nzBorderless
                                         [ngClass]="{'overdue':data.time.getTime() >= data.deadline.getTime()}"
                                         ></nz-time-picker> -->
-                                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Selectionnez un temps"
-                                        [ngModel]="selectedTime.get(data.id)"
-                                        (ngModelChange)="onTimeChange($event,data.id)"
-                                        [compareWith]="compareSelectedTime"
+                                        <nz-select nzPlaceHolder="08:00"
+                                            [ngModel]="selectedTime.get(data.id)"
+                                            (ngModelChange)="onTimeChange($event,data.id)"
+                                            nzShowSearch
+                                            (nzOnSearch)="onTimeInput($event,data.id)"
+                                            nzBorderless
+                                            [compareWith]="compareSelectedTime"
+                                            [nzShowArrow]="false"
+                                            [ngClass]="{'overdue':data.time.getTime() >= data.deadline.getTime()}"
                                         >
                                             <ng-container *ngFor="let option of timeOptions;">
                                                 <nz-option  [nzLabel]="option.display" [nzValue]="option"></nz-option>
