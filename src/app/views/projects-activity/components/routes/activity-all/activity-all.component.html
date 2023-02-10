@@ -72,7 +72,8 @@
                     >
                         <nz-table #activityTable [nzData]="activitiyGroup" 
                         [nzBordered]="true"
-                        [nzOuterBordered]="true">
+                        [nzOuterBordered]="true"
+                        [nzFooter]="tableFooter">
                             <thead>
                             <tr>
                                 <th nzWidth="25px" [nzChecked]="checked.get(groupIndex)" [nzIndeterminate]="indeterminate.get(groupIndex)" (nzCheckedChange)="onGroupAllChecked($event,groupIndex)" class="checkbox-checked-success"></th>
@@ -277,6 +278,12 @@
                             </ng-container>
                             </tbody>
                         </nz-table>
+                        <ng-template #tableFooter>
+                            <div class="add-activity" (click)="addActivity($event)">
+                                <span nz-icon nzType="plus" nzTheme="outline" ></span> Ajouter un nouvelle activité
+                            </div>
+                            
+                        </ng-template>
                     </nz-collapse-panel>
                     <ng-template #collapseTitle>
                         <h3 class="weight-600 text-neutralBlue-90">{{activitiyGroup[0].owner.name}}&nbsp;</h3>

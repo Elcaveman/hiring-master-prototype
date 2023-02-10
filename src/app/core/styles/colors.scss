@@ -19,6 +19,7 @@ $colors : (
     "dustredRed-4": #FF7875,
     
     "grey-4":#65789B,
+    "gray-4":#65789B,
 );
 
 @each $color, $value in $colors {

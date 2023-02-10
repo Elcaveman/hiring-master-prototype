@@ -139,3 +139,14 @@ nz-table{
 nz-select {
     width: 100px;
 }
+
+.add-activity{
+    cursor: pointer;
+    transition: color .1s ease-in;
+    transition: transform .1s ease-out;
+    @extend .text-gray-4;
+    &:hover{
+        @extend .text-primaryBlue-60;
+        transform: translate(2px,0);
+    }
+}

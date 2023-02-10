@@ -315,5 +315,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   closeMenu(): void {
     this.nzContextMenuService.close();
   }
-
+  addActivity($event:any){
+    console.log("addActivity")
+  }
 }
