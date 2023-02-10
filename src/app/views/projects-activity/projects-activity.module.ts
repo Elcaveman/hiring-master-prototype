@@ -10,6 +10,11 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +28,11 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
     NzTableModule,
     NzDividerModule,NzMenuModule,
     NzCollapseModule,
-    NzAvatarModule
+    NzAvatarModule,
+    NzDatePickerModule,
+    NzTimePickerModule,
+    NzSelectModule,
+    NzDropDownModule
   ]
 })
 export class ProjectsActivityModule { }

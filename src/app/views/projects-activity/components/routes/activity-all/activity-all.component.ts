@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { from,Observable,groupBy,mergeMap,of, toArray, BehaviorSubject, reduce, filter, elementAt, map, finalize, tap, take, Subject, takeUntil, throwError, switchMap } from 'rxjs';
+import { from,Observable,groupBy,mergeMap,of, toArray, BehaviorSubject, reduce, filter, elementAt, map, finalize, tap, take, Subject, takeUntil, throwError, switchMap, min } from 'rxjs';
 import { RawActivity,Activity, Interview, Reminder, Reunion,Task, ACTIVITY_MEDIUM,INTERVIEW_MEDIUM,REUNION_MEDIUM,TASK_MEDIUM } from 'src/app/core/models/activity';
 import { Person } from 'src/app/core/models/person';
 import { FakeDataService } from 'src/app/core/services/fake-data.service';
 import { PositiveNumber } from 'src/app/core/types/sign';
 import { SafeMap } from 'src/app/core/utilities/safeMap';
+import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 
 
 @Component({
@@ -14,7 +15,11 @@ import { SafeMap } from 'src/app/core/utilities/safeMap';
 })
 export class ActivityAllComponent implements OnInit,OnDestroy {
   private ngUnsubscribe = new Subject<void>();
-
+  START_TIME = 8;
+  END_TIME = 22;
+  MINUTES_STEP = 15;
+  timeOptions:{time:number[],display:string}[] = this.timeRange(this.START_TIME,this.END_TIME,this.MINUTES_STEP);
+  selectedTime:Map<number,{time:number[],display:string}>=new Map();
   // private fake_data : (Interview | Reminder | Reunion | Task )[] = [
   //   new Interview(1,"interview 1"),new Interview(2,"interview 2"),
   //   new Interview(3,"interview 1"),new Reunion(4,"Reunion 2"),
@@ -22,7 +27,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   //   new Interview(7,"interview 1"),new Interview(8,"interview 2"),
   //   new Reunion(9,"Reunion 1"),new Task(10,"Task 1"),new Reminder(11,"Reminder 1")
   // ] as (Interview | Reminder | Reunion | Task )[];
-
+  
   bgColorClasses = ["bg-megenta-3","bg-cyan-3","bg-deepPurple-3"];// TODO: add default color for user to customise
   checked = new SafeMap<number,boolean>(false);
   indeterminate = new SafeMap<number,boolean>(false);
@@ -79,7 +84,28 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   INTERVIEW_MEDIUM = INTERVIEW_MEDIUM;
   REUNION_MEDIUM = REUNION_MEDIUM;
   TASK_MEDIUM = TASK_MEDIUM;
-  constructor(private fakeDataService:FakeDataService){}
+
+  timeRange(start:PositiveNumber,end:PositiveNumber,minutes_step:PositiveNumber):{time:number[],display:string}[]{
+    const range:{time:number[],display:string}[]= []
+    if (start<end){
+      
+      for (let hour=start;hour<end;hour++){
+        for (let minutes=0;minutes<60;minutes+=minutes_step){
+          range.push({
+            time:[hour,minutes],
+            display:`${hour>=10?hour:'0'+hour}:${minutes>=10?minutes:'0'+minutes}`
+          })
+        }
+      }
+      range.push({
+        time:[end,0],
+        display:`${end>=10?end:'0'+end}:00`
+      })
+    }
+    console.log("timeRange",range);
+    return range
+  }
+  constructor(private fakeDataService:FakeDataService,private nzContextMenuService:NzContextMenuService){}
   getActivites(){
     this.activitiyStream$ = this.fakeDataService.getActivityAll().pipe(
       map(activitylist => from(activitylist)),
@@ -122,8 +148,12 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
           else{
             this.indeterminate.set(i,filter.length!=0);
           }
-          
+          for (let j=0;j<arr[i].length;j++){
+            const option = this.approximate(arr[i][j].time,this.START_TIME,this.END_TIME)
+            this.selectedTime.set(arr[i][j].id,option);
+          }
         }
+        console.log("this.selectedTime",this.selectedTime);
       }),
       takeUntil(this.ngUnsubscribe)
     ).subscribe()
@@ -135,9 +165,33 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       })
     )
   }
+  approximate(
+    origin_date:Date,
+    START_TIME: PositiveNumber,END_TIME: PositiveNumber
+    ) :{time:number[],display:string}{
+
+      const [hours,minutes] = [origin_date.getHours(),origin_date.getMinutes()]
+      if (hours<START_TIME) return {time:[START_TIME,0],display:`${START_TIME>=10?START_TIME:'0'+START_TIME}:00`}
+      else if (hours>END_TIME) return {time:[END_TIME,0],display:`${END_TIME>=10?END_TIME:'0'+END_TIME}:00`}
+      else{
+        const rounded_minutes = minutes - minutes%15;
+        return {
+          time:[hours,rounded_minutes],
+          display:`${hours>=10?hours:'0'+hours}:${rounded_minutes>=10?rounded_minutes:'0'+rounded_minutes}`
+        }
+      } 
+  }
+  compareSelectedTime(o1: any, o2: any):boolean {
+    if(o1!=null && o2!=null)
+      return (o1.time[0] == o2.time[0] && o1.time[1] == o2.time[1]);
+    return false;
+  }
   ngOnDestroy(){
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+  onChange(result: Date): void {
+    console.log('onChange: ', result);
   }
   getInitials(name:string):string|null{
     if(name){
@@ -153,6 +207,12 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       this.setOfExpandedId.add(id);
       
     }
+  }
+  onTimeChange($event:any,id:number){
+    console.log("onTimeChange",$event,id)
+  }
+  onTimeInput($event:any,id:number){
+    console.log("onTimeInput",$event,id)
   }
   getCandidate(data : Activity):Person | null{
     return Interview.getCandidate(data);
@@ -247,6 +307,13 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     } else {
       this.setOfCheckedId.delete(id);
     }
+  }
+  contextMenu($event: MouseEvent, menu: NzDropdownMenuComponent): void {
+    this.nzContextMenuService.create($event, menu);
+  }
+
+  closeMenu(): void {
+    this.nzContextMenuService.close();
   }
 
 }

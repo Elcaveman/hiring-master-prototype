@@ -1,3 +1,23 @@
 @import '/src/app/core/styles/_styles.scss';
 @import '/src/app/core/styles/main.scss';
 @import '/src/app/core/styles/colors.scss';
+
+
+
+.overdue{
+    /* you can't override the changes of ng-date-picker if you don't define the style here*/
+    nz-select-item{
+        @extend .text-dustredRed-4-important;
+    }
+    input{
+        @extend .text-dustredRed-4-important;
+    }
+    svg{
+        fill:map-get($colors, dustredRed-4);
+    }
+}
+.no-suffix-icon{
+    .ant-picker-suffix{
+        display: none !important;
+    }
+}
