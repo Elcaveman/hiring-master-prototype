@@ -147,9 +147,11 @@
                                         ></nz-time-picker> -->
                                         <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Selectionnez un temps"
                                         [ngModel]="selectedTime.get(data.id)"
-                                        (ngModelChange)="onTimeChange($event,data.id)">
+                                        (ngModelChange)="onTimeChange($event,data.id)"
+                                        [compareWith]="compareSelectedTime"
+                                        >
                                             <ng-container *ngFor="let option of timeOptions;">
-                                                <nz-option  [nzLabel]="option.display" [nzValue]="option.hours"></nz-option>
+                                                <nz-option  [nzLabel]="option.display" [nzValue]="option"></nz-option>
                                             </ng-container>
                                           </nz-select>
                                     </td>
