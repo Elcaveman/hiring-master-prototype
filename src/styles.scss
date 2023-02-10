@@ -1,3 +1,14 @@
 @import '/src/app/core/styles/_styles.scss';
 @import '/src/app/core/styles/main.scss';
 @import '/src/app/core/styles/colors.scss';
+
+
+
+.overdue{
+    input{
+        @extend .text-dustredRed-4-important;
+    }
+    svg{
+        fill:map-get($colors, dustredRed-4);
+    }
+}

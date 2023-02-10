@@ -137,7 +137,8 @@
                                         <td>
                                             <nz-date-picker [(ngModel)]="data.time"
                                                 (ngModelChange)="onChange($event)" nzFormat="MMM dd, yyyy" 
-                                                nzBorderless nzSuffixIcon="sync" class="p-0 m-0 overdue">
+                                                nzBorderless nzSuffixIcon="sync" class="p-0 m-0 overdue"
+                                                >
                                             </nz-date-picker>
                                         </td>
                                         <td class="text-dustredRed-4-important">{{data.time | date:'shortTime' }}</td>
@@ -146,7 +147,8 @@
                                         <td>
                                             <nz-date-picker [(ngModel)]="data.time"
                                             (ngModelChange)="onChange($event)" nzFormat="MMM dd, yyyy" 
-                                            nzBorderless nzSuffixIcon="sync" class="p-0 m-0">
+                                            nzBorderless nzSuffixIcon="sync" class="p-0 m-0"
+                                            >
                                             </nz-date-picker>
                                         </td>
                                         <td>{{data.time | date:'shortTime' }}</td>
