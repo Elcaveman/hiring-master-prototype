@@ -1,0 +1,31 @@
+@import '/src/app/core/styles/colors.scss';
+@import '/src/app/core/styles/main.scss';
+@import '/src/app/core/styles/_styles.scss';
+
+.dropdown-search{
+    background-color: white;
+    border-radius: 10px;
+    transform: translate(-8px,-6px);
+    color: rgba(0,0,0,.85);
+    padding: 15px 0 10px 10px;
+    @extend .basic-input;
+}
+.hide{
+    display: none;
+}
+.participants{
+    display:flex;
+    gap:15px;
+    margin-bottom: 1rem;
+    & > .avatar{
+    }
+    & > .name{
+        flex: 1;
+    }
+    & > .email{
+        flex: 1;
+        font-size: small;
+        margin-top: 3px;
+        color: rgb(187, 187, 187);
+    }
+}
