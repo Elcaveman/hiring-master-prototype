@@ -25,6 +25,13 @@
     .px-#{$i}{padding: 0 #{$i}rem 0 #{$i}rem !important;}
     .py-#{$i}{padding: #{$i}rem 0 #{$i}rem 0 !important;}
     .weight-#{$i*100}{font-weight: $i * 100;}
+    .min-width-#{$i*100}{min-width: $i *100px !important;}
+}
+.border-rounded{
+    border-radius: 10px;
+    & .ant-tooltip-inner{
+        border-radius: 10px !important;
+    }
 }
 .bold{
     font-weight: bold;

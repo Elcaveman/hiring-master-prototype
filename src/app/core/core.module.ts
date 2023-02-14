@@ -7,12 +7,14 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { SideNavbarComponent } from './components/side-navbar/side-navbar.component';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import {RouterModule} from '@angular/router';
+import { DropdownSearchComponent } from './components/dropdown-search/dropdown-search.component';
 
 @NgModule({
   declarations: [
     ActivityWriteModalComponent,
     TopNavbarComponent,
-    SideNavbarComponent
+    SideNavbarComponent,
+    DropdownSearchComponent
   ],
   imports: [
     RouterModule,
@@ -24,7 +26,8 @@ import {RouterModule} from '@angular/router';
   exports:[
     ActivityWriteModalComponent,
     TopNavbarComponent,
-    SideNavbarComponent
+    SideNavbarComponent,
+    DropdownSearchComponent
     
   ]
 })

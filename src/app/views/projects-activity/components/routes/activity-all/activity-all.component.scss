@@ -1,5 +1,6 @@
 @import '/src/app/core/styles/colors.scss';
 @import '/src/app/core/styles/_styles.scss';
+@import '/src/app/core/styles/main.scss';
 
 
 .filters-buttons{
@@ -74,18 +75,8 @@ nz-table{
         
     }
     .activity-icon{
-        input{
-            border-color: transparent !important;
-            background-color: transparent;
-            transition: all .2s cubic-bezier(0.215, 0.610, 0.355, 1);
-        }
-        input:focus{
-            @extend .text-primaryBlue-50;
-            border-color: map-get($colors, primaryBlue-60);
-        }
-        input:focus-visible{
-            outline: none;
-        }
+        @extend .basic-input;
+        @extend .transparent-input;
         .activity-mainIcon{
             position: relative;
             & > * {
