@@ -304,7 +304,17 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       })
   }
   onTitleChange($event:any,data:any){
-    console.log("title change",$event)
+    // change event only triggers when we do an action outside of the input ( enter key ...) 
+    this.fakeDataService.updateActivityById(data.id,{title:$event.target.value}).pipe(
+      take(1),
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe(
+      {
+        next:(res)=>{console.log("update title",res)},
+        complete:()=>{this.reloadActivities()},
+        error:(err)=>{console.warn(err)}
+      }
+    );
   }
   onDeleteActivity(id:number){
     this.fakeDataService.deleteActivityById(id)
