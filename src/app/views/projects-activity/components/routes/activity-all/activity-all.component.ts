@@ -6,6 +6,7 @@ import { FakeDataService } from 'src/app/core/services/fake-data.service';
 import { PositiveNumber } from 'src/app/core/types/sign';
 import { SafeMap } from 'src/app/core/utilities/safeMap';
 import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
+import { ActivityModalService } from 'src/app/core/services/activity-modal.service';
 
 
 @Component({
@@ -85,6 +86,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   REUNION_MEDIUM = REUNION_MEDIUM;
   TASK_MEDIUM = TASK_MEDIUM;
 
+  constructor(private fakeDataService:FakeDataService,private nzContextMenuService:NzContextMenuService,private activityModalService_:ActivityModalService){}
   timeRange(start:PositiveNumber,end:PositiveNumber,minutes_step:PositiveNumber):{time:number[],display:string}[]{
     const range:{time:number[],display:string}[]= []
     if (start<end){
@@ -105,7 +107,6 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     console.log("timeRange",range);
     return range
   }
-  constructor(private fakeDataService:FakeDataService,private nzContextMenuService:NzContextMenuService){}
   getActivites(){
     this.activitiyStream$ = this.fakeDataService.getActivityAll().pipe(
       map(activitylist => from(activitylist)),
@@ -123,7 +124,10 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       mergeMap(activity=> from(activity)),// flatten activity array! [1,2,3] => 1,2,3
       groupBy(activity => activity.owner.id),// group by the owners id
       mergeMap(group => group.pipe(toArray())), // convert each group to an individual array
-      reduce((acc:(Interview | Reminder | Reunion | Task )[][], curr:(Interview | Reminder | Reunion | Task )[]) => [...acc, curr], []), 
+      reduce((acc:(Interview | Reminder | Reunion | Task )[][], curr:(Interview | Reminder | Reunion | Task )[]) => [...acc, curr], []),
+      tap(groups=>{
+        this.setCheckStatus(groups);
+      })
     )
   }
   reloadActivities(){
@@ -138,22 +142,16 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
 
     this.groupedActivityStream_$?.pipe(
       take(1),
+      tap(groups=>{
+        this.setCheckStatus(groups);
+      }),
       tap(arr=>{
         for (let i=0;i<arr.length;i++){
-          const filter = arr[i].filter((activity)=>activity.finished == true);
-          if (filter.length == arr[i].length){
-            this.checked.set(i,true);
-            this.indeterminate.set(i,false);
-          }
-          else{
-            this.indeterminate.set(i,filter.length!=0);
-          }
           for (let j=0;j<arr[i].length;j++){
             const option = this.approximate(arr[i][j].time,this.START_TIME,this.END_TIME)
             this.selectedTime.set(arr[i][j].id,option);
           }
         }
-        console.log("this.selectedTime",this.selectedTime);
       }),
       takeUntil(this.ngUnsubscribe)
     ).subscribe()
@@ -201,11 +199,10 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   }
   onExpandChange( $event:any,id:number){
     if (this.setOfExpandedId.has(id)){
-      this.setOfCheckedId.delete(id);
+      this.setOfExpandedId.delete(id);
     }
     else{
       this.setOfExpandedId.add(id);
-      
     }
   }
   onTimeChange($event:any,id:number){
@@ -250,46 +247,75 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       }
     }
   }
-  refreshStatus(groupIndex:PositiveNumber,count:PositiveNumber): void {
-    if (this.setOfCheckedId.size == count && count !=0){
-      this.checked.set(groupIndex,this.setOfCheckedId.size == count);
-      this.indeterminate.set(groupIndex,false);
-    }
-    else{
-      this.indeterminate.set(groupIndex,this.setOfCheckedId.size!=0);
-    }
+  setCheckStatus(groupList:(Interview | Reminder | Reunion | Task )[][]): void {
+    groupList.forEach(
+      (group,groupIndex)=>{
+        let checked = true;
+        let indeterminate = false;
+        for (let activity of group){
+          if (!indeterminate && activity.finished == true){
+            indeterminate = true;// means at least one activity is finished
+          }
+          if (checked && activity.finished == false){
+            checked = false;// means at least one activity is NOT finished
+          }
+        }
+        if (checked) indeterminate = false;// means all activities are finished
+        this.checked.set(groupIndex,checked);
+        this.indeterminate.set(groupIndex,indeterminate);
+      }
+    )
   }
-  onItemChecked(data: any, groupIndex:PositiveNumber,count:PositiveNumber): void {
-    data.finished = !data.finished; // TODO: make an endpoint to select data as finished & send request
-    this.updateCheckedSet(data.id, data.finished);//only used for underterminate & check logic to avoid looping through data
-    this.refreshStatus(groupIndex,count);
+  onItemChecked(data: (Activity | Interview | Reminder | Reunion | Task )): void {
+    this.updateCheckedSet(data.id, !data.finished);
+    this.fakeDataService.finishActivities([{id:data.id,finished:!data.finished}]).pipe(take(1))
+    .subscribe(
+      { next:(res:{id:number,finished:boolean}[])=>{
+        console.log("finishedActivities",res);
+        this.updateCheckedSetWithList(res);
+        
+      },complete:()=>{
+        console.log("reloadActivities");
+        this.reloadActivities();
+      }
+    })
   }
   onGroupAllChecked(checked: boolean,groupIndex:PositiveNumber): void {
-    // TODO: fix issue
+    console.log("checked",checked)
     this.groupedActivityStream$?.pipe(
+      take(1),
       map(arr =>{
-        for (let activity of arr[groupIndex]){
-          if (checked) this.setOfCheckedId.add(activity.id);
-          else this.setOfCheckedId.delete(activity.id);
-        }
+        // due to take(1) the rest of the map is ignored
+        const data = arr[groupIndex].map(activity=>({id:activity.id,finished:checked}));
+        return this.fakeDataService.finishActivities(data); 
       }),
-      finalize(()=>{
-        this.checked.set(groupIndex,true);
-        this.indeterminate.set(groupIndex,false);
-      }
-    ))
-    .subscribe();
-
-
-    // .filter(
-    //   arr => 
-    // )
-    //   .filter(({ disabled }) => !disabled)
-    //   .forEach(({ id }) => this.updateCheckedSet(id, checked));
-    // this.refreshCheckedStatus();
+      tap(obs=>console.log(obs)),
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe({
+        next:(update_observable : Observable<{id:number,finished:boolean}[]>)=>{
+          update_observable.subscribe(
+              {next:(res:{id:number,finished:boolean}[])=>{
+                console.log("finishedActivities",res);
+                this.updateCheckedSetWithList(res);
+                
+              },
+              complete:()=>{
+                this.reloadActivities();
+                console.log("reloadActivities",this.setOfCheckedId,this.checked,this.indeterminate);
+              }
+            }
+            )
+        },
+        error:(err)=>console.warn(err)
+      })
   }
   onDeleteActivity(id:number){
-    this.fakeDataService.deleteActivityById(id).subscribe(
+    this.fakeDataService.deleteActivityById(id)
+    .pipe(
+      take(1),
+      takeUntil(this.ngUnsubscribe)
+    )
+    .subscribe(
       {
         next:(res)=>{console.log("next",res)},
         complete:()=>{
@@ -308,6 +334,13 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       this.setOfCheckedId.delete(id);
     }
   }
+  updateCheckedSetWithList(dataList:{id:number,finished:boolean}[]){
+    console.log("dataList",dataList)
+    dataList.forEach(element => {
+      this.updateCheckedSet(element.id,element.finished);
+    });
+
+  }
   contextMenu($event: MouseEvent, menu: NzDropdownMenuComponent): void {
     this.nzContextMenuService.create($event, menu);
   }
@@ -317,5 +350,6 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   }
   addActivity($event:any){
     console.log("addActivity")
+    this.activityModalService_.showModal();
   }
 }

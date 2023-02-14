@@ -95,7 +95,7 @@
                                     <td>{{index+1}}</td>
                                     <td
                                         [nzChecked]="data.finished"
-                                        (nzCheckedChange)="onItemChecked(data,groupIndex,count)"
+                                        (nzCheckedChange)="onItemChecked(data)"
                                         class="circular-nz-checkbox checkbox-checked-success"
                                         
                                     ></td>
@@ -148,7 +148,7 @@
                                           <li nz-menu-item><span nz-icon nzType="check-circle" nzTheme="outline"></span>&nbsp;Marque comme terminée</li>
                                           <nz-divider class="m-0"></nz-divider>
                                           <li nz-menu-item><span nz-icon nzType="copy" nzTheme="outline"></span>&nbsp;Dupliquer activité</li>
-                                          <li nz-menu-item><span nz-icon nzType="expand-alt" nzTheme="outline"></span>&nbsp;Ovrir activité</li>
+                                          <li nz-menu-item><span nz-icon nzType="expand-alt" nzTheme="outline"></span>&nbsp;Ouvrir activité</li>
                                           <nz-divider class="m-0"></nz-divider>
                                           <li nz-menu-item><span nz-icon nzType="delete" nzTheme="outline"></span>&nbsp;Supprimer</li>
                                         </ul>
@@ -220,7 +220,7 @@
                                     <td>{{index+1}}.{{subindex+1}}</td>
                                     <td
                                         [nzChecked]="setOfCheckedId.has(activity.id)"
-                                        (nzCheckedChange)="onItemChecked(activity.id,groupIndex,count)"
+                                        (nzCheckedChange)="onItemChecked(activity)"
                                         class="circular-nz-checkbox checkbox-checked-success"
                                         
                                     ></td>

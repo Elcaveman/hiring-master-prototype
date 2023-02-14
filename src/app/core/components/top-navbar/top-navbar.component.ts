@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TopNavDisplayModel,STATE_ENUM } from './top-navbar.models';
 import { FakeDataService } from '../../services/fake-data.service';
 import { Observable, map } from 'rxjs';
+import { ActivityModalService } from '../../services/activity-modal.service';
 
 @Component({
   selector: 'app-top-navbar',
@@ -17,7 +18,7 @@ export class TopNavbarComponent {
   options: string[] = [];
   STATE_ENUM = STATE_ENUM;
 
-  constructor(private fakeDataService_:FakeDataService){
+  constructor(private fakeDataService_:FakeDataService,private activityModalService_:ActivityModalService){
     this.isCollapsed = this.collapsed;
     this.displayData$ = fakeDataService_.titleData().pipe(
       map(x => new TopNavDisplayModel(x.title,x.state))
@@ -27,7 +28,9 @@ export class TopNavbarComponent {
     this.isCollapsed = !this.isCollapsed
     this.collapseEvent.emit(this.isCollapsed)
   }
-
+  showModal(){
+    this.activityModalService_.showModal();
+  }
   onInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.options = value ? [value, value + value, value + value + value] : [];

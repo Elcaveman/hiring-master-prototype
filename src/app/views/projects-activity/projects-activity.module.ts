@@ -14,6 +14,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
     NzDatePickerModule,
     NzTimePickerModule,
     NzSelectModule,
-    NzDropDownModule
+    NzDropDownModule,
+    NzModalModule
   ]
 })
 export class ProjectsActivityModule { }
