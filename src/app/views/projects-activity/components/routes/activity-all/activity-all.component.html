@@ -110,7 +110,7 @@
                                             <div *ngIf="ACTIVITY_MEDIUM.getIcon(getMedium(data)) !=null" class="activity-subIcon">
                                                 <nz-avatar [nzSize]="18" [nzIcon]="ACTIVITY_MEDIUM.getIcon(getMedium(data))!"></nz-avatar> 
                                             </div>
-                                            <input nz-input type="text" [(ngModel)] = "data.title" placeholder="Add title" class="ml-1 flex-1">
+                                            <input nz-input type="text" [ngModel] = "data.title" placeholder="Add title" class="ml-1 flex-1" (change)="onTitleChange($event,data)">
                                             <!-- <span ></span> -->
                                             <div class="expand-icon" (click)="onExpandChange($event,data.id)" *ngIf="data.subActivities.length>0">
                                                 <span class="expand-counter">{{data.subActivities.length}}</span>

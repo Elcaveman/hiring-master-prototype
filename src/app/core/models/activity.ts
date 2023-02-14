@@ -146,7 +146,6 @@ export class Interview implements Activity{
         interview.owner = rawActivity.owner
         interview.type = INTERVIEW_TYPES.fromString(rawActivity.type);
         interview.medium = "phone";// TODO: fetch and garenty return the correct string
-        console.log("rawActivity.candidate",rawActivity)
         interview.candidate = (rawActivity.candidate)?rawActivity.candidate:new Person();
 
         interview.job = new Job();

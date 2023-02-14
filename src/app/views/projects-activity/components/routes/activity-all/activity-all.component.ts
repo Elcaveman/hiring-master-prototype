@@ -104,7 +104,6 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
         display:`${end>=10?end:'0'+end}:00`
       })
     }
-    console.log("timeRange",range);
     return range
   }
   getActivites(){
@@ -230,7 +229,6 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     return data.getType();
   }
   onActivateFilter($event:MouseEvent,activity_type:'Interview' | 'Task' | 'Reunion' | 'Reminder',medium?: ACTIVITY_MEDIUM){
-    console.log("onActivateFilter",activity_type,medium);
     if (medium!=undefined && (this.activatedFilters[activity_type].mediums as any)[medium]!=undefined){
       // No need for type check here since we check if medium is part of our base object
       (this.activatedFilters[activity_type].mediums as any)[medium] = !(this.activatedFilters[activity_type].mediums as any)[medium];
@@ -271,11 +269,9 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     this.fakeDataService.finishActivities([{id:data.id,finished:!data.finished}]).pipe(take(1))
     .subscribe(
       { next:(res:{id:number,finished:boolean}[])=>{
-        console.log("finishedActivities",res);
         this.updateCheckedSetWithList(res);
         
       },complete:()=>{
-        console.log("reloadActivities");
         this.reloadActivities();
       }
     })
@@ -295,19 +291,20 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
         next:(update_observable : Observable<{id:number,finished:boolean}[]>)=>{
           update_observable.subscribe(
               {next:(res:{id:number,finished:boolean}[])=>{
-                console.log("finishedActivities",res);
                 this.updateCheckedSetWithList(res);
                 
               },
               complete:()=>{
                 this.reloadActivities();
-                console.log("reloadActivities",this.setOfCheckedId,this.checked,this.indeterminate);
               }
             }
             )
         },
         error:(err)=>console.warn(err)
       })
+  }
+  onTitleChange($event:any,data:any){
+    console.log("title change",$event)
   }
   onDeleteActivity(id:number){
     this.fakeDataService.deleteActivityById(id)
@@ -335,7 +332,6 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     }
   }
   updateCheckedSetWithList(dataList:{id:number,finished:boolean}[]){
-    console.log("dataList",dataList)
     dataList.forEach(element => {
       this.updateCheckedSet(element.id,element.finished);
     });
