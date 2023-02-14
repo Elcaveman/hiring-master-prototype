@@ -1,6 +1,6 @@
 <div [ngClass]="{'hide':hide}" class="dropdown-search">
     <div class="seach-bar">
-        <input nz-input type="text">
+        <input nz-input type="text" placeholder="Chercher par nom ou email">
     </div>
     <br />
     <div *ngFor="let i of [1,2,3]" class="results">
@@ -12,8 +12,8 @@
             <div class="email">02.oudaoud@gmail.com</div>
         </div>
     </div>
-    <nz-divider class="m-0"></nz-divider>
+    <nz-divider style="margin:0 0 15px 0;"></nz-divider>
     <div class="add">
-        + Participants by Email
+        <span nz-icon nzType="plus" nzTheme="outline" ></span> Ajouter des participants par email.
     </div>
 </div>
