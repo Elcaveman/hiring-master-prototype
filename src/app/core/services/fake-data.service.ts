@@ -65,6 +65,7 @@ export class FakeDataService {
   }
   getOtherParticipantsByActivityId(data:{id: number}):Observable<any>{
     return this.http.get(`${environement.apiURL}/profiles/participants?activityId=${data.id}&other=true`);
+    ;
   }
 
   titleData() : Observable<any>{

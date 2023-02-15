@@ -151,12 +151,6 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   onChange(result: Date): void {
     console.log('onChange: ', result);
   }
-  getInitials(name:string):string|null{
-    if(name){
-      return name.split(" ").map((t=>t[0]?t[0]:"")).join("");
-    }
-    else return null;
-  }
   onExpandChange( $event:any,id:number){
     if (this.setOfExpandedId.has(id)){
       this.setOfExpandedId.delete(id);

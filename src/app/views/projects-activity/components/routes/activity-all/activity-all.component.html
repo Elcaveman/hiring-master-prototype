@@ -107,7 +107,7 @@
                                                 <nz-avatar nzIcon="team" [nzSize]="'small'" *ngSwitchCase="'Reunion'"></nz-avatar> 
                                                 <nz-avatar nzIcon="check" [nzSize]="'small'" *ngSwitchCase="'Task'"></nz-avatar> 
                                             </div>
-                                            <div *ngIf="ACTIVITY_MEDIUM.getIcon(getMedium(data)) !=null" class="activity-subIcon">
+                                            <div *ngIf="![null,'other'].includes(ACTIVITY_MEDIUM.getIcon(getMedium(data)))" class="activity-subIcon">
                                                 <nz-avatar [nzSize]="18" [nzIcon]="ACTIVITY_MEDIUM.getIcon(getMedium(data))!"></nz-avatar> 
                                             </div>
                                             <input nz-input type="text" [value] = "data.title" placeholder="Add title" class="ml-1 flex-1" (change)="onTitleChange($event,data)">
@@ -169,7 +169,7 @@
                                                 nz-tooltip></nz-avatar> <!--TODO: check if the activity-->
                                             </div>
                                             <ng-template #participantsDropdown>
-                                                <app-dropdown-search [participants]="data.participants"></app-dropdown-search>
+                                                <app-dropdown-search [data]="{activityId:data.id}"></app-dropdown-search>
                                             </ng-template>
                                             
                                         </ul>
@@ -242,7 +242,7 @@
                                                 <nz-avatar nzIcon="team" [nzSize]="'small'" *ngSwitchCase="'Reunion'"></nz-avatar> 
                                                 <nz-avatar nzIcon="check" [nzSize]="'small'" *ngSwitchCase="'Task'"></nz-avatar> 
                                             </div>
-                                            <div *ngIf="ACTIVITY_MEDIUM.getIcon(getMedium(activity)) !=null" class="activity-subIcon">
+                                            <div *ngIf="![null,'other'].includes(ACTIVITY_MEDIUM.getIcon(getMedium(activity)))" class="activity-subIcon">
                                                 <nz-avatar [nzSize]="18" [nzIcon]="ACTIVITY_MEDIUM.getIcon(getMedium(activity))!"></nz-avatar> 
                                             </div>
                                             <span class="ml-1 flex-1">{{ activity.title }}</span>

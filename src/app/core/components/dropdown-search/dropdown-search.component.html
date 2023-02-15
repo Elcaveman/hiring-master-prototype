@@ -3,7 +3,7 @@
         <input nz-input type="text" placeholder="Chercher par nom ou email">
     </div>
     <br />
-    <div *ngFor="let participant of participants;let i = index;">
+    <div *ngFor="let participant of participantsStream$ | async;let i = index;">
         <div class="participant">
             <nz-avatar [nzShape]="'circle'" *ngIf="textMethodsService.getInitials(participant.name)!=null"
                 [class]="bgColorClasses[i%3]" [nzText]="textMethodsService.getInitials(participant.name)!" [nzSize]="'small'" class="avatar">
