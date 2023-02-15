@@ -40,6 +40,7 @@ export class FakeDataService {
     )
     .subscribe();
   }
+  /* Basic CRUD */
   getProfileAll(): Observable<Person[]>{
     return this.http.get<Person[]>(`${environement.apiURL}/profiles`);
   }
@@ -58,9 +59,14 @@ export class FakeDataService {
   updateActivityById(id:number,data:any):Observable<any>{
     return this.http.put(`${environement.apiURL}/activities/${id}`,data);
   }
+  /* Job specific calls */
   finishActivities(data:{id:number,finished:boolean}[]):Observable<any>{
     return this.http.put(`${environement.apiURL}/activities/finish`,data);
   }
+  getOtherParticipantsByActivityId(data:{id: number}):Observable<any>{
+    return this.http.get(`${environement.apiURL}/profiles/participants?activityId=${data.id}&other=true`);
+  }
+
   titleData() : Observable<any>{
     return of({id:0,title:"Software Developer - Fullstack Java",state:"active",someotherdata:"lorem"})
   }

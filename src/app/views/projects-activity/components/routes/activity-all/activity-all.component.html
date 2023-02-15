@@ -158,8 +158,8 @@
                                         <!-- data.participants -->
                                         <ul class="flex avatar-group">
                                             <ng-container *ngFor="let participant of data.participants;let index=index;">
-                                                <nz-avatar *ngIf="getInitials(participant.name)"
-                                                [class]="bgColorClasses[index%3]" [nzText]="getInitials(participant.name)!" [nzSize]="'small'"></nz-avatar>
+                                                <nz-avatar *ngIf="textMethodsService.getInitials(participant.name)"
+                                                [class]="bgColorClasses[index%3]" [nzText]="textMethodsService.getInitials(participant.name)!" [nzSize]="'small'"></nz-avatar>
                                             </ng-container>
                                             <div nz-tooltip nzTooltipTrigger="click" nzTooltipPlacement="bottomLeft" 
                                             [nzTooltipColor] = "'#ffffff'"
@@ -193,7 +193,7 @@
                                             nzShowSearch
                                             (nzOnSearch)="onTimeInput($event,data.id)"
                                             nzBorderless
-                                            [compareWith]="compareSelectedTime"
+                                            [compareWith]="timeMethodsService.compareSelectedTime"
                                             [nzShowArrow]="false"
                                             [ngClass]="{'overdue':data.time.getTime() >= data.deadline.getTime()}"
                                         >
@@ -262,8 +262,8 @@
                                         <!-- activity.participants -->
                                         <ul class="flex avatar-group">
                                             <ng-container *ngFor="let participant of activity.participants;let index=index;">
-                                                <nz-avatar *ngIf="getInitials(participant.name)"
-                                                [class]="bgColorClasses[index%3]" [nzText]="getInitials(participant.name)!" [nzSize]="'small'"></nz-avatar>
+                                                <nz-avatar *ngIf="textMethodsService.getInitials(participant.name)"
+                                                [class]="bgColorClasses[index%3]" [nzText]="textMethodsService.getInitials(participant.name)!" [nzSize]="'small'"></nz-avatar>
                                             </ng-container>
                                         </ul>
                                     </td>
