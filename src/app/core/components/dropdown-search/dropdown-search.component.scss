@@ -19,10 +19,19 @@
 .hide{
     display: none;
 }
-.participants{
+.participant{
+    cursor: pointer;
     display:flex;
     gap:15px;
-    margin-bottom: 1rem;
+    margin-bottom: 5px;
+    padding: 10px;
+    &:hover{
+        opacity: .9;
+        background-color: #fafafa;
+        & > .name{
+            @extend .text-primaryBlue-50;
+        }
+    }
     & > .avatar{
     }
     & > .name{

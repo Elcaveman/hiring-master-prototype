@@ -1,15 +1,18 @@
-<div [ngClass]="{'hide':hide}" class="dropdown-search">
+<div class="dropdown-search">
     <div class="seach-bar">
         <input nz-input type="text" placeholder="Chercher par nom ou email">
     </div>
     <br />
-    <div *ngFor="let i of [1,2,3]" class="results">
-        <div class="participants">
-            <nz-avatar [nzShape]="'circle'"
-                [class]="bgColorClasses[i%3]" [nzText]="'MJ'" [nzSize]="'small'" class="avatar">
+    <div *ngFor="let participant of participants;let i = index;">
+        <div class="participant">
+            <nz-avatar [nzShape]="'circle'" *ngIf="textMethodsService.getInitials(participant.name)!=null"
+                [class]="bgColorClasses[i%3]" [nzText]="textMethodsService.getInitials(participant.name)!" [nzSize]="'small'" class="avatar">
             </nz-avatar>
-            <div class="name">El Mehdi Oudaoud</div>
-            <div class="email">02.oudaoud@gmail.com</div>
+            <nz-avatar [nzShape]="'circle'" *ngIf="textMethodsService.getInitials(participant.name)==null"
+                [class]="bgColorClasses[i%3]" [nzIcon]="'user'" [nzSize]="'small'" class="avatar">
+            </nz-avatar>
+            <div class="name">{{participant.name}}</div>
+            <div class="email">{{participant.email}}</div>
         </div>
     </div>
     <nz-divider style="margin:0 0 15px 0;"></nz-divider>

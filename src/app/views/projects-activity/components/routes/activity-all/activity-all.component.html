@@ -169,7 +169,7 @@
                                                 nz-tooltip></nz-avatar> <!--TODO: check if the activity-->
                                             </div>
                                             <ng-template #participantsDropdown>
-                                                <app-dropdown-search [hide]="index!==0" ></app-dropdown-search>
+                                                <app-dropdown-search [participants]="data.participants"></app-dropdown-search>
                                             </ng-template>
                                             
                                         </ul>
