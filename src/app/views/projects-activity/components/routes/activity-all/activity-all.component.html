@@ -176,24 +176,11 @@
                                     </td>
                                     <td>
                                         <div class="flex">
-                                            <ng-template #customDatePopup>
-                                                <div style="width:200px;height:200px;background-color: red;">
-                                                </div>
-                                                JOHN CENNAAA
-                                                JOHN CENNAAA
-                                                JOHN CENNAAA
-                                                JOHN CENNAAA
-                                                JOHN CENNAAA
-                                                JOHN CENNAAA
-                                            </ng-template>
                                             <nz-date-picker [(ngModel)]="data.time"
                                                 (ngModelChange)="onChange($event)" nzFormat="MMM dd, yyyy" 
                                                 nzBorderless nzSuffixIcon="sync" class="p-0 m-0"
                                                 [ngClass]="{'overdue':data.time.getTime() >= data.deadline.getTime()}"
                                                 customDatepickerMenu>
-                                                <ng-template #inlineMode>
-                                                    THIS IS INLONE MODE
-                                                </ng-template>
                                             </nz-date-picker>
                                         </div>
                                     </td>
