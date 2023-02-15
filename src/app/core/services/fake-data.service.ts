@@ -5,7 +5,7 @@ import { TopNavDisplayModel } from '../components/top-navbar/top-navbar.models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environement } from 'src/environments/environement';
 import { Person } from '../models/person';
-import { RawActivity } from '../models/activity';
+import { Activity, RawActivity } from '../models/activity';
 @Injectable({
   providedIn: 'root'
 })
@@ -65,7 +65,11 @@ export class FakeDataService {
   }
   getOtherParticipantsByActivityId(data:{id: number}):Observable<any>{
     return this.http.get(`${environement.apiURL}/profiles/participants?activityId=${data.id}&other=true`);
-    ;
+  }
+  addParticipantsToActivity(activity:Activity,participants:Person[]):Observable<any>{
+    return this.http.put(`${environement.apiURL}/activities/${activity.id}`,{
+      participants:[...activity.participants.map(p=>({id:p.id})),...participants.map(p=>({id:p.id}))]// carefull with duplicates
+    });
   }
 
   titleData() : Observable<any>{

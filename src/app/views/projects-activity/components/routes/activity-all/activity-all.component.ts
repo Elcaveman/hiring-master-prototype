@@ -27,6 +27,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   bgColorClasses = ["bg-megenta-3","bg-cyan-3","bg-deepPurple-3"];// TODO: add default color for user to customise
   checked = new SafeMap<number,boolean>(false);
   indeterminate = new SafeMap<number,boolean>(false);
+  creationAvatar = 0; // activityId
   loading = false;
   setOfCheckedId = new Set<number>();
   setOfExpandedId = new Set<number>();
@@ -112,6 +113,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     )
   }
   reloadActivities(){
+    this.toogleCreationAvatar(false,0);
     this.refreshToken$.next(undefined);
   }
   ngOnInit(): void {
@@ -147,6 +149,9 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   ngOnDestroy(){
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+  toogleCreationAvatar($event:boolean,activityId:number){
+    ($event)?(this.creationAvatar=activityId):(this.creationAvatar=0);
   }
   onChange(result: Date): void {
     console.log('onChange: ', result);

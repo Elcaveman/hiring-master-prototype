@@ -124,8 +124,11 @@ nz-table{
     &:hover{
         opacity: 1;
         border: 1px dotted map-get($colors,primaryBlue-50 );
-        
     }
+}
+.toogle{
+    opacity: 1;
+    border: 1px dotted map-get( $colors,primaryBlue-50 );
 }
 nz-select {
     width: 100px;

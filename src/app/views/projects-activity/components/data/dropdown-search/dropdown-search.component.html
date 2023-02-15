@@ -4,7 +4,7 @@
     </div>
     <br />
     <div *ngFor="let participant of participantsStream$ | async;let i = index;">
-        <div class="participant">
+        <div class="participant" (click)="selectParticipant($event,participant)">
             <nz-avatar [nzShape]="'circle'" *ngIf="textMethodsService.getInitials(participant.name)!=null"
                 [class]="bgColorClasses[i%3]" [nzText]="textMethodsService.getInitials(participant.name)!" [nzSize]="'small'" class="avatar">
             </nz-avatar>

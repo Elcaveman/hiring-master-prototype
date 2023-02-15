@@ -162,16 +162,16 @@
                                                 [class]="bgColorClasses[index%3]" [nzText]="textMethodsService.getInitials(participant.name)!" [nzSize]="'small'"></nz-avatar>
                                             </ng-container>
                                             <div nz-tooltip nzTooltipTrigger="click" nzTooltipPlacement="bottomLeft" 
-                                            [nzTooltipColor] = "'#ffffff'"
-                                            [nzTooltipTitle]="participantsDropdown" nzTooltipOverlayClassName="border-rounded min-width-400">
-                                                <nz-avatar class="hover-avatar" nzIcon="user" [nzSize]="'small'"
+                                            [nzTooltipColor] = "'#ffffff'" nzTooltipOverlayClassName="border-rounded min-width-400"
+                                            [nzTooltipTitle]="participantsDropdown" 
+                                            (nzTooltipVisibleChange)="toogleCreationAvatar($event,data.id)">
+                                                <nz-avatar class="hover-avatar" [ngClass]="{'toogle':creationAvatar == data.id}" nzIcon="user" [nzSize]="'small'"
                                                 nzTooltipTitle="Ajouter des participants" nzTooltipPlacement="bottom"
                                                 nz-tooltip></nz-avatar> <!--TODO: check if the activity-->
                                             </div>
                                             <ng-template #participantsDropdown>
-                                                <app-dropdown-search [data]="{activityId:data.id}"></app-dropdown-search>
+                                                <app-dropdown-search [activity]="data" (refresh)="reloadActivities()"></app-dropdown-search>
                                             </ng-template>
-                                            
                                         </ul>
                                     </td>
                                     <td>
