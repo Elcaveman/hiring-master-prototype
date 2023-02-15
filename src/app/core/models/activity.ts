@@ -100,10 +100,11 @@ export class RawActivity{
     address:string="";
     medium:ACTIVITY_MEDIUM="phone";
     type:string="";
-    activityType:typeof RAW_ACTIVITY_TYPES[number]="REMINDER";
+    activityType?:typeof RAW_ACTIVITY_TYPES[number];
     finished:boolean=true;
 
     static generateActivity(rawActivity:any):(Interview | Reminder | Reunion | Task){
+        console.log("rawActivity.activityType", rawActivity.activityType)
         if (rawActivity.activityType=="INTERVIEW"){
             return Interview.fromRawActivity(rawActivity);
         }
@@ -276,7 +277,7 @@ export class Reminder implements Activity{
     title="";
     time=new Date();
     deadline=new Date();
-    participants= [];
+    participants:Person[]= [];
     description = "";
     visibility: VISIBILITIES = VISIBILITIES.public;
     reminders = [];
@@ -290,7 +291,7 @@ export class Reminder implements Activity{
         const reminder = new Reminder();
         reminder.id = rawActivity.id
         reminder.owner = rawActivity.owner
-
+        reminder.participants = [...Person.fromArray(rawActivity.participants)];
         reminder.title = rawActivity.title
         reminder.finished = rawActivity.finished
         reminder.time = new Date(Date.parse(rawActivity.time));
