@@ -9,6 +9,6 @@ export class CustomDatepickerMenuDirective {
     private viewContainer: ViewContainerRef) {
     // Now you can access specific instance members of host directive
     // also you can override specific methods from original host directive so that this specific instance uses your method rather than their original methods.
-    console.log(this.viewContainer);
+    // console.log(this.viewContainer);
   }
 }

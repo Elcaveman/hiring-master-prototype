@@ -104,7 +104,6 @@ export class RawActivity{
     finished:boolean=true;
 
     static generateActivity(rawActivity:any):(Interview | Reminder | Reunion | Task){
-        console.log("rawActivity.activityType", rawActivity.activityType)
         if (rawActivity.activityType=="INTERVIEW"){
             return Interview.fromRawActivity(rawActivity);
         }
