@@ -177,7 +177,7 @@
                                     <td>
                                         <div class="flex">
                                             <nz-date-picker [(ngModel)]="data.time"
-                                                (ngModelChange)="onChange($event)" nzFormat="MMM dd, yyyy" 
+                                                (ngModelChange)="onDateChange($event,data.id)" nzFormat="MMM dd, yyyy" 
                                                 nzBorderless nzSuffixIcon="sync" class="p-0 m-0"
                                                 [ngClass]="{'overdue':data.time.getTime() >= data.deadline.getTime()}"
                                                 customDatepickerMenu>

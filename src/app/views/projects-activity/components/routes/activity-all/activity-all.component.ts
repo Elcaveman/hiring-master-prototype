@@ -153,8 +153,10 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   toogleCreationAvatar($event:boolean,activityId:number){
     ($event)?(this.creationAvatar=activityId):(this.creationAvatar=0);
   }
-  onChange(result: Date): void {
-    console.log('onChange: ', result);
+  onDateChange(date: Date,activityId:number): void {
+    this.fakeDataService.updateActivityById(activityId,{time:date}).subscribe(
+      {complete:()=>{this.reloadActivities()}}
+    )
   }
   onExpandChange( $event:any,id:number){
     if (this.setOfExpandedId.has(id)){
