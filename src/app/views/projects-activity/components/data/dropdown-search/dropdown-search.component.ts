@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Person } from '../../models/person';
-import { TextMethodsService } from '../../services/utils/text-methods.service';
 import { Observable } from 'rxjs';
-import { FakeDataService } from '../../services/fake-data.service';
+import { Person } from 'src/app/core/models/person';
+import { FakeDataService } from 'src/app/core/services/fake-data.service';
+import { TextMethodsService } from 'src/app/core/services/utils/text-methods.service';
 
 @Component({
   selector: 'app-dropdown-search',

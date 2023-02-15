@@ -15,12 +15,15 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-
+import { DropdownSearchComponent } from './components/data/dropdown-search/dropdown-search.component';
+import { CustomDatePickerComponent } from './components/data/custom-date-picker/custom-date-picker.component';
 
 @NgModule({
   declarations: [
     ActivityAllComponent,
     ActivityIdComponent,
+    DropdownSearchComponent,
+    CustomDatePickerComponent
   ],
   imports: [
     ProjectsActivityRoutingModule,
