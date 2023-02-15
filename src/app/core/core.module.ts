@@ -7,12 +7,14 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { SideNavbarComponent } from './components/side-navbar/side-navbar.component';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import {RouterModule} from '@angular/router';
+import { CustomDatepickerMenuDirective } from './directives/custom-datepicker-menu.directive';
 
 @NgModule({
   declarations: [
     ActivityWriteModalComponent,
     TopNavbarComponent,
     SideNavbarComponent,
+    CustomDatepickerMenuDirective,
   ],
   imports: [
     RouterModule,
@@ -25,6 +27,7 @@ import {RouterModule} from '@angular/router';
     ActivityWriteModalComponent,
     TopNavbarComponent,
     SideNavbarComponent,
+    CustomDatepickerMenuDirective
   ]
 })
 export class CoreModule { }
