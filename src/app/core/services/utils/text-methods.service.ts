@@ -12,4 +12,7 @@ export class TextMethodsService {
     }
     else return null;
   }
+  equals(o1:string,o2:string){
+    return o1 === o2;
+  }
 }
