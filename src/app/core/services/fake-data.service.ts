@@ -42,34 +42,34 @@ export class FakeDataService {
   }
   /* Basic CRUD */
   getProfileAll(): Observable<Person[]>{
-    return this.http.get<Person[]>(`${environement.apiURL}/profiles`);
+    return this.http.get<Person[]>(`${environement.apiURL}/profiles`).pipe(take(1));
   }
   getProfileById(id:number):Observable<Person>{
-    return this.http.get<Person>(`${environement.apiURL}/profiles/${id}`);
+    return this.http.get<Person>(`${environement.apiURL}/profiles/${id}`).pipe(take(1));
   }
   getActivityAll():Observable<RawActivity[]>{
-    return this.http.get<RawActivity[]>(`${environement.apiURL}/activities`);
+    return this.http.get<RawActivity[]>(`${environement.apiURL}/activities`).pipe(take(1));
   }
   getActivityById(id:number):Observable<RawActivity>{
-    return this.http.get<RawActivity>(`${environement.apiURL}/activities/${id}`);
+    return this.http.get<RawActivity>(`${environement.apiURL}/activities/${id}`).pipe(take(1));
   }
   deleteActivityById(id:number):Observable<any>{
-    return this.http.delete(`${environement.apiURL}/activities/${id}`);
+    return this.http.delete(`${environement.apiURL}/activities/${id}`).pipe(take(1));
   }
   updateActivityById(id:number,data:any):Observable<any>{
-    return this.http.put(`${environement.apiURL}/activities/${id}`,data);
+    return this.http.put(`${environement.apiURL}/activities/${id}`,data).pipe(take(1));
   }
   /* Job specific calls */
   finishActivities(data:{id:number,finished:boolean}[]):Observable<any>{
-    return this.http.put(`${environement.apiURL}/activities/finish`,data);
+    return this.http.put(`${environement.apiURL}/activities/finish`,data).pipe(take(1));
   }
   getOtherParticipantsByActivityId(data:{id: number}):Observable<any>{
-    return this.http.get(`${environement.apiURL}/profiles/participants?activityId=${data.id}&other=true`);
+    return this.http.get(`${environement.apiURL}/profiles/participants?activityId=${data.id}&other=true`).pipe(take(1));
   }
   addParticipantsToActivity(activity:Activity,participants:Person[]):Observable<any>{
     return this.http.put(`${environement.apiURL}/activities/${activity.id}`,{
       participants:[...activity.participants.map(p=>({id:p.id})),...participants.map(p=>({id:p.id}))]// carefull with duplicates
-    });
+    }).pipe(take(1));
   }
 
   titleData() : Observable<any>{
