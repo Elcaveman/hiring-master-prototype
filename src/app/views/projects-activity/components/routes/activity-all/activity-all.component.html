@@ -189,11 +189,24 @@
                                         (ngModelChange)="onChange($event)" nzBorderless
                                         [ngClass]="{'overdue':data.time.getTime() >= data.deadline.getTime()}"
                                         ></nz-time-picker> -->
-                                        <nz-select nzPlaceHolder="08:00"
+                                        <input placeholder="08:00"
+                                        nz-input
+                                        [nzBorderless]="true"
+                                        [value]="timeMethodsService.dateToTimeString(data.time)"
+                                        (input)="onTimeInput($event)"
+                                        (keyup.enter)="onTimeEnter($event,data)"
+                                        [nzAutocomplete]="auto">
+                                        <nz-autocomplete #auto [compareWith]="timeMethodsService.compareSelectedTimeString">
+                                            <nz-auto-option *ngFor="let option of filteredTimeOptions" 
+                                            [nzValue]="option">{{option}}</nz-auto-option>
+                                        </nz-autocomplete>
+                                        <!-- <nz-select nzPlaceHolder="08:00"
                                             [ngModel]="selectedTime.get(data.id)"
-                                            (ngModelChange)="onTimeChange($event,data.id)"
+                                            (ngModelChange)="onTimeChange($event,data)"
                                             nzShowSearch
-                                            (nzOnSearch)="onTimeInput($event,data.id)"
+                                            (nzOnSearch)="onTimeInput($event)"
+                                            (keyup.enter)="onTimeEnter($event,data)"
+                                            (nzBlur)="onTimeBlur()"
                                             nzBorderless
                                             [compareWith]="timeMethodsService.compareSelectedTime"
                                             [nzShowArrow]="false"
@@ -202,7 +215,7 @@
                                             <ng-container *ngFor="let option of timeOptions;">
                                                 <nz-option  [nzLabel]="option.display" [nzValue]="option"></nz-option>
                                             </ng-container>
-                                          </nz-select>
+                                          </nz-select> -->
                                     </td>
                                     <ng-container *ngIf="(data.deadline | date:'shortDate') === (data.time | date:'shortDate');else differentDays">
                                         <td *ngIf="data.time.getTime() > data.deadline.getTime()" class="text-warning">Today at: {{ data.deadline | date:'shortTime' }}</td>

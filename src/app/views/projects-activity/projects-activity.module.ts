@@ -16,6 +16,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { DropdownSearchComponent } from './components/data/dropdown-search/dropdown-search.component';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+
 @NgModule({
   declarations: [
     ActivityAllComponent,
@@ -34,7 +36,8 @@ import { DropdownSearchComponent } from './components/data/dropdown-search/dropd
     NzTimePickerModule,
     NzSelectModule,
     NzDropDownModule,
-    NzModalModule
+    NzModalModule,
+    NzAutocompleteModule
   ]
 })
 export class ProjectsActivityModule { }

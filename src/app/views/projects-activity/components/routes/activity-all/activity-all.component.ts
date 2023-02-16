@@ -18,11 +18,13 @@ import { TimeMethodsService } from 'src/app/core/services/utils/time-methods.ser
 })
 export class ActivityAllComponent implements OnInit,OnDestroy {
   private ngUnsubscribe = new Subject<void>();
+  HOURS_MINUTES_REGEX = /[0-2][0-9]\:[0-5][0-9]/
   START_TIME = 8;
   END_TIME = 22;
   MINUTES_STEP = 15;
-  timeOptions:{time:number[],display:string}[] = this.timeMethodsService.timeRange(this.START_TIME,this.END_TIME,this.MINUTES_STEP);
-  selectedTime:Map<number,{time:number[],display:string}>=new Map();
+  timeOptions:string[] = this.timeMethodsService.timeRange(this.START_TIME,this.END_TIME,this.MINUTES_STEP);
+  filteredTimeOptions:string[] = [...this.timeOptions];
+  selectedTime:Map<number,{time:[number,number],display:string}>=new Map();
   
   bgColorClasses = ["bg-megenta-3","bg-cyan-3","bg-deepPurple-3"];// TODO: add default color for user to customise
   checked = new SafeMap<number,boolean>(false);
@@ -31,7 +33,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   loading = false;
   setOfCheckedId = new Set<number>();
   setOfExpandedId = new Set<number>();
-
+  timeInput = "";
   activatedFilters = {
       // TODO: generate this in the filters object in the constructor
      'Interview':{
@@ -131,8 +133,8 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       tap(arr=>{
         for (let i=0;i<arr.length;i++){
           for (let j=0;j<arr[i].length;j++){
-            const option = this.timeMethodsService.approximate(arr[i][j].time,this.START_TIME,this.END_TIME)
-            this.selectedTime.set(arr[i][j].id,option);
+            const option = this.timeMethodsService.getTime(arr[i][j].time)
+            this.selectedTime.set(arr[i][j].id,{display:this.timeMethodsService.timeToString(option),time:option});
           }
         }
       }),
@@ -154,9 +156,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     ($event)?(this.creationAvatar=activityId):(this.creationAvatar=0);
   }
   onDateChange(date: Date,activityId:number): void {
-    this.fakeDataService.updateActivityById(activityId,{time:date}).subscribe(
-      {complete:()=>{this.reloadActivities()}}
-    )
+    this.fakeDataService.updateActivityById(activityId,{time:date}).subscribe()
   }
   onExpandChange( $event:any,id:number){
     if (this.setOfExpandedId.has(id)){
@@ -166,11 +166,36 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       this.setOfExpandedId.add(id);
     }
   }
-  onTimeChange($event:any,id:number){
-    console.log("onTimeChange",$event,id)
+  onTimeChange($event:{time:[number,number],display:string},data:Activity){
+    const originalDate = data.time;
+    originalDate.setHours(...$event.time);
+    this.fakeDataService.updateActivityById(data.id,{time:data.time}).subscribe()
   }
-  onTimeInput($event:any,id:number){
-    console.log("onTimeInput",$event,id)
+  onTimeInput($event:any){
+    //single input at a time
+    this.timeInput = $event.target.value;
+    this.filteredTimeOptions = this.timeOptions.filter((time)=>{
+      return this.timeMethodsService.compareSelectedTimeString(this.timeInput,time);
+    })
+  }
+  onTimeBlur(){
+    this.timeInput = "";
+  }
+  onTimeEnter($event:any,data:Activity){
+    console.log("onEnter",$event);
+    //validate timeInput
+    if (this.timeInput.match(this.HOURS_MINUTES_REGEX)){
+      const [ h, m ] = this.timeInput.split(":").map(s=>parseInt(s));
+      const date = data.time;
+      date.setHours(h,m);
+      this.fakeDataService.updateActivityById(data.id,{time:date}).subscribe(
+        {next:(res)=>{this.reloadActivities()}}
+      )
+    }
+    else{
+      //maybe error event
+    }
+
   }
   getCandidate(data : Activity):Person | null{
     return Interview.getCandidate(data);
