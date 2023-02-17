@@ -192,13 +192,16 @@
                                         <input placeholder="08:00"
                                         nz-input
                                         [nzBorderless]="true"
-                                        [value]="timeMethodsService.dateToTimeString(data.time)"
+                                        [(ngModel)]="data.hours"
+                                        (ngModelChange)="onTimeSelect($event,data)"
                                         (input)="onTimeInput($event)"
                                         (keyup.enter)="onTimeEnter($event,data)"
                                         [nzAutocomplete]="auto">
                                         <nz-autocomplete #auto [compareWith]="timeMethodsService.compareSelectedTimeString">
-                                            <nz-auto-option *ngFor="let option of filteredTimeOptions" 
-                                            [nzValue]="option">{{option}}</nz-auto-option>
+                                            <ng-container *ngFor="let option of filteredTimeOptions">
+                                                <nz-auto-option [nzValue]="option">{{option}}</nz-auto-option>
+                                            </ng-container>
+                                            
                                         </nz-autocomplete>
                                         <!-- <nz-select nzPlaceHolder="08:00"
                                             [ngModel]="selectedTime.get(data.id)"

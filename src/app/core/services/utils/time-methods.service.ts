@@ -25,6 +25,7 @@ export class TimeMethodsService {
     return false;
   }
   compareSelectedTimeString(o1:string,o2:string){
+    if (!o1) return false;
     if (o1[0] == "0"){
       return o2.replace(":","").search(o1.slice(1).replace(":",""))>=0
     }

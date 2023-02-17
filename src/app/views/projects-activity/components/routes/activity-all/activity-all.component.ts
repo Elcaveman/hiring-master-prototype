@@ -29,6 +29,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   bgColorClasses = ["bg-megenta-3","bg-cyan-3","bg-deepPurple-3"];// TODO: add default color for user to customise
   checked = new SafeMap<number,boolean>(false);
   indeterminate = new SafeMap<number,boolean>(false);
+  timeModelMap = new SafeMap<number,string>("08:00");
   creationAvatar = 0; // activityId
   loading = false;
   setOfCheckedId = new Set<number>();
@@ -181,6 +182,21 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   onTimeBlur(){
     this.timeInput = "";
   }
+  onTimeSelect($event:any,data:Activity){
+    console.log("onTimeSelect",$event)
+    this.timeInput = $event;
+    if (this.timeInput.match(this.HOURS_MINUTES_REGEX)){
+      const [ h, m ] = this.timeInput.split(":").map(s=>parseInt(s));
+      const date = data.time;
+      date.setHours(h,m);
+      this.fakeDataService.updateActivityById(data.id,{time:date}).subscribe(
+        {next:(res)=>{this.onTimeBlur();this.reloadActivities()}}
+      )
+    }
+    else{
+      //maybe error event
+    }
+  }
   onTimeEnter($event:any,data:Activity){
     console.log("onEnter",$event);
     //validate timeInput
@@ -189,7 +205,7 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       const date = data.time;
       date.setHours(h,m);
       this.fakeDataService.updateActivityById(data.id,{time:date}).subscribe(
-        {next:(res)=>{this.reloadActivities()}}
+        {next:(res)=>{this.onTimeBlur();this.reloadActivities()}}
       )
     }
     else{

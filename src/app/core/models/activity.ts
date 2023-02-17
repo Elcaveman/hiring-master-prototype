@@ -6,7 +6,11 @@ import { Office } from "./office";
 // export enum INTERVIEW_MEDIUM {phone,face2face,technical,viseo};
 // export enum REUNION_MEDIUM {phone,technical,viseo};
 // export enum TASK_MEDIUM {phone,email,deadline,coffe,paint,menu};
-
+function timeToString(hours:[number,number]): string{
+    if (hours!=null && hours?.length==2)
+        return `${(hours[0]>9)?hours[0]:'0'+hours[0]}:${(hours[1]>9)?hours[1]:'0'+hours[1]}`
+    return ""
+  }
 export const INTERVIEW_MEDIUM = ['phone','face2face','technical','viseo','other'] as const;
 export const REUNION_MEDIUM = ['phone','technical','viseo','other'] as const;
 export const TASK_MEDIUM = ['phone','email','deadline','coffee','paint','menu','other'] as const;
@@ -140,6 +144,13 @@ export class Interview implements Activity{
     subActivities : Activity[]=[];
     constructor(){
     }
+    get hours(){
+        return timeToString([this.time.getHours(),this.time.getMinutes()])
+    }
+    set hours(hm:string){
+        // const sp = hm.split(":");
+        // this.time.setHours(parseInt(sp[0]),parseInt(sp[1]));
+    }
     static fromRawActivity(rawActivity: RawActivity): Interview{
         const interview = new Interview();
         interview.id = rawActivity.id
@@ -201,6 +212,13 @@ export class Reunion implements Activity{
     finished=false;
     constructor(){
     }
+    get hours(){
+        return timeToString([this.time.getHours(),this.time.getMinutes()])
+    }
+    set hours(hm:string){
+        // const sp = hm.split(":");
+        // this.time.setHours(parseInt(sp[0]),parseInt(sp[1]));
+    }
     static fromRawActivity(rawActivity: RawActivity): Reunion{
         const reunion = new Reunion();
         reunion.id = rawActivity.id
@@ -245,6 +263,13 @@ export class Task implements Activity{
     subActivities:Activity[]=[];
     constructor(){
     }
+    get hours(){
+        return timeToString([this.time.getHours(),this.time.getMinutes()])
+    }
+    set hours(hm:string){
+        // const sp = hm.split(":");
+        // this.time.setHours(parseInt(sp[0]),parseInt(sp[1]));
+    }
     static fromRawActivity(rawActivity: RawActivity): Task{
         const task = new Task();
         task.id = rawActivity.id
@@ -285,6 +310,13 @@ export class Reminder implements Activity{
     finished=false;
     subActivities:Activity[]=[];
     constructor(){
+    }
+    get hours(){
+        return timeToString([this.time.getHours(),this.time.getMinutes()])
+    }
+    set hours(hm:string){
+        // const sp = hm.split(":");
+        // this.time.setHours(parseInt(sp[0]),parseInt(sp[1]));
     }
     static fromRawActivity(rawActivity: RawActivity): Reminder{
         const reminder = new Reminder();
