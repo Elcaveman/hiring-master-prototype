@@ -2,7 +2,20 @@
 @import '/src/app/core/styles/main.scss';
 @import '/src/app/core/styles/colors.scss';
 
+::-webkit-scrollbar {
+    width: 8px;
+    background-color: white;
+}
 
+::-webkit-scrollbar-thumb {
+background: linear-gradient(map-get($colors,neutralBlue-30), map-get($colors,neutralBlue-50));
+border-radius:6px;
+transform: background .2s ease-in;
+}
+
+::-webkit-scrollbar-thumb:hover {
+background:linear-gradient(map-get($colors,neutralBlue-50), map-get($colors,neutralBlue-60));
+}
 
 .overdue{
     /* you can't override the changes of ng-date-picker if you don't define the style here*/

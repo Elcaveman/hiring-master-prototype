@@ -175,43 +175,46 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   onTimeInput($event:any){
     //single input at a time
     this.timeInput = $event.target.value;
-    this.filteredTimeOptions = this.timeOptions.filter((time)=>{
+    this.filteredTimeOptions = this.filteredTimeOptions.filter((time)=>{
       return this.timeMethodsService.compareSelectedTimeString(this.timeInput,time);
     })
   }
-  onTimeBlur(){
+  onTimeClick($event:any){
+    this.resetTimeInput()
+  }
+  resetTimeInput(){
     this.timeInput = "";
+    this.filteredTimeOptions = [...this.timeOptions];
   }
   onTimeSelect($event:any,data:Activity){
-    console.log("onTimeSelect",$event)
     this.timeInput = $event;
     if (this.timeInput.match(this.HOURS_MINUTES_REGEX)){
       const [ h, m ] = this.timeInput.split(":").map(s=>parseInt(s));
       const date = data.time;
       date.setHours(h,m);
       this.fakeDataService.updateActivityById(data.id,{time:date}).subscribe(
-        {next:(res)=>{this.onTimeBlur();this.reloadActivities()}}
+        {next:(res)=>{this.reloadActivities()}}
       )
     }
     else{
       //maybe error event
     }
+    this.resetTimeInput();
   }
   onTimeEnter($event:any,data:Activity){
-    console.log("onEnter",$event);
     //validate timeInput
     if (this.timeInput.match(this.HOURS_MINUTES_REGEX)){
       const [ h, m ] = this.timeInput.split(":").map(s=>parseInt(s));
       const date = data.time;
       date.setHours(h,m);
       this.fakeDataService.updateActivityById(data.id,{time:date}).subscribe(
-        {next:(res)=>{this.onTimeBlur();this.reloadActivities()}}
+        {next:(res)=>{this.reloadActivities()}}
       )
     }
     else{
       //maybe error event
     }
-
+    this.resetTimeInput();
   }
   getCandidate(data : Activity):Person | null{
     return Interview.getCandidate(data);

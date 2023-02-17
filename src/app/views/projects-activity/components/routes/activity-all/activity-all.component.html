@@ -195,6 +195,7 @@
                                         [(ngModel)]="data.hours"
                                         (ngModelChange)="onTimeSelect($event,data)"
                                         (input)="onTimeInput($event)"
+                                        (click)="onTimeClick($event)"
                                         (keyup.enter)="onTimeEnter($event,data)"
                                         [nzAutocomplete]="auto">
                                         <nz-autocomplete #auto [compareWith]="timeMethodsService.compareSelectedTimeString">
