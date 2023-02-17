@@ -100,3 +100,8 @@ nz-content {
     background-color: transparent;
   }
 }
+.borderless-collapse{
+  .ant-collapse-header{
+      width:fit-content;
+  }
+}
