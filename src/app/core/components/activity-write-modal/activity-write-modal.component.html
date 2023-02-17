@@ -1,7 +1,24 @@
-<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Créer une nouvelle activité" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
     <ng-container *nzModalContent>
-      <p>Content one</p>
-      <p>Content two</p>
-      <p>Content three</p>
+      <div class="flex">
+        <input nz-input type="text" placeholder="Titre de l'activité" class="activity-title">
+        <label nz-checkbox [(ngModel)]="finished" class="circular-nz-checkbox"></label>
+      </div>
+      <br>
+      <div class="activity-types flex">
+        <button nz-button nzType="text">Entretien</button>
+        <button nz-button nzType="text">Réunion</button>
+        <button nz-button nzType="text">Tâche</button>
+        <button nz-button nzType="text">Rappel</button>
+      </div>
+      <br>
+      <div class="activity-mediums flex">
+        <button nz-button><span nz-icon nzType="cluster" nzTheme="outline"></span></button>
+        <button nz-button><span nz-icon nzType="phone" nzTheme="outline"></span></button>
+        <button nz-button><span nz-icon nzType="mail" nzTheme="outline"></span></button>
+        <button nz-button><span nz-icon nzType="coffee" nzTheme="outline"></span></button>
+        <button nz-button><span nz-icon nzType="bulb" nzTheme="outline"></span></button>
+      </div>
+      <br>
     </ng-container>
   </nz-modal>

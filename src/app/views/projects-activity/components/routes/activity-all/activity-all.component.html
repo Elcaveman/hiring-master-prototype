@@ -64,7 +64,7 @@
     <div id="activities-table">
         <div class="collapse-wrapper">
             <ng-container>
-                <nz-collapse *ngFor="let activitiyGroup of (groupedActivityStream$ | async);let groupIndex=index;" nzGhost>
+                <nz-collapse *ngFor="let activitiyGroup of (groupedActivityStream$ | async);let groupIndex=index;" nzGhost class="borderless-collapse">
                     <nz-collapse-panel
                         [nzHeader]="collapseTitle"
                         [nzActive]="true"

@@ -8,6 +8,7 @@ import { SideNavbarComponent } from './components/side-navbar/side-navbar.compon
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import {RouterModule} from '@angular/router';
 import { CustomDatepickerMenuDirective } from './directives/custom-datepicker-menu.directive';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CustomDatepickerMenuDirective } from './directives/custom-datepicker-me
     SharedModule,
     NzAutocompleteModule,
     NzAvatarModule,
-    NzBadgeModule
+    NzBadgeModule,
+    NzCheckboxModule
   ],
   exports:[
     ActivityWriteModalComponent,
