@@ -11,6 +11,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 
 
@@ -24,7 +25,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzLayoutModule,
     NzMenuModule,
     NzDividerModule,
-    NzButtonModule,NzInputModule,NzToolTipModule
+    NzButtonModule,NzInputModule,NzToolTipModule,NzModalModule
   ],
   exports:[
     CommonModule,
@@ -34,7 +35,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzLayoutModule,
     NzMenuModule,
     NzDividerModule,
-    NzButtonModule,NzInputModule,NzToolTipModule
+    NzButtonModule,NzInputModule,NzToolTipModule,NzModalModule
   ]
 })
 export class SharedModule { }

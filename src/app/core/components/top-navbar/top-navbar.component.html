@@ -74,6 +74,7 @@
                 <button class="btn btn-primary-outline rounded-32" (click)="showModal()">
                     <span nz-icon nzType="plus" nzTheme="outline"></span>Activité
                 </button>
+                <app-activity-write-modal [(isVisible)]="activityModalIsVisible"></app-activity-write-modal>
                 <button nz-button nzType="text"><span nz-icon nzType="user" nzTheme="outline"></span>Tous</button>
                 <button nz-button nzType="text"><span nz-icon nzType="filter" nzTheme="outline"></span>Filtres</button>
                 <button nz-button nzType="text"><span nz-icon nzType="layout" nzTheme="outline"></span>Par défault</button>

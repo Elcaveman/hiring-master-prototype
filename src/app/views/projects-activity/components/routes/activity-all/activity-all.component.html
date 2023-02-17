@@ -204,22 +204,6 @@
                                             </ng-container>
                                             
                                         </nz-autocomplete>
-                                        <!-- <nz-select nzPlaceHolder="08:00"
-                                            [ngModel]="selectedTime.get(data.id)"
-                                            (ngModelChange)="onTimeChange($event,data)"
-                                            nzShowSearch
-                                            (nzOnSearch)="onTimeInput($event)"
-                                            (keyup.enter)="onTimeEnter($event,data)"
-                                            (nzBlur)="onTimeBlur()"
-                                            nzBorderless
-                                            [compareWith]="timeMethodsService.compareSelectedTime"
-                                            [nzShowArrow]="false"
-                                            [ngClass]="{'overdue':data.time.getTime() >= data.deadline.getTime()}"
-                                        >
-                                            <ng-container *ngFor="let option of timeOptions;">
-                                                <nz-option  [nzLabel]="option.display" [nzValue]="option"></nz-option>
-                                            </ng-container>
-                                          </nz-select> -->
                                     </td>
                                     <ng-container *ngIf="(data.deadline | date:'shortDate') === (data.time | date:'shortDate');else differentDays">
                                         <td *ngIf="data.time.getTime() > data.deadline.getTime()" class="text-warning">Today at: {{ data.deadline | date:'shortTime' }}</td>
@@ -311,6 +295,7 @@
                             <div class="add-activity" (click)="addActivity($event)">
                                 <span nz-icon nzType="plus" nzTheme="outline" ></span> Ajouter un nouvelle activité
                             </div>
+                            <app-activity-write-modal [(isVisible)]="activityModalIsVisible"></app-activity-write-modal>
                             
                         </ng-template>
                     </nz-collapse-panel>

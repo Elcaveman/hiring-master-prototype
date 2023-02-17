@@ -12,13 +12,14 @@ import { ActivityModalService } from '../../services/activity-modal.service';
 export class TopNavbarComponent {
   @Input() collapsed :boolean=false;// initial state
   @Output() collapseEvent = new EventEmitter<boolean>;
+  activityModalIsVisible = false;
   isCollapsed:boolean;
   displayData$ ?: Observable<TopNavDisplayModel>;
   inputValue?: string;
   options: string[] = [];
   STATE_ENUM = STATE_ENUM;
 
-  constructor(private fakeDataService_:FakeDataService,private activityModalService_:ActivityModalService){
+  constructor(private fakeDataService_:FakeDataService){
     this.isCollapsed = this.collapsed;
     this.displayData$ = fakeDataService_.titleData().pipe(
       map(x => new TopNavDisplayModel(x.title,x.state))
@@ -29,7 +30,7 @@ export class TopNavbarComponent {
     this.collapseEvent.emit(this.isCollapsed)
   }
   showModal(){
-    this.activityModalService_.showModal();
+    this.activityModalIsVisible = true;
   }
   onInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;

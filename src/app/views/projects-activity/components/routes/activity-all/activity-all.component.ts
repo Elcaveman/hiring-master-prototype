@@ -18,7 +18,7 @@ import { TimeMethodsService } from 'src/app/core/services/utils/time-methods.ser
 })
 export class ActivityAllComponent implements OnInit,OnDestroy {
   private ngUnsubscribe = new Subject<void>();
-  HOURS_MINUTES_REGEX = /[0-2][0-9]\:[0-5][0-9]/
+  HOURS_MINUTES_REGEX = /[0-2][0-9]\:[0-5][0-9]/;
   START_TIME = 8;
   END_TIME = 22;
   MINUTES_STEP = 15;
@@ -72,6 +72,8 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       //only here to avoid field access issues
     }}
   }
+  
+  activityModalIsVisible = false; // add service to take care of concurent access to this variable
 
   activitiyStream$?:Observable<(Interview | Reminder | Reunion | Task )[]>;
   groupedActivityStream_$?:Observable<(Interview | Reminder | Reunion | Task )[][]>;
@@ -88,7 +90,6 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
   constructor(
     private fakeDataService:FakeDataService,
     private nzContextMenuService:NzContextMenuService,
-    private activityModalService_:ActivityModalService,
     public textMethodsService:TextMethodsService,
     public timeMethodsService:TimeMethodsService,
     ){}
@@ -361,7 +362,6 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
     this.nzContextMenuService.close();
   }
   addActivity($event:any){
-    console.log("addActivity")
-    this.activityModalService_.showModal();
+    this.activityModalIsVisible = true;
   }
 }
