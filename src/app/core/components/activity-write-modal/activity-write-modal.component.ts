@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TimeMethodsService } from '../../services/utils/time-methods.service';
 /*
  * Activity : 
  * Write : meaning it's capable of doing create, update or delete operations 
@@ -13,6 +14,7 @@ export class ActivityWriteModalComponent {
   @Output() isVisibleChange = new EventEmitter<boolean>;
   selectedActivityType: "Interview" | "Task" | "Reunion" | "Reminder" = "Interview";
   finished = false;
+  constructor(private timeMethodsService:TimeMethodsService){}
   handleOk(): void {
     console.log('Button ok clicked!');
     this.isVisibleChange.emit(false);

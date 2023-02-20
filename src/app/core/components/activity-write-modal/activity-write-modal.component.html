@@ -1,4 +1,4 @@
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Créer une nouvelle activité" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Créer une nouvelle activité" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzWidth]="'600px'">
     <ng-container *nzModalContent>
       <div class="flex">
         <input nz-input type="text" placeholder="Titre de l'activité" class="activity-title">
@@ -19,9 +19,51 @@
         <button nz-button nzType="primary"  nzShape="circle"><span nz-icon nzType="coffee" nzTheme="outline"></span></button>
         <button nz-button nzType="primary"  nzShape="circle"><span nz-icon nzType="bulb" nzTheme="outline"></span></button>
       </div>
-      <div>
-        
+      <div class="flex">
+        <span nz-icon nzType="calendar" nzTheme="outline"></span>
+        <div>Wait for date compoennt refacto</div>
       </div>
-      <br>
+      <div class="flex">
+        <span nz-icon nzType="team" nzTheme="outline"></span>
+        <div>Wait for person select component refacto</div>
+      </div>
+      <div class="flex">
+        <span nz-icon nzType="flag" nzTheme="outline"></span><!-- change -->
+        <div>Wait for jobs component creation</div>
+      </div>
+      <div class="flex">
+        <span nz-icon nzType="flag" nzTheme="outline"></span><!-- change -->
+        <div>
+          <!-- <div>Wait for user tooltip tempalte</div> -->
+          <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
+          <nz-avatar style="background-color: #f56a00" nzText="U"></nz-avatar>
+          <nz-avatar style="background-color: #87d068" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>
+        </div>
+        <span nz-icon nzType="edit" nzTheme="outline"></span>
+      </div>
+      <nz-divider></nz-divider>
+      <div>
+        <span nz-icon nzType="position" nzTheme="outline"></span>
+        <div>wait for desk select compoents</div>
+      </div>
+      <div class="flex">
+        <span nz-icon nzType="plus" nzTheme="outline"></span>
+        <div>Wait for description mixed components</div>
+      </div>
+      <div class="flex">
+        <span nz-icon nzType="unlock" nzTheme="outline"></span>
+        <div>Wait for visibility / reminder components</div>
+      </div>
+    </ng-container>
+    <ng-container *nzModalFooter>
+      <div class="flex">
+        <button nz-button nzType="default" (click)="handleCancel()">Annuler</button>
+        <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="">
+          Plannifer sans l'envoi de l'email
+        </button>
+        <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="">
+          Planifier et envoyer l'email >
+        </button>
+      </div>
     </ng-container>
   </nz-modal>
