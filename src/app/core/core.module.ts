@@ -9,6 +9,8 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import {RouterModule} from '@angular/router';
 import { CustomDatepickerMenuDirective } from './directives/custom-datepicker-menu.directive';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { DatepickerComponent } from './components/datepicker/datepicker.component';
+import { TimepickerComponent } from './components/timepicker/timepicker.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     TopNavbarComponent,
     SideNavbarComponent,
     CustomDatepickerMenuDirective,
+    DatepickerComponent,
+    TimepickerComponent,
   ],
   imports: [
     RouterModule,
