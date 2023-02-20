@@ -14,6 +14,8 @@ import { DatepickerComponent } from './components/datetime/datepicker/datepicker
 import { TimepickerComponent } from './components/datetime/timepicker/timepicker.component';
 import { CandidateSelectComponent } from './components/candidate-select/candidate-select.component';
 import { ParticipantSelectComponent } from './components/participant-select/participant-select.component';
+import { JobTreeComponent } from './components/job-tree/job-tree.component';
+import { NzTreeModule } from 'ng-zorro-antd/tree';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { ParticipantSelectComponent } from './components/participant-select/part
     MinutepickerComponent,
     CandidateSelectComponent,
     ParticipantSelectComponent,
+    JobTreeComponent,
   ],
   imports: [
     RouterModule,
@@ -33,7 +36,7 @@ import { ParticipantSelectComponent } from './components/participant-select/part
     NzAutocompleteModule,
     NzAvatarModule,
     NzBadgeModule,
-    NzCheckboxModule
+    NzCheckboxModule,NzTreeModule
   ],
   exports:[
     ActivityWriteModalComponent,
@@ -44,6 +47,7 @@ import { ParticipantSelectComponent } from './components/participant-select/part
     TimepickerComponent,
     MinutepickerComponent,
     ParticipantSelectComponent,
+    JobTreeComponent
   ]
 })
 export class CoreModule { }
