@@ -20,7 +20,9 @@ import { TimeDto } from '../time';
       (input)="onTimeInput($event)"
       (click)="onTimeClick($event)"
       (keyup.enter)="onTimeEnter($event,data)"
-      [nzAutocomplete]="auto">
+      [nzAutocomplete]="auto"
+      [ngClass]="{'overdue':data.time.getTime() >= data.deadline.getTime()}"
+      >
       <nz-autocomplete #auto [compareWith]="timeMethodsService.compareSelectedTimeString">
           <ng-container *ngFor="let option of filteredTimeOptions">
               <nz-auto-option [nzValue]="option">{{option}}</nz-auto-option>
@@ -30,6 +32,7 @@ import { TimeDto } from '../time';
     </ng-container>
   `,
   styles: [
+    'input.overdue {color:#FF7875 !important;}'
   ]
 })
 export class TimepickerComponent {
