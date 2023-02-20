@@ -11,6 +11,7 @@ import { CustomDatepickerMenuDirective } from './directives/custom-datepicker-me
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { DatepickerComponent } from './components/datepicker/datepicker.component';
 import { TimepickerComponent } from './components/timepicker/timepicker.component';
+import { MinutepickerComponent } from './components/minutepicker/minutepicker.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { TimepickerComponent } from './components/timepicker/timepicker.componen
     CustomDatepickerMenuDirective,
     DatepickerComponent,
     TimepickerComponent,
+    MinutepickerComponent,
   ],
   imports: [
     RouterModule,
