@@ -185,7 +185,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <core-timepicker [data]="data" (timeChange)="onTimeChange($event)"></core-timepicker>
+                                        <core-timepicker [data]="data" (timeChange)="onTimeChange($event)" [showOverdue]="true"></core-timepicker>
                                     </td>
                                     <ng-container *ngIf="(data.deadline | date:'shortDate') === (data.time | date:'shortDate');else differentDays">
                                         <td *ngIf="data.time.getTime() > data.deadline.getTime()" class="text-warning">Today at: {{ data.deadline | date:'shortTime' }}</td>

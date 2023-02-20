@@ -21,7 +21,7 @@ import { TimeDto } from '../time';
       (click)="onTimeClick($event)"
       (keyup.enter)="onTimeEnter($event,data)"
       [nzAutocomplete]="auto"
-      [ngClass]="{'overdue':data.time.getTime() >= data.deadline.getTime()}"
+      [ngClass]="{'overdue':showOverdue && data.time.getTime() >= data.deadline.getTime()}"
       >
       <nz-autocomplete #auto [compareWith]="timeMethodsService.compareSelectedTimeString">
           <ng-container *ngFor="let option of filteredTimeOptions">
@@ -47,7 +47,7 @@ export class TimepickerComponent {
   // @Output() timeInputChange = new EventEmitter<string>();
   timeInput:string = "";
   @Output() timeChange = new EventEmitter<TimeDto>();
-
+  @Input() showOverdue = false;
   constructor(public textMethodsService:TextMethodsService,public timeMethodsService:TimeMethodsService){
 
   }
