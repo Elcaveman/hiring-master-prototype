@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TextMethodsService } from '../../services/utils/text-methods.service';
 import { TimeMethodsService } from '../../services/utils/time-methods.service';
 import { Activity, Interview, Reminder, Reunion, Task } from '../../models/activity';
+import { TimeDto } from '../time';
 
 @Component({
   selector: 'core-timepicker',
@@ -42,7 +43,7 @@ export class TimepickerComponent {
   // @Input() timeInput:string = "";
   // @Output() timeInputChange = new EventEmitter<string>();
   timeInput:string = "";
-  @Output() timeChange = new EventEmitter<{id:number,data:{time:Date}}>();
+  @Output() timeChange = new EventEmitter<TimeDto>();
 
   constructor(public textMethodsService:TextMethodsService,public timeMethodsService:TimeMethodsService){
 
@@ -51,8 +52,7 @@ export class TimepickerComponent {
   onTimeChange($event:{time:[number,number],display:string},data:Activity){
     const originalDate = data.time;
     originalDate.setHours(...$event.time);
-    this.timeChange.emit({id:data.id,data:{time:data.time}})
-    // this.fakeDataService.updateActivityById(data.id,{time:data.time}).subscribe();//!not here
+    this.timeChange.emit(new TimeDto(data.id,{time:data.time}));
   }
   onTimeInput($event:any){
     //single input at a time
@@ -74,7 +74,7 @@ export class TimepickerComponent {
       const [ h, m ] = this.timeInput.split(":").map(s=>parseInt(s));
       const date = data.time;
       date.setHours(h,m);
-      this.timeChange.emit({id:data.id,data:{time:date}});
+      this.timeChange.emit(new TimeDto(data.id,{time:date}));
       
     }
     else{
@@ -88,10 +88,7 @@ export class TimepickerComponent {
       const [ h, m ] = this.timeInput.split(":").map(s=>parseInt(s));
       const date = data.time;
       date.setHours(h,m);
-      this.timeChange.emit({id:data.id,data:{time:date}});
-      // this.fakeDataService.updateActivityById(data.id,{time:date}).subscribe(
-      //   {next:(res)=>{this.reloadActivities()}}
-      // )//!not here
+      this.timeChange.emit(new TimeDto(data.id,{time:date}));
     }
     else{
       //maybe error event
