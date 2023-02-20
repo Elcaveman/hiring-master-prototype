@@ -9,9 +9,11 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import {RouterModule} from '@angular/router';
 import { CustomDatepickerMenuDirective } from './directives/custom-datepicker-menu.directive';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
-import { DatepickerComponent } from './components/datepicker/datepicker.component';
-import { TimepickerComponent } from './components/timepicker/timepicker.component';
-import { MinutepickerComponent } from './components/minutepicker/minutepicker.component';
+import { MinutepickerComponent } from './components/datetime/minutepicker/minutepicker.component';
+import { DatepickerComponent } from './components/datetime/datepicker/datepicker.component';
+import { TimepickerComponent } from './components/datetime/timepicker/timepicker.component';
+import { CandidateSelectComponent } from './components/candidate-select/candidate-select.component';
+import { ParticipantSelectComponent } from './components/participant-select/participant-select.component';
 
 @NgModule({
   declarations: [
@@ -19,9 +21,11 @@ import { MinutepickerComponent } from './components/minutepicker/minutepicker.co
     TopNavbarComponent,
     SideNavbarComponent,
     CustomDatepickerMenuDirective,
-    DatepickerComponent,
     TimepickerComponent,
+    DatepickerComponent,
     MinutepickerComponent,
+    CandidateSelectComponent,
+    ParticipantSelectComponent,
   ],
   imports: [
     RouterModule,

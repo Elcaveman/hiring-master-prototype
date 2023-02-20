@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-datepicker',
+  selector: 'core-datepicker',
   template: `
     <p>
       datepicker works!

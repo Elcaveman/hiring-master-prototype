@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TextMethodsService } from '../../services/utils/text-methods.service';
-import { TimeMethodsService } from '../../services/utils/time-methods.service';
-import { Activity, Interview, Reminder, Reunion, Task } from '../../models/activity';
+import { Activity, Interview, Reminder, Reunion, Task } from 'src/app/core/models/activity';
 import { TimeDto } from '../time';
+import { TextMethodsService } from 'src/app/core/services/utils/text-methods.service';
+import { TimeMethodsService } from 'src/app/core/services/utils/time-methods.service';
 
 @Component({
   selector: 'core-timepicker',
