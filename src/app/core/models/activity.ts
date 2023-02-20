@@ -159,8 +159,7 @@ export class Interview implements Activity{
         interview.medium = "phone";// TODO: fetch and garenty return the correct string
         interview.candidate = (rawActivity.candidate)?rawActivity.candidate:new Person();
 
-        interview.job = new Job();
-        interview.job.title = rawActivity.job;
+        interview.job = new Job(rawActivity.job);
 
         interview.address = new Office();
         interview.address.address= rawActivity.address;
