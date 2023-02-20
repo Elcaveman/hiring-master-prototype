@@ -18,23 +18,17 @@ import { TimeMethodsService } from 'src/app/core/services/utils/time-methods.ser
 })
 export class ActivityAllComponent implements OnInit,OnDestroy {
   private ngUnsubscribe = new Subject<void>();
-  HOURS_MINUTES_REGEX = /[0-2][0-9]\:[0-5][0-9]/;
-  START_TIME = 8;
-  END_TIME = 22;
-  MINUTES_STEP = 15;
-  timeOptions:string[] = this.timeMethodsService.timeRange(this.START_TIME,this.END_TIME,this.MINUTES_STEP);
-  filteredTimeOptions:string[] = [...this.timeOptions];
-  selectedTime:Map<number,{time:[number,number],display:string}>=new Map();
-  
+  timeInput = "";
+  timeModelMap = new SafeMap<number,string>("08:00");
   bgColorClasses = ["bg-megenta-3","bg-cyan-3","bg-deepPurple-3"];// TODO: add default color for user to customise
+
   checked = new SafeMap<number,boolean>(false);
   indeterminate = new SafeMap<number,boolean>(false);
-  timeModelMap = new SafeMap<number,string>("08:00");
+
   creationAvatar = 0; // activityId
   loading = false;
   setOfCheckedId = new Set<number>();
   setOfExpandedId = new Set<number>();
-  timeInput = "";
   activatedFilters = {
       // TODO: generate this in the filters object in the constructor
      'Interview':{
@@ -132,14 +126,6 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       tap(groups=>{
         this.setCheckStatus(groups);
       }),
-      tap(arr=>{
-        for (let i=0;i<arr.length;i++){
-          for (let j=0;j<arr[i].length;j++){
-            const option = this.timeMethodsService.getTime(arr[i][j].time)
-            this.selectedTime.set(arr[i][j].id,{display:this.timeMethodsService.timeToString(option),time:option});
-          }
-        }
-      }),
       takeUntil(this.ngUnsubscribe)
     ).subscribe()
 
@@ -168,54 +154,10 @@ export class ActivityAllComponent implements OnInit,OnDestroy {
       this.setOfExpandedId.add(id);
     }
   }
-  onTimeChange($event:{time:[number,number],display:string},data:Activity){
-    const originalDate = data.time;
-    originalDate.setHours(...$event.time);
-    this.fakeDataService.updateActivityById(data.id,{time:data.time}).subscribe()
-  }
-  onTimeInput($event:any){
-    //single input at a time
-    this.timeInput = $event.target.value;
-    this.filteredTimeOptions = this.filteredTimeOptions.filter((time)=>{
-      return this.timeMethodsService.compareSelectedTimeString(this.timeInput,time);
-    })
-  }
-  onTimeClick($event:any){
-    this.resetTimeInput()
-  }
-  resetTimeInput(){
-    this.timeInput = "";
-    this.filteredTimeOptions = [...this.timeOptions];
-  }
-  onTimeSelect($event:any,data:Activity){
-    this.timeInput = $event;
-    if (this.timeInput.match(this.HOURS_MINUTES_REGEX)){
-      const [ h, m ] = this.timeInput.split(":").map(s=>parseInt(s));
-      const date = data.time;
-      date.setHours(h,m);
-      this.fakeDataService.updateActivityById(data.id,{time:date}).subscribe(
+  onTimeChange($event:{id:number,data:{time:Date}}){
+    this.fakeDataService.updateActivityById($event.id,$event.data).subscribe(
         {next:(res)=>{this.reloadActivities()}}
-      )
-    }
-    else{
-      //maybe error event
-    }
-    this.resetTimeInput();
-  }
-  onTimeEnter($event:any,data:Activity){
-    //validate timeInput
-    if (this.timeInput.match(this.HOURS_MINUTES_REGEX)){
-      const [ h, m ] = this.timeInput.split(":").map(s=>parseInt(s));
-      const date = data.time;
-      date.setHours(h,m);
-      this.fakeDataService.updateActivityById(data.id,{time:date}).subscribe(
-        {next:(res)=>{this.reloadActivities()}}
-      )
-    }
-    else{
-      //maybe error event
-    }
-    this.resetTimeInput();
+    );
   }
   getCandidate(data : Activity):Person | null{
     return Interview.getCandidate(data);

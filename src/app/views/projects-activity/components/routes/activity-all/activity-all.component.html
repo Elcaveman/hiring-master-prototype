@@ -185,25 +185,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <!-- <nz-time-picker [(ngModel)]="data.time" nzFormat="HH:mm" class="p-0 m-0 no-suffix-icon"
-                                        (ngModelChange)="onChange($event)" nzBorderless
-                                        [ngClass]="{'overdue':data.time.getTime() >= data.deadline.getTime()}"
-                                        ></nz-time-picker> -->
-                                        <input placeholder="08:00"
-                                        nz-input
-                                        [nzBorderless]="true"
-                                        [(ngModel)]="data.hours"
-                                        (ngModelChange)="onTimeSelect($event,data)"
-                                        (input)="onTimeInput($event)"
-                                        (click)="onTimeClick($event)"
-                                        (keyup.enter)="onTimeEnter($event,data)"
-                                        [nzAutocomplete]="auto">
-                                        <nz-autocomplete #auto [compareWith]="timeMethodsService.compareSelectedTimeString">
-                                            <ng-container *ngFor="let option of filteredTimeOptions">
-                                                <nz-auto-option [nzValue]="option">{{option}}</nz-auto-option>
-                                            </ng-container>
-                                            
-                                        </nz-autocomplete>
+                                        <core-timepicker [data]="data" (timeChange)="onTimeChange($event)"></core-timepicker>
                                     </td>
                                     <ng-container *ngIf="(data.deadline | date:'shortDate') === (data.time | date:'shortDate');else differentDays">
                                         <td *ngIf="data.time.getTime() > data.deadline.getTime()" class="text-warning">Today at: {{ data.deadline | date:'shortTime' }}</td>

@@ -35,7 +35,10 @@ import { MinutepickerComponent } from './components/minutepicker/minutepicker.co
     ActivityWriteModalComponent,
     TopNavbarComponent,
     SideNavbarComponent,
-    CustomDatepickerMenuDirective
+    CustomDatepickerMenuDirective,
+    DatepickerComponent,
+    TimepickerComponent,
+    MinutepickerComponent,
   ]
 })
 export class CoreModule { }
