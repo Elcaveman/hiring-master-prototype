@@ -7,10 +7,6 @@ import { TimeDto } from '../time';
 @Component({
   selector: 'core-timepicker',
   template: `
-    <!-- <nz-time-picker [(ngModel)]="data.time" nzFormat="HH:mm" class="p-0 m-0 no-suffix-icon"
-    (ngModelChange)="onChange($event)" nzBorderless
-    [ngClass]="{'overdue':data.time.getTime() >= data.deadline.getTime()}"
-    ></nz-time-picker> -->
     <ng-container *ngIf="data">
       <input placeholder="08:00"
       nz-input
