@@ -9,11 +9,11 @@ import { TextMethodsService } from '../../services/utils/text-methods.service';
   selector: 'core-participant-select',
   template: `
   <ng-container *ngIf="!inline;else inlineMode;">
-    <div nz-tooltip nzTooltipTrigger="click" nzTooltipPlacement="bottomLeft" 
+    <div nz-tooltip nzTooltipTrigger="click" nzTooltipPlacement="bottom" 
           [nzTooltipColor] = "'#ffffff'" nzTooltipOverlayClassName="border-rounded min-width-400"
           [nzTooltipTitle]="inlineMode" 
           (nzTooltipVisibleChange)="clear($event)">
-              <nz-avatar class="hover-avatar" [ngClass]="{'toogle':open}" nzIcon="user" [nzSize]="'small'"
+              <nz-avatar class="btn dotted-avatar" nzIcon="user" [nzSize]="'small'"
               nzTooltipTitle="Ajouter des participants" nzTooltipPlacement="bottom"
               nz-tooltip></nz-avatar> <!--TODO: check if the activity-->
     </div>
@@ -46,9 +46,10 @@ import { TextMethodsService } from '../../services/utils/text-methods.service';
   styleUrls: ['./participant-select.component.scss']
 })
 export class ParticipantSelectComponent {
-  @Input() activity!:Activity;
-  @Output() refresh = new EventEmitter<null>();
   @Input() inline = false;
+  @Input() activity?:Activity;
+  @Output() refresh = new EventEmitter<null>();
+  @Output() selected = new EventEmitter<Person>();
   open: boolean = false;
   participantsStream$?:Observable<Person[]>;
   bgColorClasses = ["bg-megenta-3","bg-cyan-3","bg-deepPurple-3"];// TODO: add default color for user to customise
@@ -57,15 +58,21 @@ export class ParticipantSelectComponent {
     this.getOtherParticipantsByActivityId();
   }
   getOtherParticipantsByActivityId(){
-    this.participantsStream$ = this.fakeDataService.getOtherParticipantsByActivityId({id:this.activity.id});
+    if (this.activity)
+      this.participantsStream$ = this.fakeDataService.getOtherParticipantsByActivityId({id:this.activity.id});
+    else
+      this.participantsStream$ = this.fakeDataService.getProfileAll();
   }
   selectParticipant($event:any,participant:Person){
-    this.fakeDataService.addParticipantsToActivity(this.activity,[participant])
-    .pipe(take(1))
-    .subscribe({
-      next:(res)=>{console.log(res)},
-      complete:()=>{this.refresh.emit();}
-    })
+    if (this.activity)
+      this.fakeDataService.addParticipantsToActivity(this.activity,[participant])
+      .pipe(take(1))
+      .subscribe({
+        next:(res)=>{console.log(res)},
+        complete:()=>{this.refresh.emit();}
+      })
+    else this.selected.emit(participant);
+      
   }
   clear($event:boolean){
     this.open = $event;

@@ -34,12 +34,10 @@
         <div>Wait for jobs component creation</div>
       </div>
       <div class="flex">
-        <span nz-icon nzType="flag" nzTheme="outline"></span><!-- change -->
-        <div>
-          <!-- <div>Wait for user tooltip tempalte</div> -->
+        <span nz-icon nzType="user" nzTheme="outline"></span><!-- change -->
+        <div class="flex">
           <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
-          <nz-avatar style="background-color: #f56a00" nzText="U"></nz-avatar>
-          <nz-avatar style="background-color: #87d068" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>
+          <core-participant-select (selected)="onSelectedCandidate($event)"></core-participant-select>
         </div>
         <span nz-icon nzType="edit" nzTheme="outline"></span>
       </div>
