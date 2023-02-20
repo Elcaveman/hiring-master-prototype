@@ -10,7 +10,6 @@ import { Activity, RawActivity } from '../models/activity';
   providedIn: 'root'
 })
 export class FakeDataService {
-  
   constructor(private http: HttpClient) {
     // this.test();
   }
@@ -66,12 +65,23 @@ export class FakeDataService {
   getOtherParticipantsByActivityId(data:{id: number}):Observable<any>{
     return this.http.get(`${environement.apiURL}/profiles/participants?activityId=${data.id}&other=true`).pipe(take(1));
   }
+  getOtherCandidatesByActivityId(data: { id: number; }): Observable<any> {
+    return this.http.get<any>(`${environement.apiURL}/profiles/candidate?activityId=${data.id}&other=true`).pipe(take(1));
+  }
   addParticipantsToActivity(activity:Activity,participants:Person[]):Observable<any>{
     return this.http.put(`${environement.apiURL}/activities/${activity.id}`,{
       participants:[...activity.participants.map(p=>({id:p.id})),...participants.map(p=>({id:p.id}))]// carefull with duplicates
     }).pipe(take(1));
   }
-
+  addCandidateToActivity(activity: Activity, candidate: Person):Observable<any> | null{
+    if (candidate)
+      return this.http.put(`${environement.apiURL}/activities/${activity.id}`,{
+        candidate:{id:candidate.id}
+      })
+      .pipe(take(1));
+    return null;
+  }
+  
   titleData() : Observable<any>{
     return of({id:0,title:"Software Developer - Fullstack Java",state:"active",someotherdata:"lorem"})
   }

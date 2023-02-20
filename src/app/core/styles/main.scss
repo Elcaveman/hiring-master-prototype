@@ -105,3 +105,19 @@ nz-content {
       width:fit-content;
   }
 }
+.dotted-avatar{
+  background-color: white;
+  @extend .text-primaryBlue-50;
+  border: 1px dotted map-get($colors,primaryBlue-50 );
+}
+.hover-avatar{
+  opacity: 0.1;
+  transition: opacity .2s ease-out;
+  background-color: white;
+  @extend .text-primaryBlue-50;
+  cursor: pointer;
+  &:hover{
+      opacity: 1;
+      @extend .dotted-avatar;
+  }
+}

@@ -21,7 +21,9 @@ export class ActivityWriteModalComponent {
     console.log('Button ok clicked!');
     this.isVisibleChange.emit(false);
   }
-
+  onSelectedCandidate($event:any){
+    console.log($event);
+  }
   handleCancel(): void {
     console.log('Button cancel clicked!');
     this.isVisibleChange.emit(false);

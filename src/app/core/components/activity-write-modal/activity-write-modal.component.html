@@ -27,7 +27,7 @@
       </div>
       <div class="flex">
         <span nz-icon nzType="team" nzTheme="outline"></span>
-        <div>Wait for person select component refacto</div>
+        <core-candidate-select (selected)="onSelectedCandidate($event)"></core-candidate-select>
       </div>
       <div class="flex">
         <span nz-icon nzType="flag" nzTheme="outline"></span><!-- change -->
@@ -68,4 +68,4 @@
         </button>
       </div>
     </ng-container>
-  </nz-modal>
+</nz-modal>
