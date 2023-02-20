@@ -21,7 +21,9 @@
       </div>
       <div class="flex">
         <span nz-icon nzType="calendar" nzTheme="outline"></span>
-        <div>Wait for date compoennt refacto</div>
+        <div> datepicked</div>
+        <div> <core-timepicker [data]="data" (timeChange)="timeChange($event) "></core-timepicker></div>
+        <div> <core-minutepicker (selectedMinutesChange)="selectedMinutesChange($event)"></core-minutepicker></div>
       </div>
       <div class="flex">
         <span nz-icon nzType="team" nzTheme="outline"></span>
@@ -43,7 +45,7 @@
       </div>
       <nz-divider></nz-divider>
       <div>
-        <span nz-icon nzType="position" nzTheme="outline"></span>
+        <span nz-icon nzType="environment" nzTheme="outline"></span>
         <div>wait for desk select compoents</div>
       </div>
       <div class="flex">

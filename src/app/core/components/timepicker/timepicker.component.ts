@@ -32,18 +32,22 @@ import { TimeDto } from '../time';
   ]
 })
 export class TimepickerComponent {
+  
+  @Input() data? : Interview | Reminder | Reunion | Task;
+  
+  @Output() timeChange = new EventEmitter<TimeDto>();
+  @Input() showOverdue = false;
+
   HOURS_MINUTES_REGEX = /[0-2][0-9]\:[0-5][0-9]/;
   START_TIME = 8;
   END_TIME = 22;
   MINUTES_STEP = 15;
   timeOptions:string[] = this.timeMethodsService.timeRange(this.START_TIME,this.END_TIME,this.MINUTES_STEP);
   filteredTimeOptions:string[] = [...this.timeOptions];
-  @Input() data? : Interview | Reminder | Reunion | Task;
   // @Input() timeInput:string = "";
   // @Output() timeInputChange = new EventEmitter<string>();
   timeInput:string = "";
-  @Output() timeChange = new EventEmitter<TimeDto>();
-  @Input() showOverdue = false;
+  
   constructor(public textMethodsService:TextMethodsService,public timeMethodsService:TimeMethodsService){
 
   }
