@@ -170,7 +170,7 @@
                                                 nz-tooltip></nz-avatar> <!--TODO: check if the activity-->
                                             </div>
                                             <ng-template #participantsDropdown>
-                                                <app-dropdown-search [activity]="data" (refresh)="reloadActivities()"></app-dropdown-search>
+                                                <core-participant-select [activity]="data" (refresh)="reloadActivities()"></core-participant-select>
                                             </ng-template>
                                         </ul>
                                     </td>

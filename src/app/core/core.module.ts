@@ -43,6 +43,7 @@ import { ParticipantSelectComponent } from './components/participant-select/part
     DatepickerComponent,
     TimepickerComponent,
     MinutepickerComponent,
+    ParticipantSelectComponent,
   ]
 })
 export class CoreModule { }
