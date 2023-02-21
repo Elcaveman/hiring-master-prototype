@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Inter');
-@import '/src/app/core/styles/_styles.scss';
-@import '/src/app/core/styles/colors.scss';
+@import '/src/app/core/styles/_includes.scss';
 
 @mixin bg($color_name){
   @extend .bg-#{$color_name};
@@ -81,6 +80,7 @@ nz-content {
 }
 .btn{
   cursor: pointer;
+  border-radius: $base-border-radius;
 }
 .basic-input{
   input{
