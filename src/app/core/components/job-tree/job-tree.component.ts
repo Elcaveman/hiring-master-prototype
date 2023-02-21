@@ -1,53 +1,45 @@
 import { Component, OnInit } from '@angular/core';
-import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
+import { NzFormatEmitEvent, NzTreeNode } from 'ng-zorro-antd/tree';
 import { FakeDataService } from '../../services/fake-data.service';
+import { Job } from '../../models/job';
+import { Observable, map, tap } from 'rxjs';
 
 @Component({
   selector: 'core-job-tree',
   template: `
-    <nz-tree [nzData]="nodes" nzShowLine (nzClick)="nzEvent($event)"></nz-tree> 
+  <ng-container *ngIf="parsedJobsTree$ | async as parsedJobsTree">
+    <nz-tree [nzData]="parsedJobsTree" nzShowLine (nzClick)="nzEvent($event)"></nz-tree> 
+  </ng-container>
   `,
   styleUrls: ['./job-tree.component.scss']
 })
 export class JobTreeComponent implements OnInit{
-  // jobs tree needs parsing
-  nodes = [
-    {
-      title: 'parent 1',
-      key: '100',
-      expanded: true,
-      children: [
-        {
-          title: 'parent 1-0',
-          key: '1001',
-          expanded: true,
-          children: [
-            { title: 'leaf', key: '10010', isLeaf: true },
-            { title: 'leaf', key: '10011', isLeaf: true },
-            { title: 'leaf', key: '10012', isLeaf: true }
-          ]
-        },
-        {
-          title: 'parent 1-1',
-          key: '1002',
-          children: [{ title: 'leaf', key: '10020', isLeaf: true }]
-        },
-        {
-          title: 'parent 1-2',
-          key: '1003',
-          children: [
-            { title: 'leaf', key: '10030', isLeaf: true },
-            { title: 'leaf', key: '10031', isLeaf: true }
-          ]
-        }
-      ]
-    }
-  ];
+  jobsStream$!:Observable<Job[]>;
+  parsedJobsTree$!: Observable<NzTreeNode[]>;
+  // can add reload subject
   constructor(private fakeDataService:FakeDataService){
   }
   ngOnInit(): void {
-    this.fakeDataService.getJobAll().subscribe((res)=>console.log(res));
-    this.fakeDataService.getJobById(1).subscribe((res)=>console.log(res));
+    this.jobsStream$ = this.fakeDataService.getJobAll();
+    this.parsedJobsTree$ = this.jobsStream$.pipe(
+      map((jobList:Job[])=>this.parseJobList(jobList)),
+      tap((res:any)=>console.log(res))
+    )
+  }
+  parseJobList(jobs:Job[],acc?:any[]){
+    // recursive ; acc means accumulator start
+    if (acc == undefined) acc = [];
+    if (jobs.length == 0) return acc;
+    else{
+      for (let job of jobs){
+        const parsedJob : any = {...job};
+        parsedJob.children = this.parseJobList(job.childJobs,[]);// reference assign meaning for memory opti
+        delete parsedJob.childJobs;
+        if (parsedJob.children.length==0) parsedJob.isLeaf = true; 
+        acc.push(parsedJob);
+      }
+      return acc;
+    }
   }
   nzEvent(event: NzFormatEmitEvent): void {
     console.log(event);
