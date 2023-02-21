@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
+import { FakeDataService } from '../../services/fake-data.service';
 
 @Component({
   selector: 'core-job-tree',
@@ -8,7 +9,7 @@ import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
   `,
   styleUrls: ['./job-tree.component.scss']
 })
-export class JobTreeComponent {
+export class JobTreeComponent implements OnInit{
   // jobs tree needs parsing
   nodes = [
     {
@@ -42,7 +43,12 @@ export class JobTreeComponent {
       ]
     }
   ];
-
+  constructor(private fakeDataService:FakeDataService){
+  }
+  ngOnInit(): void {
+    this.fakeDataService.getJobAll().subscribe((res)=>console.log(res));
+    this.fakeDataService.getJobById(1).subscribe((res)=>console.log(res));
+  }
   nzEvent(event: NzFormatEmitEvent): void {
     console.log(event);
   }

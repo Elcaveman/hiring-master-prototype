@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environement } from 'src/environments/environement';
 import { Person } from '../models/person';
 import { Activity, RawActivity } from '../models/activity';
+import { Job } from '../models/job';
 @Injectable({
   providedIn: 'root'
 })
@@ -40,6 +41,13 @@ export class FakeDataService {
     .subscribe();
   }
   /* Basic CRUD */
+  // TODO : add error handeling
+  getJobAll():Observable<Job[]>{
+    return this.http.get<Job[]>(`${environement.apiURL}/jobs`).pipe(take(1));
+  }
+  getJobById(id:number):Observable<Job>{
+    return this.http.get<Job>(`${environement.apiURL}/jobs/${id}`).pipe(take(1));
+  }
   getProfileAll(): Observable<Person[]>{
     return this.http.get<Person[]>(`${environement.apiURL}/profiles`).pipe(take(1));
   }
