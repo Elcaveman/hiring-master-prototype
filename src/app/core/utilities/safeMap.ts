@@ -1,7 +1,9 @@
 export class SafeMap<Key,Value> extends Map<Key,Value>{
     private default_fallback: Value;
-    constructor(default_fallback:Value){
-        super();
+    constructor(default_fallback:Value,iterable?:any){
+        console.log("SafeMap",default_fallback,iterable)
+        if (iterable) super(iterable);
+        else super();
         this.default_fallback = default_fallback;
     }
     override get(key:Key):Value{

@@ -11,6 +11,7 @@ function timeToString(hours:[number,number]): string{
         return `${(hours[0]>9)?hours[0]:'0'+hours[0]}:${(hours[1]>9)?hours[1]:'0'+hours[1]}`
     return ""
   }
+export const RAW_ACTIVITY_TYPES=["INTERVIEW","REUNION","TASK","REMINDER"] as const;
 export const INTERVIEW_MEDIUM = ['phone','face2face','technical','viseo','other'] as const;
 export const REUNION_MEDIUM = ['phone','technical','viseo','other'] as const;
 export const TASK_MEDIUM = ['phone','email','deadline','coffee','paint','menu','other'] as const;
@@ -67,7 +68,6 @@ export namespace ACTIVITY_MEDIUM{
         }
     }
 }
-export const RAW_ACTIVITY_TYPES=["INTERVIEW","REUNION","TASK","REMINDER"] as const;
 interface ActivityManagement{
     visibility: VISIBILITIES;
     reminders:PositiveNumber[];// remind X minutes of the meeting if ==[] it means no reminder
