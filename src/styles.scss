@@ -41,3 +41,6 @@ background:linear-gradient(map-get($colors,neutralBlue-50), map-get($colors,neut
 .ant-table-footer{
     background-color: #fff !important;
 }
+.ant-modal-content, .ant-modal-header{
+    border-radius: $base-border-radius !important;
+}

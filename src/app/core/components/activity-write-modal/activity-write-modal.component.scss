@@ -1,11 +1,26 @@
-@import '/src/app/core/styles/_includes.scss';
+@import '/src/app/core/styles/main.scss';
 
 .flex{
     gap: 10px;
     align-items: center;
 }
-
 .selected{
     @extend .bg-primaryBlue-20;
     @extend .text-primaryBlue-60;
+}
+.modal-content-wrapper{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    padding: 0 32px;
+    color: map-get($colors, neutralBlue-60 );
+    .gap-16px{
+        gap:16px
+    }
+    .icon{
+        font-size: 18px;
+    }
+    
 }

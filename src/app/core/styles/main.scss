@@ -108,6 +108,7 @@ nz-content {
 .dotted-avatar{
   background-color: white;
   @extend .text-primaryBlue-50;
+  border-radius: 50%;
   border: 1px dotted map-get($colors,primaryBlue-50 );
 }
 .hover-avatar{
