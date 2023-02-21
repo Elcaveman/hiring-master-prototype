@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TimeMethodsService } from '../../services/utils/time-methods.service';
-import { Interview } from '../../models/activity';
+import { Interview, RAW_ACTIVITY_TYPES, INTERVIEW_MEDIUM, TASK_MEDIUM, REUNION_MEDIUM, ACTIVITY_MEDIUM } from '../../models/activity';
+import { SafeMap } from '../../utilities/safeMap';
 /*
  * Activity : 
  * Write : meaning it's capable of doing create, update or delete operations 
@@ -13,7 +14,14 @@ import { Interview } from '../../models/activity';
 export class ActivityWriteModalComponent {
   @Input() isVisible =false;
   @Output() isVisibleChange = new EventEmitter<boolean>;
-  selectedActivityType: "Interview" | "Task" | "Reunion" | "Reminder" = "Interview";
+  activityTypeList = RAW_ACTIVITY_TYPES;
+  activityMediumMap = new SafeMap<string,any>([],[
+    ["INTERVIEW",INTERVIEW_MEDIUM],
+    ["REUNION",REUNION_MEDIUM],
+    ["TASK",TASK_MEDIUM],
+  ]);
+  ACTIVITY_MEDIUM = ACTIVITY_MEDIUM;
+  selectedActivityType: typeof RAW_ACTIVITY_TYPES[number] = RAW_ACTIVITY_TYPES[0];
   finished = false;
   data = new Interview(); // needs to change when selecteActivity type changes
   constructor(private timeMethodsService:TimeMethodsService){}
@@ -33,5 +41,8 @@ export class ActivityWriteModalComponent {
   }
   timeChange($event:any){
     console.log($event)
+  }
+  onSelectActivityType(activityType:typeof RAW_ACTIVITY_TYPES[number]){
+    this.selectedActivityType = activityType;
   }
 }

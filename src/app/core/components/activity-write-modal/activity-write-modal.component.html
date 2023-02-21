@@ -1,58 +1,65 @@
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Créer une nouvelle activité" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzWidth]="'600px'">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Créer une nouvelle activité" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzWidth]="700">
     <ng-container *nzModalContent>
-      <div class="flex">
-        <input nz-input type="text" placeholder="Titre de l'activité" class="activity-title">
-        <label nz-checkbox [(ngModel)]="finished" class="circular-nz-checkbox"></label>
-      </div>
-      <br>
-      <div class="activity-types flex">
-        <button nz-button nzType="text">Entretien</button>
-        <button nz-button nzType="text">Réunion</button>
-        <button nz-button nzType="text">Tâche</button>
-        <button nz-button nzType="text">Rappel</button>
-      </div>
-      <br>
-      <div class="activity-mediums flex">
-        <span nz-icon nzType="cluster" nzTheme="outline"></span>
-        <button nz-button nzType="primary"  nzShape="circle"><span nz-icon nzType="phone" nzTheme="outline"></span></button>
-        <button nz-button nzType="primary"  nzShape="circle"><span nz-icon nzType="mail" nzTheme="outline"></span></button>
-        <button nz-button nzType="primary"  nzShape="circle"><span nz-icon nzType="coffee" nzTheme="outline"></span></button>
-        <button nz-button nzType="primary"  nzShape="circle"><span nz-icon nzType="bulb" nzTheme="outline"></span></button>
-      </div>
-      <div class="flex">
-        <span nz-icon nzType="calendar" nzTheme="outline"></span>
-        <div> datepicked</div>
-        <div> <core-timepicker [data]="data" (timeChange)="timeChange($event) "></core-timepicker></div>
-        <div> <core-minutepicker (selectedMinutesChange)="selectedMinutesChange($event)"></core-minutepicker></div>
-      </div>
-      <div class="flex">
-        <span nz-icon nzType="team" nzTheme="outline"></span>
-        <core-candidate-select (selected)="onSelectedCandidate($event)"></core-candidate-select>
-      </div>
-      <div class="flex">
-        <span nz-icon nzType="flag" nzTheme="outline"></span><!-- change -->
-        <div><core-job-tree></core-job-tree></div>
-      </div>
-      <div class="flex">
-        <span nz-icon nzType="user" nzTheme="outline"></span><!-- change -->
-        <div class="flex">
-          <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
-          <core-participant-select (selected)="onSelectedCandidate($event)"></core-participant-select>
+      <div class="modal-content-wrapper">
+        <div class="flex gap-16px">
+          <input nz-input type="text" placeholder="Titre de l'activité" [ngClass]="['activity-title','basic-input']">
+          <label nz-checkbox [(ngModel)]="finished" class="circular-nz-checkbox"></label>
         </div>
-        <span nz-icon nzType="edit" nzTheme="outline"></span>
-      </div>
-      <nz-divider></nz-divider>
-      <div>
-        <span nz-icon nzType="environment" nzTheme="outline"></span>
-        <div>wait for desk select compoents</div>
-      </div>
-      <div class="flex">
-        <span nz-icon nzType="plus" nzTheme="outline"></span>
-        <div>Wait for description mixed components</div>
-      </div>
-      <div class="flex">
-        <span nz-icon nzType="unlock" nzTheme="outline"></span>
-        <div>Wait for visibility / reminder components</div>
+        <br>
+        <div class="activity-types flex gap-16px" *ngIf="activityTypeList.length>0">
+          <ng-container *ngFor="let activityType of activityTypeList;">
+            <button nz-button nzType="text" [ngClass]="{'selected':selectedActivityType ==activityType,'btn':true}"
+            (click)="onSelectActivityType(activityType)">{{activityType | titlecase}}</button>
+          </ng-container>
+        </div>
+        <br>
+        <div class="activity-mediums flex gap-16px"  *ngIf="activityMediumMap.get(selectedActivityType)?.length>0">
+          <span nz-icon nzType="cluster" nzTheme="outline" class="icon"></span>
+          <div class="flex gap-16px">
+            <button nz-button nzType="primary"  nzShape="circle" *ngFor="let activityMedium of activityMediumMap.get(selectedActivityType);">
+              <span nz-icon [nzType]="ACTIVITY_MEDIUM.getIcon(activityMedium)" nzTheme="outline"></span>
+            </button>
+          </div>
+        </div>
+        <br>
+        <div class="flex gap-16px">
+          <span nz-icon nzType="calendar" nzTheme="outline" class="icon"></span>
+          <div> datepicked</div>
+          <div> <core-timepicker [data]="data" (timeChange)="timeChange($event) "></core-timepicker></div>
+          <div> <core-minutepicker (selectedMinutesChange)="selectedMinutesChange($event)"></core-minutepicker></div>
+        </div>
+        <br>
+        <div class="flex gap-16px">
+          <span nz-icon nzType="team" nzTheme="outline" class="icon"></span>
+          <div><core-candidate-select (selected)="onSelectedCandidate($event)"></core-candidate-select></div>
+        </div>
+        <br>
+        <div class="flex gap-16px">
+          <span nz-icon nzType="flag" nzTheme="outline" class="icon"></span><!-- change -->
+          <div><core-job-tree></core-job-tree></div>
+        </div>
+        <br>
+        <div class="flex gap-16px">
+          <span nz-icon nzType="user" nzTheme="outline" class="icon"></span><!-- change -->
+          <div class="flex gap-16px">
+            <nz-avatar nzIcon="user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
+            <core-participant-select (selected)="onSelectedCandidate($event)"></core-participant-select>
+          </div>
+          <span nz-icon nzType="edit" nzTheme="outline"></span>
+        </div>
+        <nz-divider></nz-divider>
+        <div>
+          <span nz-icon nzType="environment" nzTheme="outline" class="icon"></span>
+          <div>wait for desk select compoents</div>
+        </div>
+        <div class="flex">
+          <span nz-icon nzType="plus" nzTheme="outline" class="icon"></span>
+          <div>Wait for description mixed components</div>
+        </div>
+        <div class="flex">
+          <span nz-icon nzType="unlock" nzTheme="outline" class="icon"></span>
+          <div>Wait for visibility / reminder components</div>
+        </div>
       </div>
     </ng-container>
     <ng-container *nzModalFooter>

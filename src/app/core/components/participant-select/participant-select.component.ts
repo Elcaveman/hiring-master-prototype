@@ -21,7 +21,7 @@ import { TextMethodsService } from '../../services/utils/text-methods.service';
   <ng-template #inlineMode>
     <div class="dropdown-search">
       <div class="seach-bar">
-          <input nz-input type="text" placeholder="Chercher par nom ou email">
+          <input nz-input type="text" placeholder="Chercher par nom ou email" [ngClass]="'base-input'">
       </div>
       <br />
       <div *ngFor="let participant of participantsStream$ | async;let i = index;">
